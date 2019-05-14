@@ -149,4 +149,4 @@ abiotic <- full_join( a567, a18 )
 ##
 ##
 #### WRITE THE MASTER DATA TO FILE -------------------------------------------------------------
-write.csv( abiotic, "../Data/Abiotic Data/O'Connor_hakai_seagrass_MASTER_abiotic.csv", row.names = FALSE )
+write.csv( abiotic, "output data/O'Connor_hakai_seagrass_MASTER_abiotic.csv", row.names = FALSE )

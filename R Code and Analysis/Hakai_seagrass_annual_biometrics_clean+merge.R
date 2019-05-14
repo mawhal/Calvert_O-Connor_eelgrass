@@ -255,5 +255,5 @@ q <- full_join(full_join(full_join(q15,bqd16),q17),q18)
 
 #####
 ## Write shoot level and quadrat level data to disk
-write.csv( s, "../Data/Seagrass+Epiphytes/O'Connor_hakai_seagrass_MASTER_shoots.csv", row.names=FALSE )
-write.csv( q, "../Data/Seagrass+Epiphytes/O'Connor_hakai_seagrass_MASTER_quadrats.csv", row.names=FALSE )
+write.csv( s, "output data/O'Connor_hakai_seagrass_MASTER_shoots.csv", row.names=FALSE )
+write.csv( q, "output data/O'Connor_hakai_seagrass_MASTER_quadrats.csv", row.names=FALSE )

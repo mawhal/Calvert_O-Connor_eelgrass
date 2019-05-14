@@ -307,7 +307,7 @@ dim(m)
 
 ####
 ## write mesograzers to disk
-write.csv( m, "../Data/Grazers/O'Connor_hakai_seagrass_MASTER_grazers.csv", row.names=FALSE )
+write.csv( m, "output data/O'Connor_hakai_seagrass_MASTER_grazers.csv", row.names=FALSE )
 
 
 with(m, table(year,site ))
