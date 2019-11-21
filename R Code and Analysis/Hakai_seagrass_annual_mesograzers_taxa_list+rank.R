@@ -31,9 +31,9 @@ m <- left_join( m,  mtaxa_update )
 # replace periods with spaces for making simple names in vegan
 m$taxon <- gsub( "[.]", " ", m$taxon )
 
-# filter taxa
+# filter taxa and sites
 mfilt <- m %>% 
-  filter( is.na(remove), !is.na(taxon3) )
+  filter( is.na(remove), !is.na(taxon3), site %in% c("inner chocked","sandspit","triquet north","triquet south") )
 
 # summarize taxon counts per sample
 m.sum <- mfilt %>% 
