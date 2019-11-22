@@ -24,7 +24,7 @@ library(reshape2)
 # person of record: Nicole Knight
 
 # read data
-d14 <- read.csv( "../Data/Grazers/hakai_grazers_2014.csv", stringsAsFactors = FALSE )
+d14 <- read.csv( "../data/grazers/hakai_grazers_2014.csv", stringsAsFactors = FALSE )
 
 # several extra columns labelled "X","X.1","X.2",etc.
 # get rid of these columns
@@ -61,7 +61,7 @@ l14 <- l14 %>%
 # person of record: Allison Dennert
 
 # read data
-d15 <- read.csv( "../Data/Grazers/hakai_grazers_2015.csv", stringsAsFactors = FALSE )
+d15 <- read.csv( "../data/grazers/hakai_grazers_2015.csv", stringsAsFactors = FALSE )
 
 # lots of NA values in this wide format
 # convert these all to zeros
@@ -88,7 +88,7 @@ l15 <- l15 %>%
 # person of record: Tanya Prinzig
 
 # read data
-d16 <- read.csv( "../Data/Grazers/hakai_grazers_2016.csv", stringsAsFactors = FALSE )
+d16 <- read.csv( "../data/grazers/hakai_grazers_2016.csv", stringsAsFactors = FALSE )
 # data is already in long format  
 
 
@@ -118,7 +118,7 @@ t16 <- d16 %>%
 # person of record: Tanya Prinzig
 
 # read data
-d17 <- read.csv( "../Data/Grazers/hakai_grazers_2017.csv", stringsAsFactors = FALSE )
+d17 <- read.csv( "../data/grazers/hakai_grazers_2017.csv", stringsAsFactors = FALSE )
 # data is already in long format
 
 # add a column for year
