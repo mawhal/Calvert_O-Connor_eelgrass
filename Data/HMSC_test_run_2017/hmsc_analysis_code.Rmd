@@ -1,0 +1,97 @@
+---
+title: "Exploratory HMSC Analysis of Calvert seagrass invert data"
+author: "Keila Stark"
+date: "21/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Install/load packages
+
+```{r }
+library(devtools)
+install_github("hmsc-r/HMSC", build_opts = c("--no-resave-data", "--no-manual"))
+install.packages('devtools')
+install.packages('Rcpp')
+install.packages('RcppArmadillo')
+install.packages('coda')
+install.packages('beanplot')
+install.packages('circlize')
+install.packages('corrplot')
+install.packages('coda')
+install.packages('dendextend')
+
+library(devtools)
+library(Hmsc)
+library(vegan)
+library(tidyverse)
+library(viridis)
+library(corrplot)
+library(RColorBrewer)
+library(dendextend)
+
+install_github("hmsc-r/HMSC", build_opts = c("--no-resave-data", "--no-manual"))
+library(Hmsc)
+```
+
+#Load data
+
+```{r}
+setwd("~/Github/Calvert_O-Connor_eelgrass/Data/Grazers")
+
+
+Y <- read.csv("hakai_grazers_2017.csv")
+
+Y1 <- g17%>% 
+  group_by(site, quadrat, final_id) %>% 
+  tally() %>%
+  ungroup(final_id) %>%
+  spread(key = "final_id", value = "n") %>%
+  select(-V1)
+
+
+Y1[is.na(Y1)] <- 0
+
+
+```
+
+
+```{r}
+Y <- Y1
+rownames(Y) <- Y[,1]
+
+X <- read.csv("X_2017", header = TRUE, stringsAsFactors = FALSE) # 
+rownames(X) <- X[,1]
+
+spatial <- read.csv("spatial_matrix.csv", header = TRUE, stringsAsFactors = FALSE) # lat&long coordinates
+rownames(spatial) <- spatial[,1]
+#spatial <- spatial[,-1] #why are you removing longitude, this would assume no spatial distance between sites at the same latitude but at different longitudes
+
+studyDesign <- read.csv("pi.csv", header = TRUE, stringsAsFactors = FALSE) #factors
+
+Y <- Y[,-1] #remove actual site names from Y matrix now that rownames for all datasets have been established
+X <- X[,-1]
+spatial <- spatial[,-1]
+
+## Remove NA's / get into right format
+X[is.na(X)] <- 0
+Y[is.na(Y)] <- 0
+Y <- as.matrix(Y)
+X <- as.data.frame(X)
+spatial <- as.data.frame(spatial)
+spatial$longitude <- spatial$longitude-min(spatial$longitude)
+
+#spat <- data.frame(spat = sprintf('spatial_%.2d',1:78)) #spatial factor column for studyDesign
+#studyDesign <- cbind(studyDesign, spat)
+studyDesign$Spatial <- factor(studyDesign$Quadrat)
+
+rL1 = HmscRandomLevel(units = studyDesign$Quadrat)
+rL2 = HmscRandomLevel(units = studyDesign$Site)
+rL3 = HmscRandomLevel(units = studyDesign$Region)
+rL4= HmscRandomLevel(sData = spatial)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
