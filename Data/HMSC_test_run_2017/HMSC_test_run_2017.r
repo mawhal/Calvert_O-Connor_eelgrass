@@ -20,10 +20,11 @@ meta.comm <- meta.comm %>%
 meta <- meta.comm[,c(1:3)]
 comm <- meta.comm[,-c(1:3)]
 # get rid of some taxa
-comm <- comm[, -c(1,12,25)] # get rid of Acidiacea, Gastropoda, 
+comm <- comm[, -c(1,12,17,19,25)] # get rid of Acidiacea, Gastropoda, Lottoidea, Neogastropoda, Rissoidae
 # rename to Ygrazer
 Ygrazer <- comm
-
+# order columns based on total abundance
+Ygrazer <- Ygrazer[ , rev(order(colSums(Ygrazer))) ]
 
 Ymicrobe <- read.csv("microbes_2017.csv")
 
@@ -130,23 +131,13 @@ VP.df <- as.data.frame(VP$vals) %>%
                                         "salinityrange","salinitymean","dissoxmean",
                                         "dissoxrange", "quadrat", "site", "region" )), 
                          ordered = TRUE)) %>% 
-  # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
-  #                          "elev:year","elev2:year",
-  #                          "site","transect","ty"), 
-  #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
-  #                                       "elev:year","elev2:year",
-  #                                       "site","transect","ty")), 
-  #                        ordered = TRUE)) %>% 
-  # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"), 
-  #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")), 
-  #                        ordered = TRUE)) %>% 
   gather(key = taxon, value = variance, -effect) %>% 
   group_by(taxon) %>% 
   mutate(tempR2 = variance[effect == "tempmean"])
 
 hold <- VP.df %>% filter(effect == "tempmean") %>% arrange(desc(tempR2))
 
-VP.df$species <- factor(VP.df$taxon, 
+VP.df$taxon <- factor(VP.df$taxon, 
                         levels = colnames(mod$Y)[order(colSums(mod$Y),decreasing = TRUE)], 
                         ordered = TRUE)
 
@@ -162,7 +153,5 @@ ggplot(VP.df,aes(y = variance, x = taxon, fill = effect))+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
   xlab(label = "")
-
-
 
 
