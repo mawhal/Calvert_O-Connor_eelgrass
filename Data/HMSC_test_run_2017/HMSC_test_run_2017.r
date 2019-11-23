@@ -5,6 +5,7 @@
 library(Hmsc)
 library(tidyverse)
 library(viridis)
+library(corrplot)
 
 ### read data
 # response data
@@ -153,5 +154,26 @@ ggplot(VP.df,aes(y = variance, x = taxon, fill = effect))+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
   xlab(label = "")
+ggsave( "varpart_grazer.jpg", width=250, height=175, units="mm",dpi=300 )
 
 
+
+## Co-occurence
+
+## associations
+OmegaCor = computeAssociations(mod)
+supportLevel = 0.95
+# choose the random variable to plot
+rlevel = 2
+toPlot = ((OmegaCor[[rlevel]]$support>supportLevel) 
+          + (OmegaCor[[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[rlevel]]$mean
+# reorder species matrix
+plotorder <- order( postBeta$mean[5,], decreasing = TRUE )
+toPlot <- toPlot[ plotorder, plotorder]
+# reorder automatically
+library(lessR)
+mynewcor <- corReorder( toPlot, order="hclust", nclusters=4 )
+# windows(12,12)
+corrplot( mynewcor, method = "color", 
+          col = colorRampPalette(c("blue","white","red"))(200),
+          title = paste("random effect level:", mod$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
