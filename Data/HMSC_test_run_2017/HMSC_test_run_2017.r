@@ -7,6 +7,7 @@ library(tidyverse)
 
 ### read data
 # response data
+<<<<<<< HEAD
 setwd("~/Github/Calvert_O-Connor_eelgrass/Data/HMSC_test_run_2017")
 
 Ygrazer <- read.csv("Hakai_2017_mesograzer_comm.csv")
@@ -29,6 +30,14 @@ Xab <- read.csv("biooracle_2017.csv")
 
 spatial <- read.csv("spatial_2017.csv")
 
+=======
+Ygrazer
+Ymicrobe
+Yfish
+
+# explanatory data
+X
+>>>>>>> 1b92538a4d42a10e48959a26fd2edd669fe8e445
 # filter rows for each response
 
 # random effects
@@ -53,5 +62,8 @@ thin = 1
 samples = 100
 nChains = 2
 set.seed(1)
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 1b92538a4d42a10e48959a26fd2edd669fe8e445
