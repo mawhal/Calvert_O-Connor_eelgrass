@@ -28,7 +28,7 @@ d14 <- NULL
 ##
 ##
 ##
-d15 <- read.csv( "../Data/Abiotic Data/hakai_abiotic_2015.csv",
+d15 <- read.csv( "../data/abiotic/hakai_abiotic_2015.csv",
                  stringsAsFactors = FALSE)
 a15 <- d15 %>% 
   mutate( date=mdy(date) ) %>%
@@ -49,7 +49,7 @@ a15$site[ a15$site=="choked south pigu" ] <- "choked interior"
 ##
 ##
 ##
-d16 <- read.csv( "../Data/Abiotic Data/hakai_abiotic_2016.csv",
+d16 <- read.csv( "../data/abiotic/hakai_abiotic_2016.csv",
                  stringsAsFactors = FALSE )
 geo <- as.data.frame( do.call(rbind, strsplit( d16$coordinates,split="N, ", fixed=TRUE )) )
 names(geo) <- c("lat","long")
@@ -88,7 +88,7 @@ a16 <- ddply( a16, .(date,site), summarize, lat=mean(lat,na.rm=T), long=mean(lon
 ## 2017
 ##
 ##
-d17 <- read.csv( "../Data/Abiotic Data/hakai_abiotic_2017.csv",
+d17 <- read.csv( "../data/abiotic/hakai_abiotic_2017.csv",
                  stringsAsFactors = FALSE )
 a17 <- d17 %>%
   mutate( date=dmy(date) ) %>%
@@ -113,7 +113,7 @@ a17 <- do.call( rbind, u17 )
 ## 2018
 ##
 ##
-d18 <- read.csv( "../Data/Abiotic Data/hakai_abiotic_2018.csv",
+d18 <- read.csv( "../data/abiotic/hakai_abiotic_2018.csv",
                  stringsAsFactors = FALSE, strip.white = TRUE )
 # remove blank rows
 d18 <- d18[ !is.na(d18$temp..c.), ]

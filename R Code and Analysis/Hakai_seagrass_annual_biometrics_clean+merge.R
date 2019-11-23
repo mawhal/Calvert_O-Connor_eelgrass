@@ -29,7 +29,7 @@ d14 <- NULL
 ##
 ##
 # quadrats
-q15 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2015_eelgrass_quadrat.csv", 
+q15 <- read.csv( "../data/seagrass+epiphytes/Hakai_2015_eelgrass_quadrat.csv", 
                  stringsAsFactors = FALSE )
 q15 <- q15 %>%
   select( site, id=sample.ID, shoot.count=X..of.shoots.in.quadrat, biomass=total.dry.weight, 
@@ -40,7 +40,7 @@ q15$site[ q15$site=="mcmullins nroth"] <- "mcmullins north"
 q15$year <- 2015
 
 # single shoots
-s15 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2015_eelgrass_single_shoots.csv", 
+s15 <- read.csv( "../data/seagrass+epiphytes/Hakai_2015_eelgrass_single_shoots.csv", 
                  stringsAsFactors = FALSE )
 s15 <- s15 %>%
   mutate( date=dmy(date) ) %>%
@@ -61,7 +61,7 @@ d15 <- left_join( s15, q15 )
 ##
 ##
 # quadrat biomass
-b16 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2016_eelgrass_quadrat_biomass.csv", 
+b16 <- read.csv( "../data/seagrass+epiphytes/Hakai_2016_eelgrass_quadrat_biomass.csv", 
                  stringsAsFactors = FALSE )
 b16 <- b16 %>%
   mutate( date=dmy(date),
@@ -75,7 +75,7 @@ b16$site <- tolower(b16$site)
 b16$id <- as.character(b16$id)
 b16$year <- 2016
 # quadrat shoot measurements
-q16 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2016_eelgrass_quadrat_shoots.csv", 
+q16 <- read.csv( "../data/seagrass+epiphytes/Hakai_2016_eelgrass_quadrat_shoots.csv", 
                  stringsAsFactors = FALSE )
 q16 <- q16 %>%
   mutate( date=dmy(date) ) %>%
@@ -93,7 +93,7 @@ q16$site <- tolower(q16$site)
 q16$id <- as.character( q16$id )
 q16$year <- 2016
 # single shoot measurements
-s16 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2016_eelgrass_single.shoots.csv", 
+s16 <- read.csv( "../data/seagrass+epiphytes/Hakai_2016_eelgrass_single.shoots.csv", 
                  stringsAsFactors = FALSE )
 names(s16)[1] <- "date"
 s16 <- s16 %>%
@@ -113,7 +113,7 @@ s16$shoot.rep <- factor(3)
 s16$id <- as.character( s16$id )
 s16$year <- 2016
 # drift seaweed
-d16 <- read.csv(  "../Data/Seagrass+Epiphytes/Hakai_2016_eelgrass_quadrat_driftseaweed.csv", 
+d16 <- read.csv(  "../data/seagrass+epiphytes/Hakai_2016_eelgrass_quadrat_driftseaweed.csv", 
                   stringsAsFactors = FALSE )
 d16 <- d16 %>%
   mutate( date=dmy(date), dry=as.numeric(drift.algae.dry.wt...bag.wt.),
@@ -143,7 +143,7 @@ bqd16 <- left_join(bq16,d16)
 ##
 ##
 # quadrat level data
-q17 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2017_Eelgrass_Biometrics.csv", 
+q17 <- read.csv( "../data/seagrass+epiphytes/Hakai_2017_Eelgrass_Biometrics.csv", 
                  stringsAsFactors = FALSE ) 
 q17 <- q17 %>%
   mutate( date=dmy(date), shoot.count=regular.shoot..+flowering.shoot..,
@@ -168,7 +168,7 @@ q17 <- dcast( q17.split, date+site+id+shoot.count+veg.count+flowering.count+biom
 q17$id <- as.character( q17$id )
 q17$year <- 2017
 # shoot level epiphyte data
-s17 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2017_Epiphyte_Data.csv", 
+s17 <- read.csv( "../data/seagrass+epiphytes/Hakai_2017_Epiphyte_Data.csv", 
                  stringsAsFactors = FALSE ) 
 s17 <- s17 %>%
   mutate( date=dmy(date), 
@@ -203,7 +203,7 @@ s17$year <- 2017
 ##
 ##
 # quadrat-level biomass, morphology, drift algae
-q18 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2018_Eelgrass_Biometrics.csv", 
+q18 <- read.csv( "../data/seagrass+epiphytes/Hakai_2018_Eelgrass_Biometrics.csv", 
                  stringsAsFactors = FALSE ) 
 
 q18 <- q18 %>%
@@ -229,7 +229,7 @@ q18$id <- as.character( q18$id )
 q18$year <- 2018
 
 # shoot level epiphyte data
-s18 <- read.csv( "../Data/Seagrass+Epiphytes/Hakai_2018_Epiphyte_Data.csv", 
+s18 <- read.csv( "../data/seagrass+epiphytes/Hakai_2018_Epiphyte_Data.csv", 
                  stringsAsFactors = FALSE ) 
 s18 <- s18 %>%
   mutate( date=dmy(date) ) %>%
