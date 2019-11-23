@@ -17,33 +17,32 @@ library( tidyverse )
 library( vegan )
 library( BiodiversityR )
 
+
 # read data
 m <- read_csv( "output data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
-# replace spaces with periods for consistency and easy of printing
-taxon.period <- gsub( " ", ".", m$taxon )
-raw.list <- sort(unique(taxon.period))
-# print the raw-ish (because replacing spaces cleans things up a bit) taxon list
-write_csv( data.frame(taxon=raw.list), "output data/O'Connor_hakai_seagrass_taxa_raw.csv" )
-# bring in the updateddata 
+# replace spaces with periods for consistency and merging names
+m$taxon <- gsub( " ", ".", m$taxon )
+# bring in the updated data 
 mtaxa_update <- read_csv( "output data/O'Connor_hakai_seagrass_taxa_edit_20191114.csv" )
 # merge
 m <- left_join( m,  mtaxa_update )
 # replace periods with spaces for making simple names in vegan
-m$taxon <- gsub( "[.]", " ", m$taxon )
+# m$taxon <- gsub( "[.]", " ", m$taxon )
+m %>% filter(is.na(taxon4)) %>% select(taxon) %>% unique %>% unlist
 
 # filter taxa and sites
 mfilt <- m %>% 
-  filter( is.na(remove), !is.na(taxon3), site %in% c("inner chocked","sandspit","triquet north","triquet south") )
+  filter( is.na(remove), !is.na(taxon4), site %in% c("inner chocked","sandspit","triquet north","triquet south") )
 
 # summarize taxon counts per sample
 m.sum <- mfilt %>% 
   unite( "ID", year,site,sample, remove=FALSE ) %>% 
-  group_by( ID, year, taxon3 ) %>% 
+  group_by( ID, year, taxon4 ) %>% 
   summarize( abundance=length(size) )
 
 # make a community dataset
 m.meta <- m.sum %>% 
-  spread( taxon3, abundance, fill=0 )
+  spread( taxon4, abundance, fill=0 )
 
 meta <- data.frame(m.meta[,c(1,2)])
 meta$year <- factor( meta$year, ordered=T )
