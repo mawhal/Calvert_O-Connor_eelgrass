@@ -42,10 +42,36 @@ library(Hmsc)
 ```{r}
 setwd("~/Github/Calvert_O-Connor_eelgrass/Data/Grazers")
 
+<<<<<<< HEAD
 
 Y <- read.csv("hakai_grazers_2017.csv")
 
 Y1 <- g17%>% 
+=======
+g14 <- read.csv("hakai_grazers_2014.csv")
+g15 <- read_csv("hakai_grazers_2015.csv")
+g15 <- read.csv("hakai_grazers_2015.csv")
+g16 <- read.csv("hakai_grazers_2016.csv")
+g17 <- read.csv("hakai_grazers_2017.csv")
+
+g14 <- g14 %>%
+  select(-X.1, -X.2, -X.3, -X.4, -X.5, -X.6, -X.7, -X.8, -X.9)
+
+g16.2 <- g16 %>% 
+  group_by(site, quadrat, final_id) %>% 
+  tally() 
+
+g16.3 <- g16.2 %>% 
+  group_by(site, quadrat) %>%
+  spread(key = "final_id", value = "n")
+
+g16.3 <- as.data.frame(g16.3)
+g16.3[is.na(g16.3)] <- 0
+g16. <- g16.3 %>%
+  select(-V1)
+
+g17.1 <- g17%>% 
+>>>>>>> 9cd36dd586b16928bf94a04ad728926b96892b09
   group_by(site, quadrat, final_id) %>% 
   tally() %>%
   ungroup(final_id) %>%
@@ -53,17 +79,41 @@ Y1 <- g17%>%
   select(-V1)
 
 
+<<<<<<< HEAD
 Y1[is.na(Y1)] <- 0
 
 
+=======
+g17.1[is.na(g17.1)] <- 0
+
+g14.1 <- g14 %>%
+  select(-Date, -Sieve.size..mm.) %>%
+  group_by(Sample.number, Site) %>%
+  summarise_all(funs(sum))
+
+g15.1 <- g15 %>%
+  select(-Date, -Sieve size (mm)) %>%
+  group_by(Site, Sample) %>%
+  summarise_all(funs(sum))
+
+
+g15 <- read.csv("hakai_abiotic_2017.csv")
+>>>>>>> 9cd36dd586b16928bf94a04ad728926b96892b09
 ```
 
 
 ```{r}
+<<<<<<< HEAD
 Y <- Y1
 rownames(Y) <- Y[,1]
 
 X <- read.csv("X_2017", header = TRUE, stringsAsFactors = FALSE) # 
+=======
+Y <- g17.1
+rownames(Y) <- Y[,1]
+
+X <- read.csv("X_matrix.csv", header = TRUE, stringsAsFactors = FALSE) # 
+>>>>>>> 9cd36dd586b16928bf94a04ad728926b96892b09
 rownames(X) <- X[,1]
 
 spatial <- read.csv("spatial_matrix.csv", header = TRUE, stringsAsFactors = FALSE) # lat&long coordinates
