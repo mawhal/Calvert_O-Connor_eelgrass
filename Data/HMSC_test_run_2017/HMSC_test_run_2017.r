@@ -4,6 +4,7 @@
 # load libraries
 library(Hmsc)
 library(tidyverse)
+library(viridis)
 
 ### read data
 # response data
@@ -18,10 +19,11 @@ meta.comm <- meta.comm %>%
 # separate again
 meta <- meta.comm[,c(1:3)]
 comm <- meta.comm[,-c(1:3)]
+# get rid of some taxa
+comm <- comm[, -c(1,12,25)] # get rid of Acidiacea, Gastropoda, 
+# rename to Ygrazer
 Ygrazer <- comm
 
-# get rid of some taxa
-comm <- comm[, -c(1,12)]
 
 Ymicrobe <- read.csv("microbes_2017.csv")
 
@@ -108,17 +110,25 @@ mod <- sampleMcmc(mgrazer, samples = samples , transient = 50,
 
 ### model results
 
+## Assess model fit
+preds = computePredictedValues(mod)
+MF <- evaluateModelFit(hM = mod, predY = preds)
+
 ## variance partitioning
 VP = computeVariancePartitioning(mod) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
 plotVariancePartitioning(mod, VP = VP)
 
 VP.df <- as.data.frame(VP$vals) %>% 
   mutate(effect = factor(c("detritus","macroepiph","eel_biomass",
-                           "LAI","microepiph",
-                           "site","transect"), 
-                         levels = rev(c("elevation","elev.square","year",
-                                        "elev:year","elev2:year",
-                                        "site","transect")), 
+                           "LAI","microepiph","nitrate_range",
+                           "tempmean","temprange","curveloc","nitratemean",
+                           "salinityrange","salinitymean","dissoxmean",
+                           "dissoxrange", "quadrat", "site", "region" ), 
+                         levels = rev(c("detritus","macroepiph","eel_biomass",
+                                        "LAI","microepiph","nitrate_range",
+                                        "tempmean","temprange","curveloc","nitratemean",
+                                        "salinityrange","salinitymean","dissoxmean",
+                                        "dissoxrange", "quadrat", "site", "region" )), 
                          ordered = TRUE)) %>% 
   # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
   #                          "elev:year","elev2:year",
@@ -130,25 +140,24 @@ VP.df <- as.data.frame(VP$vals) %>%
   # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"), 
   #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")), 
   #                        ordered = TRUE)) %>% 
-  gather(key = species, value = variance, -effect) %>% 
-  group_by(species) %>% 
-  mutate(tempR2 = variance[effect == "year"])
-mutate(tempR2 = variance[effect == "temp.anom.sum"])
+  gather(key = taxon, value = variance, -effect) %>% 
+  group_by(taxon) %>% 
+  mutate(tempR2 = variance[effect == "tempmean"])
 
-hold <- VP.df %>% filter(effect == "temp.anomaly") %>% arrange(desc(tempR2))
+hold <- VP.df %>% filter(effect == "tempmean") %>% arrange(desc(tempR2))
 
-VP.df$species <- factor(VP.df$species, 
-                        levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)], 
+VP.df$species <- factor(VP.df$taxon, 
+                        levels = colnames(mod$Y)[order(colSums(mod$Y),decreasing = TRUE)], 
                         ordered = TRUE)
 
-R2.df <- data.frame(R2 = round(MF$SR2,1), species = colnames(m$Y))
+R2.df <- data.frame(R2 = round(MF$SR2,1), taxon = colnames(mod$Y))
 
 windows(8,5)
-ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
+ggplot(VP.df,aes(y = variance, x = taxon, fill = effect))+
   geom_bar(stat = "identity", color = 1)+
   theme_classic()+
   theme(axis.text.x = element_text(angle = 90))+
-  scale_fill_manual(values = c("darkred", "maroon", viridis(7)), name = "")+
+  scale_fill_manual(values = c("darkred", "maroon","magenta", viridis(14)), name = "")+
   geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
