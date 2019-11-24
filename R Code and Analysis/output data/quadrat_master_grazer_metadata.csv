@@ -1,0 +1,189 @@
+"","year","site","sample","n"
+"1",2014,"goose south east","1",65
+"2",2014,"goose south east","10",66
+"3",2014,"goose south east","11",623
+"4",2014,"goose south east","12",1284
+"5",2014,"goose south east","4",60
+"6",2014,"goose south east","6",87
+"7",2014,"goose south east","7",992
+"8",2014,"goose south east","8",557
+"9",2014,"goose south east","9",87
+"10",2014,"goose south west","10",352
+"11",2014,"goose south west","11",31
+"12",2014,"goose south west","13",90
+"13",2014,"goose south west","2",19
+"14",2014,"goose south west","3",24
+"15",2014,"goose south west","4",123
+"16",2014,"goose south west","5",9
+"17",2014,"goose south west","6",126
+"18",2014,"goose south west","7",22
+"19",2014,"inner choked","11",254
+"20",2014,"inner choked","11B",1273
+"21",2014,"inner choked","4",392
+"22",2014,"inner choked","4A",180
+"23",2014,"inner choked","6",465
+"24",2014,"inner choked","6A",175
+"25",2014,"inner choked","8",1498
+"26",2014,"mcmullins north","10",93
+"27",2014,"mcmullins north","11",607
+"28",2014,"mcmullins north","12",467
+"29",2014,"mcmullins north","3",1770
+"30",2014,"mcmullins north","4",1166
+"31",2014,"mcmullins north","6",894
+"32",2014,"mcmullins north","7",846
+"33",2014,"mcmullins north","8",527
+"34",2014,"mcmullins north","9",77
+"35",2014,"mcmullins south","12",54
+"36",2014,"mcmullins south","2",125
+"37",2014,"mcmullins south","3",98
+"38",2014,"mcmullins south","4",300
+"39",2014,"mcmullins south","5",82
+"40",2014,"mcmullins south","6",42
+"41",2014,"mcmullins south","7",198
+"42",2014,"mcmullins south","8",207
+"43",2014,"sandspit","1",108
+"44",2014,"sandspit","10",647
+"45",2014,"sandspit","11",267
+"46",2014,"sandspit","13",384
+"47",2014,"sandspit","5",363
+"48",2014,"sandspit","6A",263
+"49",2014,"sandspit","6B",46
+"50",2014,"sandspit","7A",27
+"51",2014,"sandspit","7B",164
+"52",2014,"sandspit","8A",200
+"53",2014,"sandspit","8B",206
+"54",2014,"sandspit","9",137
+"55",2014,"triquet north","1",15
+"56",2014,"triquet north","12",100
+"57",2014,"triquet north","2",35
+"58",2014,"triquet north","3",43
+"59",2014,"triquet north","4",83
+"60",2014,"triquet north","5",143
+"61",2014,"triquet north","7",12
+"62",2014,"triquet north","8",487
+"63",2014,"triquet north","9",212
+"64",2014,"triquet south","10",415
+"65",2014,"triquet south","11",129
+"66",2014,"triquet south","12",1249
+"67",2014,"triquet south","13",767
+"68",2014,"triquet south","2",345
+"69",2014,"triquet south","4",1241
+"70",2014,"triquet south","5",1341
+"71",2014,"triquet south","6A",1048
+"72",2014,"triquet south","6B",1427
+"73",2014,"triquet south","7",786
+"74",2014,"triquet south","9",650
+"75",2015,"goose north","A",316
+"76",2015,"goose north","B",83
+"77",2015,"goose north","C",43
+"78",2015,"goose north","D",63
+"79",2015,"goose north","E",178
+"80",2015,"goose north","F",164
+"81",2015,"goose south east","A",41
+"82",2015,"goose south east","B",24
+"83",2015,"goose south east","C",70
+"84",2015,"goose south east","D",42
+"85",2015,"goose south east","E",121
+"86",2015,"goose south east","F",24
+"87",2015,"goose south west","A",93
+"88",2015,"goose south west","B",116
+"89",2015,"goose south west","C",49
+"90",2015,"goose south west","D",82
+"91",2015,"goose south west","E",170
+"92",2015,"goose south west","F",103
+"93",2015,"inner choked","A",234
+"94",2015,"inner choked","B",254
+"95",2015,"inner choked","C",1447
+"96",2015,"inner choked","D",140
+"97",2015,"inner choked","E",295
+"98",2015,"mcmullins north","A",143
+"99",2015,"mcmullins north","B",102
+"100",2015,"mcmullins north","C",833
+"101",2015,"mcmullins north","D",66
+"102",2015,"mcmullins north","E",956
+"103",2015,"mcmullins north","F",720
+"104",2015,"mcmullins south","A",645
+"105",2015,"mcmullins south","B",314
+"106",2015,"mcmullins south","C",674
+"107",2015,"mcmullins south","D",606
+"108",2015,"mcmullins south","E",147
+"109",2015,"mcmullins south","F",487
+"110",2015,"sandspit","A",181
+"111",2015,"sandspit","B",205
+"112",2015,"sandspit","C",132
+"113",2015,"sandspit","D",381
+"114",2015,"sandspit","E",661
+"115",2015,"sandspit","F",411
+"116",2015,"triquet north","A",39
+"117",2015,"triquet north","B",31
+"118",2015,"triquet north","C",266
+"119",2015,"triquet north","D",97
+"120",2015,"triquet north","F",201
+"121",2015,"triquet south","A",184
+"122",2015,"triquet south","B",69
+"123",2015,"triquet south","C",235
+"124",2015,"triquet south","D",20
+"125",2015,"triquet south","E",65
+"126",2015,"triquet south","F",22
+"127",2016,"goose south west","2",143
+"128",2016,"goose south west","3",125
+"129",2016,"goose south west","4",127
+"130",2016,"goose south west","7",175
+"131",2016,"goose south west","8",50
+"132",2016,"goose south west","9",101
+"133",2016,"inner choked","1",73
+"134",2016,"inner choked","2",549
+"135",2016,"inner choked","4",608
+"136",2016,"inner choked","5",279
+"137",2016,"inner choked","6",113
+"138",2016,"inner choked","9",154
+"139",2016,"pruth pocket","1",993
+"140",2016,"pruth pocket","2",1215
+"141",2016,"pruth pocket","5",580
+"142",2016,"pruth pocket","6",1112
+"143",2016,"pruth pocket","9",529
+"144",2016,"sandspit","1",412
+"145",2016,"sandspit","2",641
+"146",2016,"sandspit","3",282
+"147",2016,"sandspit","4",598
+"148",2016,"sandspit","5",666
+"149",2016,"sandspit","9",119
+"150",2016,"triquet north","1",117
+"151",2016,"triquet north","2",82
+"152",2016,"triquet north","3",239
+"153",2016,"triquet north","5",366
+"154",2016,"triquet north","7",124
+"155",2016,"triquet north","8",688
+"156",2016,"triquet south","2",216
+"157",2016,"triquet south","3",213
+"158",2016,"triquet south","4",191
+"159",2016,"triquet south","5",339
+"160",2016,"triquet south","6",249
+"161",2016,"triquet south","8",223
+"162",2017,"inner choked","2",836
+"163",2017,"inner choked","3",710
+"164",2017,"inner choked","5",445
+"165",2017,"inner choked","7",842
+"166",2017,"inner choked","8",489
+"167",2017,"inner choked","9",481
+"168",2017,"pruth pocket","2",373
+"169",2017,"pruth pocket","3",329
+"170",2017,"pruth pocket","4",546
+"171",2017,"sandspit","1",807
+"172",2017,"sandspit","2",313
+"173",2017,"sandspit","5",1713
+"174",2017,"sandspit","6",600
+"175",2017,"sandspit","8",609
+"176",2017,"sandspit","9",547
+"177",2017,"triquet north","1",221
+"178",2017,"triquet north","2",362
+"179",2017,"triquet north","4",350
+"180",2017,"triquet north","5",307
+"181",2017,"triquet north","6",247
+"182",2017,"triquet north","8",470
+"183",2017,"triquet south","2",545
+"184",2017,"triquet south","3",282
+"185",2017,"triquet south","4",274
+"186",2017,"triquet south","5",430
+"187",2017,"triquet south","8",438
+"188",2017,"triquet south","9",397
