@@ -40,8 +40,10 @@ X1 <- X[,-c(4:50)]
 X2 <- X1 %>%
   select(-detritus_wet_mass, -epi_algae_wet_mass, -seagrass_wet_mass, -avg_shoot_surface_area_m2, -shoots_m.2, -notes, -date)
 
+# Bio-ORACLE data
 Xab <- read.csv("biooracle_2017_small.csv")
-# Xab$site <- gsub("_"," ",Xab$site)
+# run PCA on Bio_ORACLE data
+pca <- prcomp( Xab[,-1] )
 
 X3 <- left_join(X2, Xab)
 
@@ -87,6 +89,15 @@ XFormula = ~(detritus_dry_mass + epi_algae_dry_mass + seagrass_dry_mass +
                lai + microepiphyte_wt_mg + nitraterange + tempmean + 
                temprange + curveloc + nitratemean + salinityrange + 
                salinitymean + dissoxmean + dissoxrange)
+fixnames <- c("detritus","macroepiph","eel_biomass",
+              "LAI","microepiph","nitrate_range",
+              "tempmean","temprange","curveloc","nitratemean",
+              "salinityrange","salinitymean","dissoxmean",
+              "dissoxrange")
+XFormula = ~(detritus_dry_mass + epi_algae_dry_mass + seagrass_dry_mass + 
+               lai + microepiphyte_wt_mg)
+fixnames <- c("detritus","macroepiph","eel_biomass",
+              "LAI","microepiph")
 
 mgrazer <- Hmsc( Y = Ygrazer, 
            XData = Xgr, XFormula = XFormula, 
@@ -116,27 +127,50 @@ mod <- sampleMcmc(mgrazer, samples = samples , transient = 50,
 preds = computePredictedValues(mod)
 MF <- evaluateModelFit(hM = mod, predY = preds)
 
+
+
+
+## parameter estimates
+postBeta = getPostEstimate(mod, parName = "Beta")
+# windows(5,8)
+# plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
+postBeta$mean[, c("Gammaridean","Isopoda")]
+
+pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
+pos.neg[pos.neg< 0.95] <- 0
+pos.neg$neg <- -pos.neg$neg
+pos.neg$value <- pos.neg$pos + pos.neg$neg
+pos.neg$parameter <- factor( c("intercept", fixnames ),
+                            levels = c("intercept", fixnames ), 
+                            ordered = TRUE)
+pos.neg$taxon <- factor(rep(colnames(postBeta$mean), each = length(fixnames)+1), 
+                          levels = colnames(mod$Y)[order(colSums(mod$Y),decreasing = TRUE)],
+                          ordered = TRUE)
+
+windows(12,4)
+ggplot(pos.neg, aes(y = parameter, x = taxon, fill = value))+
+  geom_tile()+
+  scale_fill_gradient2(low = "blue", mid = "white", "high" = "red", guide = FALSE)+
+  theme(axis.text.x = element_text(angle = 45,size=9, hjust = 1))+
+  xlab(label = "")+
+  ylab(label = "")
+ggsave( "hmsc_grazer_betas.jpg" )
+
+
 ## variance partitioning
 VP = computeVariancePartitioning(mod) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
-plotVariancePartitioning(mod, VP = VP)
+# plotVariancePartitioning(mod, VP = VP)
 
 VP.df <- as.data.frame(VP$vals) %>% 
-  mutate(effect = factor(c("detritus","macroepiph","eel_biomass",
-                           "LAI","microepiph","nitrate_range",
-                           "tempmean","temprange","curveloc","nitratemean",
-                           "salinityrange","salinitymean","dissoxmean",
-                           "dissoxrange", "quadrat", "site", "region" ), 
-                         levels = rev(c("detritus","macroepiph","eel_biomass",
-                                        "LAI","microepiph","nitrate_range",
-                                        "tempmean","temprange","curveloc","nitratemean",
-                                        "salinityrange","salinitymean","dissoxmean",
-                                        "dissoxrange", "quadrat", "site", "region" )), 
+  mutate(effect = factor(c(fixnames, "quadrat", "site", "region" ), 
+                         levels = rev(c(fixnames, "quadrat", "site", "region" )), 
                          ordered = TRUE)) %>% 
   gather(key = taxon, value = variance, -effect) %>% 
   group_by(taxon) %>% 
-  mutate(tempR2 = variance[effect == "tempmean"])
+  mutate(massR2 = variance[effect == "eel_biomass"])
 
-hold <- VP.df %>% filter(effect == "tempmean") %>% arrange(desc(tempR2))
+# could use something life this to add variance explained for each fixed and random effect
+hold <- VP.df %>% filter(effect == "eel_biomass") %>% arrange(desc(massR2))
 
 VP.df$taxon <- factor(VP.df$taxon, 
                         levels = colnames(mod$Y)[order(colSums(mod$Y),decreasing = TRUE)], 
@@ -149,12 +183,12 @@ ggplot(VP.df,aes(y = variance, x = taxon, fill = effect))+
   geom_bar(stat = "identity", color = 1)+
   theme_classic()+
   theme(axis.text.x = element_text(angle = 90))+
-  scale_fill_manual(values = c("darkred", "maroon","magenta", viridis(14)), name = "")+
+  scale_fill_manual(values = c("darkred", "maroon","magenta", viridis(length(fixnames))), name = "")+
   geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
   xlab(label = "")
-ggsave( "varpart_grazer.jpg", width=250, height=175, units="mm",dpi=300 )
+ggsave( "hmsc_grazer_varpart.jpg", width=250, height=175, units="mm",dpi=300 )
 
 
 
@@ -164,7 +198,7 @@ ggsave( "varpart_grazer.jpg", width=250, height=175, units="mm",dpi=300 )
 OmegaCor = computeAssociations(mod)
 supportLevel = 0.95
 # choose the random variable to plot
-rlevel = 2
+rlevel = 3
 toPlot = ((OmegaCor[[rlevel]]$support>supportLevel) 
           + (OmegaCor[[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[rlevel]]$mean
 # reorder species matrix

@@ -15,6 +15,8 @@ vignettes/*.pdf
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
 
-.doc
-.docx
-.pdf
+*.doc
+*.docx
+*.pdf
+*.ppt
+*.pptx
