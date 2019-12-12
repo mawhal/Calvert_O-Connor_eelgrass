@@ -44,7 +44,7 @@ s15 <- read.csv( "../data/seagrass+epiphytes/Hakai_2015_eelgrass_single_shoots.c
                  stringsAsFactors = FALSE )
 s15 <- s15 %>%
   mutate( date=dmy(date) ) %>%
-  select( date, site, id=sample.ID, shoot.length, shoot.width, blades, biomass.shoot=total.dry.weight,
+  select( date, site, id=sample.ID, shoot.length, shoot.width, blades, shoot.biomass=total.dry.weight,
           microepiphyte.filter=microepiphyte, macroepiphyte.shoot=macroepiphyte, smithora )  # microepiphytes were measured after filtering through GFC filters?
 s15$year <- 2015
 # remove underscores
@@ -99,11 +99,11 @@ names(s16)[1] <- "date"
 s16 <- s16 %>%
   mutate( date=dmy(date),
           microepiphyte.filter = GF.C.with.dry.sample - GF.C.filter.weight,  # microepiphyte has negative values
-          microepiphyte = foil.dry.weight - foil.weight, 
+          shoot.biomass = foil.dry.weight - foil.weight, 
           bryozoan = bryozoan.dry.weight - bryozoan.foil.wt., 
           smithora = smithora.dry.weight - smithora.foil.weight ,
           bulk.diatom = bulk.diatoms.dry.weight - bulk.diatoms.foil.weight ) %>%
-  select( date, site, id=sample.ID, blades, shoot.length, shoot.width, microepiphyte,
+  select( date, site, id=sample.ID, blades, shoot.length, shoot.width, shoot.biomass,
           microepiphyte.filter, bryozoan, smithora )  # bulk diatoms removed because only appears once and calculated dry mass is negative
 # make all site names lowercase
 s16$site <- tolower(s16$site)
@@ -143,7 +143,7 @@ bqd16 <- left_join(bq16,d16)
 ##
 ##
 # quadrat level data
-q17 <- read.csv( "../data/seagrass+epiphytes/Hakai_2017_Eelgrass_Biometrics.csv", 
+q17 <- read.csv( "../data/seagrass+epiphytes/corrected_seagrass_metrics_abiotic_2017_2018/corrected_Hakai_2017_Eelgrass_Biometrics.csv", 
                  stringsAsFactors = FALSE ) 
 q17 <- q17 %>%
   mutate( date=dmy(date), shoot.count=regular.shoot..+flowering.shoot..,
@@ -168,13 +168,15 @@ q17 <- dcast( q17.split, date+site+id+shoot.count+veg.count+flowering.count+biom
 q17$id <- as.character( q17$id )
 q17$year <- 2017
 # shoot level epiphyte data
-s17 <- read.csv( "../data/seagrass+epiphytes/Hakai_2017_Epiphyte_Data.csv", 
+s17 <- read.csv( "../data/seagrass+epiphytes/corrected_seagrass_metrics_abiotic_2017_2018/corrected_Hakai_2017_Epiphyte_Data.csv", 
                  stringsAsFactors = FALSE ) 
 s17 <- s17 %>%
   mutate( date=dmy(date), 
-          microepiphyte=epiphyte.dry.weight..g.-epi.foil.weight..g.  ) %>%
-  select( date, site, id=quadrat.., shoot.length=epi.blade.length..cm., shoot.width=epi.blade.width..cm.,
-          sheath.length=sheath.length..cm.,microepiphyte  )
+          shoot.biomass=epiphyte.dry.weight..g. - epi.foil.weight..g.,
+          microepiphyte=GF.C.with.dry.sample..g. - GF.C.weight..g.) %>%
+  select( date, site, id=quadrat.., shoot.length=epi.blade.length..cm., 
+          shoot.width=epi.blade.width..cm.,sheath.length=sheath.length..cm.,
+          shoot.biomass, microepiphyte  )
 s17$id <- as.character( s17$id )
 s17$year <- 2017
 # 
@@ -229,11 +231,12 @@ q18$id <- as.character( q18$id )
 q18$year <- 2018
 
 # shoot level epiphyte data
-s18 <- read.csv( "../data/seagrass+epiphytes/Hakai_2018_Epiphyte_Data.csv", 
+s18 <- read.csv( "../data/seagrass+epiphytes/corrected_seagrass_metrics_abiotic_2017_2018/corrected_Hakai_2018_Epiphyte_Data.csv", 
                  stringsAsFactors = FALSE ) 
 s18 <- s18 %>%
-  mutate( date=dmy(date) ) %>%
-  mutate( microepiphyte=(epiphyte.dry.weight..g.)-epi.foil.weight..g. ) %>%
+  mutate( date=dmy(date),
+          shoot.biomass=epiphyte.dry.weight..g. - epi.foil.weight..g.,
+          microepiphyte=GF.C.with.dry.sample..g. - GF.C.weight..g. ) %>%
   select( date, site, id=quadrat.., shoot.length=epi.blade.length..cm.,shoot.width=epi.blade.width..cm.,
           sheath.length=sheath.length..cm., microepiphyte ) 
 s18$id <- as.character( s18$id )
@@ -255,5 +258,5 @@ q <- full_join(full_join(full_join(q15,bqd16),q17),q18)
 
 #####
 ## Write shoot level and quadrat level data to disk
-write.csv( s, "output data/O'Connor_hakai_seagrass_MASTER_shoots.csv", row.names=FALSE )
-write.csv( q, "output data/O'Connor_hakai_seagrass_MASTER_quadrats.csv", row.names=FALSE )
+write_csv( s, "output data/O'Connor_hakai_seagrass_MASTER_shoots.csv" )
+write_csv( q, "output data/O'Connor_hakai_seagrass_MASTER_quadrats.csv" )
