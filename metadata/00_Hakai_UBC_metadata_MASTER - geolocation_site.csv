@@ -1,0 +1,22 @@
+site_name,project,lat,long,"depth (m, chart datum)",area_m2_2016,oceanography_name,notes
+inner_choked,O'Connor,51.675,-128.119,4.6,354580,,Whalen added these bed areas based on information from project Hakai
+sandspit,O'Connor,51.678,-128.115,1.06,354580,,Whalen added these bed areas based on information from project Hakai
+south_pigu,O'Connor,51.676,-128.122,4.21,354580,,Whalen added these bed areas based on information from project Hakai
+wolf,O'Connor,51.668,-128.119,2.58,354580,,Whalen added these bed areas based on information from project Hakai
+triquet_north,O'Connor,51.808875,-128.247457,3.46,8900,,Whalen added these bed areas based on information from project Hakai
+triquet_south,O'Connor,51.80869,-128.235858,0.33,31074,,Whalen added these bed areas based on information from project Hakai
+pruth_pocket,O'Connor,51.395,-128.069,1,5000,,Whalen made up the depth and bed area
+pruth_bay,O'Connor,51.388,-128.071,-0.55,34982,,Whalen added these bed areas based on information from project Hakai
+mcmullins_north,O'Connor,52.061781,-128.412394,0.71,22778,,Whalen added these bed areas based on information from project Hakai
+mcmullins_south,O'Connor,52.053018,-128.403636,0.71,16900,,Whalen added these bed areas based on information from project Hakai
+goose_south_west,O'Connor,51.922786,-128.464532,2.18,215570,,Whalen added these bed areas based on information from project Hakai
+goose_south_east,O'Connor,51.926522,-128.45317,1.95,569520,,Whalen added these bed areas based on information from project Hakai
+McMullin North,Hakai,52.062,-128.412,0.32,22778,SEA08,
+McMullin South,Hakai,52.052,-128.403,1.41,16900,SEA09,
+Goose SW,Hakai,51.922696,-128.4648,2.33,215570,SEA07,
+Goose SE,Hakai,51.925,-128.454,2.19,569520,SEA06,
+Triquet Bay,Hakai,51.809,-128.236,1.22,31074,SEA10,
+Triquet North,Hakai,51.809,-128.247,3.2,8900,SEA11,
+Choked Passage,Hakai,51.675,-128.119,3.18,354580,SEA02,
+Koeye Estuary,Hakai,51.78036,-127.87068,0.22,26238,SEA16,
+Pruth Bay,Hakai,51.6453213,-128.11925,0.28,34982,SEA17,

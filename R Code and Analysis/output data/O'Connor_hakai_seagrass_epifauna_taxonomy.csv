@@ -1,0 +1,101 @@
+query,Class,Family,Genus,Infraclass,Infraorder,Kingdom,Order,Parvorder,Phylum,Section,Species,Subclass,Subfamily,Suborder,Subphylum,Subsection,Subterclass,Superclass,Superfamily,Superorder,Tribe
+Actiniidae,Anthozoa,Actiniidae,NA,NA,NA,Animalia,Actiniaria,NA,Cnidaria,NA,NA,Hexacorallia,NA,Enthemonae,NA,NA,NA,NA,Actinioidea,NA,NA
+Alia carinata,Gastropoda,Columbellidae,Alia,NA,NA,Animalia,Neogastropoda,NA,Mollusca,NA,Alia carinata,Caenogastropoda,NA,NA,NA,NA,NA,NA,Buccinoidea,NA,NA
+Alvania compacta,Gastropoda,Rissoidae,Alvania,NA,NA,Animalia,Littorinimorpha,NA,Mollusca,NA,Alvania compacta,Caenogastropoda,NA,NA,NA,NA,NA,NA,Rissooidea,NA,NA
+Amphipholis pugetana,Ophiuroidea,Amphiuridae,Amphipholis,Metophiurida,NA,Animalia,Amphilepidida,NA,Echinodermata,NA,Amphipholis pugetana,Myophiuroidea,NA,Gnathophiurina,Asterozoa,NA,NA,NA,Amphiuroidea,Ophintegrida,NA
+Amphissa columbiana,Gastropoda,Columbellidae,Amphissa,NA,NA,Animalia,Neogastropoda,NA,Mollusca,NA,Amphissa columbiana,Caenogastropoda,NA,NA,NA,NA,NA,NA,Buccinoidea,NA,NA
+Ampithoe lacertosa,Malacostraca,Ampithoidae,Ampithoe,NA,Corophiida,Animalia,Amphipoda,Corophiidira,Arthropoda,NA,Ampithoe lacertosa,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Corophioidea,Peracarida,NA
+Ampithoe p,Malacostraca,Ampithoidae,Ampithoe,NA,Corophiida,Animalia,Amphipoda,Corophiidira,Arthropoda,NA,Ampithoe plumulosa,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Corophioidea,Peracarida,NA
+Ampithoidae,Malacostraca,Ampithoidae,NA,NA,Corophiida,Animalia,Amphipoda,Corophiidira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Corophioidea,Peracarida,NA
+Aoroides,Malacostraca,Aoridae,Aoroides,NA,Corophiida,Animalia,Amphipoda,Corophiidira,Arthropoda,NA,Aoroides inermis,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Aoroidea,Peracarida,NA
+Ascidiacea,Ascidiacea,NA,NA,NA,NA,Animalia,NA,NA,Chordata,NA,NA,NA,NA,NA,Tunicata,NA,NA,NA,NA,NA,NA
+Asteroidea,Asteroidea,NA,NA,NA,NA,Animalia,NA,NA,Echinodermata,NA,NA,NA,NA,NA,Asterozoa,NA,NA,NA,NA,NA,NA
+Balanus,Hexanauplia,Balanidae,Balanus,Cirripedia,NA,Animalia,Sessilia,NA,Arthropoda,NA,NA,Thecostraca,Balaninae,Balanomorpha,Crustacea,NA,NA,Multicrustacea,Balanoidea,Thoracica,NA
+Bittium,Gastropoda,Cerithiidae,Bittium,NA,NA,Animalia,[unassigned] Caenogastropoda,NA,Mollusca,NA,NA,Caenogastropoda,Bittiinae,NA,NA,NA,NA,NA,Cerithioidea,NA,NA
+Bivalvia,Bivalvia,NA,NA,NA,NA,Animalia,NA,NA,Mollusca,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Calliostoma,Gastropoda,Calliostomatidae,Calliostoma,NA,NA,Animalia,Trochida,NA,Mollusca,NA,NA,Vetigastropoda,Calliostomatinae,NA,NA,NA,NA,NA,Trochoidea,NA,NA
+Capitellidae,Polychaeta,Capitellidae,NA,Scolecida,NA,Animalia,NA,NA,Annelida,NA,NA,Sedentaria,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Caprella,Malacostraca,Caprellidae,Caprella,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,NA,Eumalacostraca,Caprellinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Caprelloidea,Peracarida,NA
+Caprella californica,Malacostraca,Caprellidae,Caprella,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,Caprella californica,Eumalacostraca,Caprellinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Caprelloidea,Peracarida,NA
+Caprella laeviuscula,Malacostraca,Caprellidae,Caprella,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,Caprella laeviuscula,Eumalacostraca,Caprellinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Caprelloidea,Peracarida,NA
+Cerithiidae,Gastropoda,Cerithiidae,NA,NA,NA,Animalia,[unassigned] Caenogastropoda,NA,Mollusca,NA,NA,Caenogastropoda,NA,NA,NA,NA,NA,NA,Cerithioidea,NA,NA
+Colus,Gastropoda,Buccinidae,Colus,NA,NA,Animalia,Neogastropoda,NA,Mollusca,NA,NA,Caenogastropoda,NA,NA,NA,NA,NA,NA,Buccinoidea,NA,NA
+Corophiidae,Malacostraca,Corophiidae,NA,NA,Corophiida,Animalia,Amphipoda,Corophiidira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Corophioidea,Peracarida,NA
+Decapoda,Malacostraca,NA,NA,NA,NA,Animalia,Decapoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,NA,Crustacea,NA,NA,Multicrustacea,NA,Eucarida,NA
+Diadumene,Anthozoa,Diadumenidae,Diadumene,NA,NA,Animalia,Actiniaria,NA,Cnidaria,NA,NA,Hexacorallia,NA,Enthemonae,NA,NA,NA,NA,Metridioidea,NA,NA
+Echinoidea,Echinoidea,NA,NA,NA,NA,Animalia,NA,NA,Echinodermata,NA,NA,NA,NA,NA,Echinozoa,NA,NA,NA,NA,NA,NA
+Enteropneusta,Enteropneusta,NA,NA,NA,NA,Animalia,NA,NA,Hemichordata,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Eogammarus confervicolus,Malacostraca,Anisogammaridae,Eogammarus,NA,Gammarida,Animalia,Amphipoda,Gammaridira,Arthropoda,NA,Eogammarus confervicolus,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Gammaroidea,Peracarida,NA
+Epiactis,Anthozoa,Actiniidae,Epiactis,NA,NA,Animalia,Actiniaria,NA,Cnidaria,NA,NA,Hexacorallia,NA,Enthemonae,NA,NA,NA,NA,Actinioidea,NA,NA
+Ericthonius,Malacostraca,Ischyroceridae,Ericthonius,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,NA,Eumalacostraca,Ischyrocerinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Photoidea,Peracarida,Ericthonini
+Eulalia,Polychaeta,Phyllodocidae,Eulalia,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,Eteoninae,Phyllodociformia,NA,NA,NA,NA,NA,NA,NA
+Gammaropsis,Malacostraca,Photidae,Gammaropsis,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Photoidea,Peracarida,NA
+Glyceridae,Polychaeta,Glyceridae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Glyceriformia,NA,NA,NA,NA,NA,NA,NA
+Halacaridae,Arachnida,Halacaridae,NA,NA,NA,Animalia,Trombidiformes,NA,Arthropoda,NA,NA,Acari,NA,Prostigmata,Chelicerata,NA,NA,NA,Halacaroidea,Acariformes,NA
+Haminoea,Gastropoda,Haminoeidae,Haminoea,Euthyneura,NA,Animalia,Cephalaspidea,NA,Mollusca,NA,NA,Heterobranchia,NA,NA,NA,NA,Tectipleura,NA,Haminoeoidea,NA,NA
+Harpacticoida,Hexanauplia,NA,NA,Neocopepoda,NA,Animalia,Harpacticoida,NA,Arthropoda,NA,NA,Copepoda,NA,NA,Crustacea,NA,NA,Multicrustacea,NA,Podoplea,NA
+Heptacarpus,Malacostraca,Thoridae,Heptacarpus,NA,Caridea,Animalia,Decapoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Pleocyemata,Crustacea,NA,NA,Multicrustacea,Alpheoidea,Eucarida,NA
+Hesionidae,Polychaeta,Hesionidae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Nereidiformia,NA,NA,NA,NA,NA,NA,NA
+Hyalidae,Malacostraca,Hyalidae,NA,NA,Talitrida,Animalia,Amphipoda,Talitridira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Hyaloidea,Peracarida,NA
+Idoteidae,Malacostraca,Idoteidae,NA,NA,NA,Animalia,Isopoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Valvifera,Crustacea,NA,NA,Multicrustacea,NA,Peracarida,NA
+Isaeidae,Malacostraca,Isaeidae,NA,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Isaeoidea,Peracarida,NA
+Ischyrocerus,Malacostraca,Ischyroceridae,Ischyrocerus,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,NA,Eumalacostraca,Ischyrocerinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Photoidea,Peracarida,Ischyrocerini
+Isopoda,Malacostraca,NA,NA,NA,NA,Animalia,Isopoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,NA,Crustacea,NA,NA,Multicrustacea,NA,Peracarida,NA
+Lacuna,Gastropoda,Littorinidae,Lacuna,NA,NA,Animalia,Littorinimorpha,NA,Mollusca,NA,NA,Caenogastropoda,Lacuninae,NA,NA,NA,NA,NA,Littorinoidea,NA,NA
+Lacuna variegata,Gastropoda,Littorinidae,Lacuna,NA,NA,Animalia,Littorinimorpha,NA,Mollusca,NA,Lacuna variegata,Caenogastropoda,Lacuninae,NA,NA,NA,NA,NA,Littorinoidea,NA,NA
+Lacuna vincta,Gastropoda,Littorinidae,Lacuna,NA,NA,Animalia,Littorinimorpha,NA,Mollusca,NA,Lacuna vincta,Caenogastropoda,Lacuninae,NA,NA,NA,NA,NA,Littorinoidea,NA,NA
+Leptochelia,Malacostraca,Leptocheliidae,Leptochelia,NA,NA,Animalia,Tanaidacea,NA,Arthropoda,NA,NA,Eumalacostraca,Leptocheliinae,Tanaidomorpha,Crustacea,NA,NA,Multicrustacea,Paratanaoidea,Peracarida,NA
+Leptochelia dubia,Malacostraca,Leptocheliidae,Leptochelia,NA,NA,Animalia,Tanaidacea,NA,Arthropoda,NA,Leptochelia dubia,Eumalacostraca,Leptocheliinae,Tanaidomorpha,Crustacea,NA,NA,Multicrustacea,Paratanaoidea,Peracarida,NA
+Lirularia,Gastropoda,Trochidae,Lirularia,NA,NA,Animalia,Trochida,NA,Mollusca,NA,NA,Vetigastropoda,Umboniinae,NA,NA,NA,NA,NA,Trochoidea,NA,NA
+Lirularia lirulata,Gastropoda,Trochidae,Lirularia,NA,NA,Animalia,Trochida,NA,Mollusca,NA,Lirularia lirulata,Vetigastropoda,Umboniinae,NA,NA,NA,NA,NA,Trochoidea,NA,NA
+Littorinidae,Gastropoda,Littorinidae,NA,NA,NA,Animalia,Littorinimorpha,NA,Mollusca,NA,NA,Caenogastropoda,NA,NA,NA,NA,NA,NA,Littorinoidea,NA,NA
+Lottia alveus,Gastropoda,Lottiidae,Lottia,NA,NA,Animalia,NA,NA,Mollusca,NA,Lottia alveus,Patellogastropoda,Lottiinae,NA,NA,NA,NA,NA,Lottioidea,NA,Lottiini
+Lumbrineridae,Polychaeta,Lumbrineridae,NA,NA,NA,Animalia,Eunicida,NA,Annelida,NA,NA,Errantia,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Margarites,Gastropoda,Margaritidae,Margarites,NA,NA,Animalia,Trochida,NA,Mollusca,NA,NA,Vetigastropoda,NA,NA,NA,NA,NA,NA,Trochoidea,NA,NA
+Margarites helicinus,Gastropoda,Margaritidae,Margarites,NA,NA,Animalia,Trochida,NA,Mollusca,NA,Margarites helicinus,Vetigastropoda,NA,NA,NA,NA,NA,NA,Trochoidea,NA,NA
+Margarites pupillus,Gastropoda,Margaritidae,Margarites,NA,NA,Animalia,Trochida,NA,Mollusca,NA,Margarites pupillus,Vetigastropoda,NA,NA,NA,NA,NA,NA,Trochoidea,NA,NA
+Metacaprella kennerlyi,Malacostraca,Caprellidae,Metacaprella,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,Metacaprella kennerlyi,Eumalacostraca,Caprellinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Caprelloidea,Peracarida,NA
+Metacarcinus magister,Malacostraca,Cancridae,Metacarcinus,NA,Brachyura,Animalia,Decapoda,NA,Arthropoda,Eubrachyura,Metacarcinus magister,Eumalacostraca,NA,Pleocyemata,Crustacea,Heterotremata,NA,Multicrustacea,Cancroidea,Eucarida,NA
+Micronereis nanaimoensis,Polychaeta,Nereididae,Micronereis,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,Micronereis nanaimoensis,Errantia,Nereidinae,Nereidiformia,NA,NA,NA,NA,NA,NA,NA
+Monocorophium,Malacostraca,Corophiidae,Monocorophium,NA,Corophiida,Animalia,Amphipoda,Corophiidira,Arthropoda,NA,Monocorophium acherusicum,Eumalacostraca,Corophiinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Corophioidea,Peracarida,Corophiini
+Munnidae,Malacostraca,Munnidae,NA,NA,NA,Animalia,Isopoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Asellota,Crustacea,NA,NA,Multicrustacea,Janiroidea,Peracarida,NA
+Mytilidae,Bivalvia,Mytilidae,NA,NA,NA,Animalia,Mytilida,NA,Mollusca,NA,NA,Pteriomorphia,NA,NA,NA,NA,NA,NA,Mytiloidea,NA,NA
+Nassarius mendicus,Gastropoda,Nassariidae,Nassarius,NA,NA,Animalia,Neogastropoda,NA,Mollusca,NA,Nassarius mendicus,Caenogastropoda,Nassariinae,NA,NA,NA,NA,NA,Buccinoidea,NA,NA
+Nematoda,NA,NA,NA,NA,NA,Animalia,NA,NA,Nematoda,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Neogastropoda,Gastropoda,NA,NA,NA,NA,Animalia,Neogastropoda,NA,Mollusca,NA,NA,Caenogastropoda,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Nereididae,Polychaeta,Nereididae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Nereidiformia,NA,NA,NA,NA,NA,NA,NA
+Nudibranchia,Gastropoda,NA,NA,Euthyneura,NA,Animalia,Nudibranchia,NA,Mollusca,NA,NA,Heterobranchia,NA,NA,NA,NA,Ringipleura,NA,NA,Nudipleura,NA
+Ophiuroidea,Ophiuroidea,NA,NA,NA,NA,Animalia,NA,NA,Echinodermata,NA,NA,NA,NA,NA,Asterozoa,NA,NA,NA,NA,NA,NA
+Ostracoda,Ostracoda,NA,NA,NA,NA,Animalia,NA,NA,Arthropoda,NA,NA,NA,NA,NA,Crustacea,NA,NA,Oligostraca,NA,NA,NA
+Paguridae,Malacostraca,Paguridae,NA,NA,Anomura,Animalia,Decapoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Pleocyemata,Crustacea,NA,NA,Multicrustacea,Paguroidea,Eucarida,NA
+Pagurus,Malacostraca,Paguridae,Pagurus,NA,Anomura,Animalia,Decapoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Pleocyemata,Crustacea,NA,NA,Multicrustacea,Paguroidea,Eucarida,NA
+Paleanotus bellis,Polychaeta,Chrysopetalidae,Paleanotus,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,Paleanotus bellis,Errantia,Chrysopetalinae,Nereidiformia,NA,NA,NA,NA,NA,NA,NA
+Paranthura,Malacostraca,Paranthuridae,Paranthura,NA,NA,Animalia,Isopoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Cymothoida,Crustacea,NA,NA,Multicrustacea,Anthuroidea,Peracarida,NA
+Pentidotea,Malacostraca,Idoteidae,Pentidotea,NA,NA,Animalia,Isopoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Valvifera,Crustacea,NA,NA,Multicrustacea,NA,Peracarida,NA
+Pentidotea wosnesenskii,Malacostraca,Idoteidae,Pentidotea,NA,NA,Animalia,Isopoda,NA,Arthropoda,NA,Pentidotea wosnesenskii,Eumalacostraca,NA,Valvifera,Crustacea,NA,NA,Multicrustacea,NA,Peracarida,NA
+Pholoidae,Polychaeta,Pholoidae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Aphroditiformia,NA,NA,NA,NA,NA,NA,NA
+Photis,Malacostraca,Photidae,Photis,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Photoidea,Peracarida,NA
+Phyllaplysia taylori,Gastropoda,Aplysiidae,Phyllaplysia,Euthyneura,NA,Animalia,Aplysiida,NA,Mollusca,NA,Phyllaplysia taylori,Heterobranchia,NA,NA,NA,NA,Tectipleura,NA,Aplysioidea,NA,NA
+Phyllodocidae,Polychaeta,Phyllodocidae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Phyllodociformia,NA,NA,NA,NA,NA,NA,NA
+Pilargidae,Polychaeta,Pilargidae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Nereidiformia,NA,NA,NA,NA,NA,NA,NA
+Platynereis bicanaliculata,Polychaeta,Nereididae,Platynereis,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,Platynereis bicanaliculata,Errantia,Nereidinae,Nereidiformia,NA,NA,NA,NA,NA,NA,NA
+Pleocyemata,Malacostraca,NA,NA,NA,NA,Animalia,Decapoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Pleocyemata,Crustacea,NA,NA,Multicrustacea,NA,Eucarida,NA
+Pleustidae,Malacostraca,Pleustidae,NA,NA,Amphilochida,Animalia,Amphipoda,Amphilochidira,Arthropoda,NA,NA,Eumalacostraca,NA,Amphilochidea,Crustacea,NA,NA,Multicrustacea,Amphilochoidea,Peracarida,NA
+Podoceridae,Malacostraca,Podoceridae,NA,NA,Corophiida,Animalia,Amphipoda,Caprellidira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Caprelloidea,Peracarida,NA
+Polychaeta,Polychaeta,NA,NA,NA,NA,Animalia,NA,NA,Annelida,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Polynoidae,Polychaeta,Polynoidae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Aphroditiformia,NA,NA,NA,NA,NA,NA,NA
+Pontogeneia,Malacostraca,Pontogeneiidae,Pontogeneia,NA,Hadziida,Animalia,Amphipoda,Hadziidira,Arthropoda,NA,Pontogeneia rostrata,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Calliopioidea,Peracarida,NA
+Pontogeneiidae,Malacostraca,Pontogeneiidae,NA,NA,Hadziida,Animalia,Amphipoda,Hadziidira,Arthropoda,NA,NA,Eumalacostraca,NA,Senticaudata,Crustacea,NA,NA,Multicrustacea,Calliopioidea,Peracarida,NA
+Porcellidium,Hexanauplia,Porcellidiidae,Porcellidium,Neocopepoda,NA,Animalia,Harpacticoida,NA,Arthropoda,NA,NA,Copepoda,NA,NA,Crustacea,NA,NA,Multicrustacea,NA,Podoplea,NA
+Protohyale,Malacostraca,Hyalidae,Protohyale,NA,Talitrida,Animalia,Amphipoda,Talitridira,Arthropoda,NA,NA,Eumalacostraca,Hyalinae,Senticaudata,Crustacea,NA,NA,Multicrustacea,Hyaloidea,Peracarida,NA
+Pugettia,Malacostraca,Epialtidae,Pugettia,NA,Brachyura,Animalia,Decapoda,NA,Arthropoda,Eubrachyura,NA,Eumalacostraca,Epialtinae,Pleocyemata,Crustacea,Heterotremata,NA,Multicrustacea,Majoidea,Eucarida,NA
+Pycnogonida,Pycnogonida,NA,NA,NA,NA,Animalia,NA,NA,Arthropoda,NA,NA,NA,NA,NA,Chelicerata,NA,NA,NA,NA,NA,NA
+Solasteridae,Asteroidea,Solasteridae,NA,NA,NA,Animalia,Valvatida,NA,Echinodermata,NA,NA,NA,NA,NA,Asterozoa,NA,NA,NA,NA,Valvatacea,NA
+Sphaeromatidae,Malacostraca,Sphaeromatidae,NA,NA,NA,Animalia,Isopoda,NA,Arthropoda,NA,NA,Eumalacostraca,NA,Sphaeromatidea,Crustacea,NA,NA,Multicrustacea,Sphaeromatoidea,Peracarida,NA
+Stauromedusae,Staurozoa,NA,NA,NA,NA,Animalia,Stauromedusae,NA,Cnidaria,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Stenothoidae,Malacostraca,Stenothoidae,NA,NA,Amphilochida,Animalia,Amphipoda,Amphilochidira,Arthropoda,NA,NA,Eumalacostraca,NA,Amphilochidea,Crustacea,NA,NA,Multicrustacea,Amphilochoidea,Peracarida,NA
+Syllidae,Polychaeta,Syllidae,NA,NA,NA,Animalia,Phyllodocida,NA,Annelida,NA,NA,Errantia,NA,Nereidiformia,NA,NA,NA,NA,NA,NA,NA
+Tegula funebralis,Gastropoda,Tegulidae,Tegula,NA,NA,Animalia,Trochida,NA,Mollusca,NA,Tegula funebralis,Vetigastropoda,NA,NA,NA,NA,NA,NA,Trochoidea,NA,NA
+Terebellidae,Polychaeta,Terebellidae,NA,Canalipalpata,NA,Animalia,Terebellida,NA,Annelida,NA,NA,Sedentaria,NA,Terebellomorpha,NA,NA,NA,NA,NA,NA,NA
+Thorlaksonius,Malacostraca,Pleustidae,Thorlaksonius,NA,Amphilochida,Animalia,Amphipoda,Amphilochidira,Arthropoda,NA,NA,Eumalacostraca,Pleustinae,Amphilochidea,Crustacea,NA,NA,Multicrustacea,Amphilochoidea,Peracarida,NA
+Thorlaksonius subcarinatus,Malacostraca,Pleustidae,Thorlaksonius,NA,Amphilochida,Animalia,Amphipoda,Amphilochidira,Arthropoda,NA,Thorlaksonius subcarinatus,Eumalacostraca,Pleustinae,Amphilochidea,Crustacea,NA,NA,Multicrustacea,Amphilochoidea,Peracarida,NA
