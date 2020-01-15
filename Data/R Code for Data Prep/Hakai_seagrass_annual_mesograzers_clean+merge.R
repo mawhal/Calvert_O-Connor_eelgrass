@@ -24,7 +24,7 @@ library(reshape2)
 # person of record: Nicole Knight
 
 # read data
-d14 <- read.csv( "../data/grazers/hakai_grazers_2014.csv", stringsAsFactors = FALSE )
+d14 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2014.csv", stringsAsFactors = FALSE )
 
 # several extra columns labelled "X","X.1","X.2",etc.
 # get rid of these columns
@@ -61,7 +61,7 @@ l14 <- l14 %>%
 # person of record: Allison Dennert
 
 # read data
-d15 <- read.csv( "../data/grazers/hakai_grazers_2015.csv", stringsAsFactors = FALSE )
+d15 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2015.csv", stringsAsFactors = FALSE )
 
 # lots of NA values in this wide format
 # convert these all to zeros
@@ -88,7 +88,7 @@ l15 <- l15 %>%
 # person of record: Tanya Prinzig
 
 # read data
-d16 <- read.csv( "../data/grazers/hakai_grazers_2016.csv", stringsAsFactors = FALSE )
+d16 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2016.csv", stringsAsFactors = FALSE )
 # data is already in long format  
 
 
@@ -118,7 +118,7 @@ t16 <- d16 %>%
 # person of record: Tanya Prinzig
 
 # read data
-d17 <- read.csv( "../data/grazers/hakai_grazers_2017.csv", stringsAsFactors = FALSE )
+d17 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2017.csv", stringsAsFactors = FALSE )
 # data is already in long format
 
 # add a column for year
@@ -260,35 +260,35 @@ sort(unique( f15$site ))
 sort(unique( f16$site ))
 sort(unique( f17$site ))
 
-f14$site[ f14$site=="Choked" ] <- "sandspit"  # I am totally not sure about this one, but there is a choked lower for this year, so it must be sandspit?
+f14$site[ f14$site=="Choked" ] <- "choked sandspit"  # I am totally not sure about this one, but there is a choked lower for this year, so it must be sandspit?
 f14$site[ f14$site=="Goose" ] <- "goose south west"
 f14$site[ f14$site=="Goose East" ] <- "goose south east"
-f14$site[ f14$site=="Lower Choked" ] <- "inner choked"
+f14$site[ f14$site=="Lower Choked" ] <- "choked inner"
 f14$site[ f14$site=="McMullin" ] <- "mcmullins south"
 f14$site[ f14$site=="McMullin North" ] <- "mcmullins north"
 f14$site[ f14$site=="Triquet" ] <- "triquet north"
 f14$site[ f14$site=="Triquet/No Name Cove" ] <- "triquet south"
 f14 <- f14[ !is.na(f14$site), ]
 
-f15$site[ f15$site=="Choked Pass, S. Pigu" ] <- "inner choked"  # I am totally not sure about this one either
+f15$site[ f15$site=="Choked Pass, S. Pigu" ] <- "choked inner"  # I am totally not sure about this one either
 f15$site[ f15$site=="Goose E" ] <- "goose south east"
 f15$site[ f15$site=="Goose W" ] <- "goose south west"
 f15$site[ f15$site=="Goose N" ] <- "goose north"
-f15$site[ f15$site=="Sandspit" ] <- "sandspit"
+f15$site[ f15$site=="Sandspit" ] <- "choked sandspit"
 f15$site[ f15$site=="McMullins S" ] <- "mcmullins south"
 f15$site[ f15$site=="McMullins N" ] <- "mcmullins north"
 f15$site[ f15$site=="Triquet N" ] <- "triquet north"
 f15$site[ f15$site=="Triquet S" ] <- "triquet south"
 
-f16$site[ f16$site=="Choked Lower" ] <- "inner choked"  # I am totally not sure about this one either
+f16$site[ f16$site=="Choked Lower" ] <- "choked inner"  # I am totally not sure about this one either
 f16$site[ f16$site=="Goose SW" ] <- "goose south west"
-f16$site[ f16$site=="Choked Sandspit" ] <- "sandspit"
+f16$site[ f16$site=="Choked Sandspit" ] <- "choked sandspit"
 f16$site[ f16$site=="Pruth Pocket" ] <- "pruth pocket"
 f16$site[ f16$site=="Triquet N" ] <- "triquet north"
 f16$site[ f16$site=="Triquet S" ] <- "triquet south"
 
-f17$site[ f17$site=="Choked I5" ] <- "inner choked"  # I am totally not sure about this one either
-f17$site[ f17$site=="Choked Sandspit" ] <- "sandspit"
+f17$site[ f17$site=="Choked I5" ] <- "choked inner"  # I am totally not sure about this one either
+f17$site[ f17$site=="Choked Sandspit" ] <- "choked sandspit"
 f17$site[ f17$site=="Pruth Pocket" ] <- "pruth pocket"
 f17$site[ f17$site=="Triquet N" ] <- "triquet north"
 f17$site[ f17$site=="Triquet S" ] <- "triquet south"
@@ -302,12 +302,15 @@ f17$sample <- as.character(f17$sample)
 
 m <- full_join(full_join(full_join(f14,f15),f16),f17)
 
+unique(m$site)
+m$site <- gsub(" ","_",m$site)
+
 nrow(f14)+nrow(f15)+nrow(f16)+nrow(f17)
 dim(m)
 
 ####
 ## write mesograzers to disk
-write.csv( m, "output data/O'Connor_hakai_seagrass_MASTER_grazers.csv", row.names=FALSE )
+write_csv( m, "master data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
 
 
 with(m, table(year,site ))
@@ -343,13 +346,7 @@ m$taxon <- gsub( "[.]", " ", m$taxon )
 m$taxon <- gsub( "  ", " ", m$taxon )
 m$taxon <- trimws( m$taxon )
 unitax <- sort(unique(m$taxon))
-write.csv( unitax, "output data/unique_taxa_raw.csv", row.names = FALSE )
+write_csv( data.frame(unitax), "master data/unique_taxa_raw.csv" )
 m[m$taxon=="",]
 #2017 one is nereidae
 
-#################################################
-### strategies
-# beta diversity within sites? across times
-# is it membership or dominance that defines 
-# normalize to biomass
-#################################################

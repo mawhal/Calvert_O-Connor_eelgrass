@@ -65,11 +65,28 @@ geo <- geo %>%
   select( site, lat, long )
 
 meta <- left_join( meta, geo )
+# rename and reorder sites
+meta$site <- gsub("inner choked","choked_inner",meta$site)
+meta$site <- gsub("sandspit","choked_sandspit",meta$site)
+meta$site <- gsub(" ","_",meta$site)
 meta$site <- fct_reorder( meta$site, -meta$lat )
 
 
 # nmds of comparable data
+# - first save the bray-curtis distances
+meta17 <- meta %>% 
+  filter(year==2017) %>% 
+  unite(sample, site, sample, sep="_")
+sample.names <- make.cepnames(meta17$sample)
+write_csv( meta17, "output data/2017_grazer_metadata.csv")
+commdist17 <- vegdist( comm[meta$year==2017,], method = "bray" )
+commdist17 <- as.matrix(commdist17)
+rownames(commdist17) <- sample.names
+colnames(commdist17) <- sample.names
 
+write_csv( data.frame(commdist17), "output data/2017_grazer_braycurtis.csv")
+
+# NMDS
 mds <- metaMDS( comm, distance="bray", k=7 )
 mds # very high stress with 2 axes 
 

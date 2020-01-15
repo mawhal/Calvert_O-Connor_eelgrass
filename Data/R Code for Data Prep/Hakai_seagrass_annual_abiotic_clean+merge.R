@@ -28,8 +28,7 @@ d14 <- NULL
 ##
 ##
 ##
-d15 <- read.csv( "../data/abiotic/hakai_abiotic_2015.csv",
-                 stringsAsFactors = FALSE)
+d15 <- read_csv( "../data_oconnor/abiotic/hakai_abiotic_2015.csv" )
 a15 <- d15 %>% 
   mutate( date=mdy(date) ) %>%
   select( date, site, lat=latitude, long=longitude, depth=mean_depth, do=dissolved_oxygen_concentration, salinity, 
@@ -49,8 +48,7 @@ a15$site[ a15$site=="choked south pigu" ] <- "choked interior"
 ##
 ##
 ##
-d16 <- read.csv( "../data/abiotic/hakai_abiotic_2016.csv",
-                 stringsAsFactors = FALSE )
+d16 <- read_csv( "../data_oconnor/abiotic/hakai_abiotic_2016.csv" )
 geo <- as.data.frame( do.call(rbind, strsplit( d16$coordinates,split="N, ", fixed=TRUE )) )
 names(geo) <- c("lat","long")
 lat <- gsub( "[(]", "", geo$lat)
@@ -62,9 +60,9 @@ geo$long <- unlist(lapply( longsplit, function(z) -( as.numeric(paste(z[2],z[3],
 d16.geo <- cbind( d16, geo )
 a16 <- d16.geo %>% 
   mutate( date=dmy(date) ) %>%
-  select( date, site, lat, long, depth=depth..m., do=do..mg.l., salinity=salinity..ppt., 
-          temperature = temperature..c.,
-          site.depth = max.depth.at.site..m.)
+  select( date, site, lat, long, depth=`depth (m)`, do=`do (mg/l)`,
+          salinity=`salinity (ppt)`, temperature = `temperature (c)`,
+          site.depth = `max depth at site (m)`)
 # rename sites so they are constent across time
 a16$site[ a16$site=="flat island" ] <- "choked interior"
 # pick the deepest sample for each site
@@ -79,20 +77,21 @@ for(i in 1:length(unique(a16$site)) ){
 # combine list
 a16 <- do.call( rbind, u16 )
 # looks like two YSI over different depths in a bed (maybe at different parts of the tide?) - average these
-library(plyr)
-a16 <- ddply( a16, .(date,site), summarize, lat=mean(lat,na.rm=T), long=mean(long,na.rm=T),
-              depth=mean(depth,na.rm=T), site.depth = mean(site.depth, na.rm=T), 
-              do=mean(do,na.rm=T), salinity=mean(salinity,na.rm=T), temperature=mean(temperature,na.rm=T)  )
+a16 <- a16 %>% 
+  group_by(date,site) %>% 
+  summarize( lat=mean(lat,na.rm=T), long=mean(long,na.rm=T),
+             depth=mean(depth,na.rm=T), site.depth = mean(site.depth, na.rm=T), 
+             do=mean(do,na.rm=T), salinity=mean(salinity,na.rm=T),
+             temperature=mean(temperature,na.rm=T)  )
 ##
 ##
 ## 2017
 ##
 ##
-d17 <- read.csv( "../data/abiotic/hakai_abiotic_2017.csv",
-                 stringsAsFactors = FALSE )
+d17 <- read_csv( "../data_oconnor/abiotic/hakai_abiotic_2017.csv" )
 a17 <- d17 %>%
   mutate( date=dmy(date) ) %>%
-  select( date, site, depth=depth.m., temperature=temp.c., salinity=salinity.ppt., ph )
+  select( date, site, depth=`depth(m)`, temperature=`temp(c)`, salinity=`salinity(ppt)`, ph )
 # rename sites so they are constent across time
 a17$site <- gsub( x=a17$site, pattern= "_", replacement=" "  )
 a17$site[ a17$site=="choked interior i5" ] <- "choked interior"
@@ -113,14 +112,13 @@ a17 <- do.call( rbind, u17 )
 ## 2018
 ##
 ##
-d18 <- read.csv( "../data/abiotic/hakai_abiotic_2018.csv",
-                 stringsAsFactors = FALSE, strip.white = TRUE )
+d18 <- read_csv( "../data_oconnor/abiotic/hakai_abiotic_2018.csv", trim_ws = TRUE )
 # remove blank rows
-d18 <- d18[ !is.na(d18$temp..c.), ]
+d18 <- d18 %>% filter( !is.na(`temp (c)`) )
 a18 <- d18 %>%
   mutate( date=dmy(date) ) %>%
-  select( date, site, depth=sampling.depth..m., temperature=temp..c., salinity=salinity..ppt.,
-          site.depth=bottom.depth..m., ph=pH )
+  select( date, site, depth=`sampling depth (m)`, temperature=`temp (c)`,
+          salinity=`salinity (ppt)`,site.depth=`bottom depth (m)`, ph=pH )
 # pick the deepest sample for each site
 u18 <- list()
 for(i in 1:length(unique(a18$site)) ){
@@ -146,7 +144,13 @@ lapply( a, names )
 a1516 <- full_join( a15, a16 )
 a567 <- full_join( a1516, a17 )
 abiotic <- full_join( a567, a18 )
+# rename sites
+abiotic$site <- gsub(" ","_",abiotic$site)
+abiotic$site <- gsub("choked_interior","choked_inner",abiotic$site)
+abiotic$site <- gsub("sandspit","choked_sandspit",abiotic$site)
+abiotic$site <- gsub("mcmullin","mcmullins",abiotic$site)
+sort(unique(abiotic$site))
 ##
 ##
 #### WRITE THE MASTER DATA TO FILE -------------------------------------------------------------
-write.csv( abiotic, "output data/O'Connor_hakai_seagrass_MASTER_abiotic.csv", row.names = FALSE )
+write_csv( abiotic, "master data/O'Connor_hakai_seagrass_MASTER_abiotic.csv" )
