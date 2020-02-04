@@ -1,0 +1,13 @@
+region,site,lat,long,"depth (m, chart datum)"
+choked,choked_inner,51.675,-128.119,4.6
+choked,choked_sandspit,51.678,-128.115,1.06
+choked,choked_south_pigu,51.676,-128.122,4.21
+choked,choked_wolf,51.668,-128.119,2.58
+triquet,triquet_north,51.808875,-128.247457,3.46
+triquet,triquet_south,51.80869,-128.235858,0.33
+pruth,pruth_pocket,51.395,-128.069,1
+pruth,pruth_bay,51.388,-128.071,-0.55
+mcmullin,mcmullin_north,52.061781,-128.412394,0.71
+mcmullin,mcmullin_south,52.053018,-128.403636,0.71
+goose,goose_south_west,51.922786,-128.464532,2.18
+goose,goose_south_east,51.926522,-128.45317,1.95
