@@ -13,10 +13,10 @@
 
 # load libraries
 library( tidyverse )
-
+library( vegan )
 
 # read data
-m <- read_csv( "output data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
+m <- read_csv( "../Data/R Code for Data Prep/master data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
 # replace spaces with periods for consistency and merging names
 m$taxon <- gsub( " ", ".", m$taxon )
 # bring in the updated data 
@@ -36,12 +36,12 @@ mfilt <- m %>%
 #                       "triquet north","triquet south") )
 
 
-## 2017 data to start
-m17 <- mfilt %>% 
-  filter( year==2017 )
+## pick a year
+muse <- mfilt %>% 
+  filter( year==2016 )
 
 # which data to use
-muse <- m17
+muse <- muse
 
 
 # summarize taxon counts per sample
@@ -64,5 +64,5 @@ names(comm) <- make.cepnames( names(comm) )
 
 
 # write metadata and community data to disk
-write_csv( comm, "output data/Hakai_2017_mesograzer_comm.csv" )
-write_csv( meta, "output data/Hakai_2017_mesograzer_meta.csv" )
+write_csv( comm, "output data/Hakai_2016_mesograzer_comm.csv" )
+write_csv( meta, "output data/Hakai_2016_mesograzer_meta.csv" )
