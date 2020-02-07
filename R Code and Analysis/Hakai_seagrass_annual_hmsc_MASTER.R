@@ -43,7 +43,7 @@ mfilt <- m %>%
 
 ## pick a year
 muse <- mfilt %>% 
-  filter( year==2017 )
+  filter( year==2016 )
 
 # which data to use
 muse <- muse
@@ -78,17 +78,16 @@ Ygrazer <- Ygrazer[ , rev(order(colSums(Ygrazer))) ]
 
 
 # explanatory data
-abiotic <- read_csv("output data/Bia_reviewed_O'Connor_hakai_seagrass_MASTER_abiotic.csv")
-biometrics <- read_csv("output data/Emily_hakai_quad_combined_20200204.csv")
-locations <- read_csv()
+explanatory <- read_csv("output data/merged_explanatory.csv")
 biometrics$quadrat <- biometrics$quadrat_id
 
-# merge explanatory data
-ab <- full_join(biometrics,abiotic)
+#  
+ab <- explanatory
 #filter out missing quads
 ab <- ab %>% filter( !is.na(quadrat) )
 # merge with metadata
-X <- left_join( meta, ab )
+meta <- meta %>% mutate( quadrat_id = paste( site, quadrat,sep="_") )
+X <- left_join( meta, ab, by=c("site","quadrat_id") )
 # merge lat long back in
 ab %>% mutate(long=-long) %>% select(site,lat,long) %>% distinct()
 # filter out NA values from grazer dataset
@@ -137,8 +136,8 @@ rL4 = HmscRandomLevel( sData = spatial )
 
 
 ## formula for fixed effects
-XFormula = ~( temperature + salinity + quadrat_biomass_g + #do + 
-                quadrat_lai + quadrat_microepiphyte_mg )
+XFormula = ~( temperature + salinity + quadrat_biomass_g +  
+                quadrat_lai + quadrat_microepiphyte_mg + depth + macroalgae )
 
 
 # the model
