@@ -43,7 +43,7 @@ mfilt <- m %>%
 
 ## pick a year
 muse <- mfilt %>% 
-  filter( year==2016 )
+  filter( year==2017 )
 
 # which data to use
 muse <- muse
@@ -66,30 +66,32 @@ meta <- data.frame(m.meta[,c(1:3)])
 comm <- data.frame(m.meta[,-c(1:3)])
 names(comm) <- make.cepnames( names(comm) )
 
-meta$quadrat <- as.numeric(meta$sample)
+# rename quadrats
+meta <- meta %>% 
+  mutate( quadrat_id = as.numeric(meta$sample), quadrat = paste( site,quadrat_id, sep="_" ) )
 
 
 # get rid of some taxa
-# comm <- comm[, -c(1,12,17,19,25)] # get rid of Acidiacea, Gastropoda, Lottoidea, Neogastropoda, Rissoidae
 # rename to Ygrazer
 Ygrazer <- comm
 Ygrazer <- Ygrazer[ , rev(order(colSums(Ygrazer))) ]
 
+# abundance cutoff?
+Ygrazer <- Ygrazer[, colSums(Ygrazer) > 3]
 
-
+###
 # explanatory data
 explanatory <- read_csv("output data/merged_explanatory.csv")
-biometrics$quadrat <- biometrics$quadrat_id
 
 #  
 ab <- explanatory
 #filter out missing quads
 ab <- ab %>% filter( !is.na(quadrat) )
 # merge with metadata
-meta <- meta %>% mutate( quadrat_id = paste( site, quadrat,sep="_") )
-X <- left_join( meta, ab, by=c("site","quadrat_id") )
+X <- left_join( meta, ab, by=c("year","site","quadrat_id","quadrat") )
 # merge lat long back in
 ab %>% mutate(long=-long) %>% select(site,lat,long) %>% distinct()
+
 # filter out NA values from grazer dataset
 nas <- !is.na(X$quadrat_shoot_density) & !is.na(X$quadrat_biomass_g) & !is.na(X$quadrat_lai)
 Ygrazer <- Ygrazer[nas,]
@@ -99,19 +101,18 @@ X <- X %>%  filter( !is.na(quadrat_shoot_density),!is.na(quadrat_biomass_g),!is.
 ## select columns for fixed and random effects
 # explanatory data = abiotic + seagrass metrics
 Xenvironmental <- X %>% 
-  select(temperature,salinity,quadrat_biomass_g,quadrat_lai,quadrat_microepiphyte_mg) #do,
+  select( temperature, salinity, biomass=quadrat_biomass_g, lai=quadrat_lai, 
+          microepi=quadrat_microepiphyte_mg, macro=quadrat_macroalgae_g, depth=depth..m..chart.datum. ) 
 
 # random effects (quadrat, site, region level)
 studyDesign <- X %>% 
   mutate( region=unlist(lapply(strsplit(site,"_"),function(z)z[1])),
-          site_quad = paste(site,quadrat,sep="_"),
           long=-long ) %>% 
-  select( region, lat, long, site, quadrat, site_quad )
+  select( region, lat, long, site, quadrat )
 studyDesign <-  as.data.frame(studyDesign)
 studyDesign$region <- factor(studyDesign$region)
 studyDesign$site <- factor(studyDesign$site)
 studyDesign$quadrat <- factor(studyDesign$quadrat)
-studyDesign$site_quad <- factor(studyDesign$site_quad)
 
 # spatial data from lats and longs
 # make longitude positive
@@ -126,6 +127,7 @@ Ygrazer <- as.matrix(Ygrazer)
 Xenvironmental <- as.data.frame(Xenvironmental)
 
 
+
 # random effects structure
 rL1 = HmscRandomLevel( units = unique(studyDesign$site_quad) ) #quadrat level
 rL2 = HmscRandomLevel( units = unique(studyDesign$site) )
@@ -136,8 +138,8 @@ rL4 = HmscRandomLevel( sData = spatial )
 
 
 ## formula for fixed effects
-XFormula = ~( temperature + salinity + quadrat_biomass_g +  
-                quadrat_lai + quadrat_microepiphyte_mg + depth + macroalgae )
+XFormula = ~( temperature + salinity + biomass +  
+                lai + microepi + macro + depth ) # add bed area when available
 
 
 # the model
@@ -153,13 +155,14 @@ mgrazer <- Hmsc( Y = Ygrazer,
 
 ### running the model
 thin = 100
-samples = 100
-nChains = 2 # have to compute multiple chains to check if they all yield similar results
+samples = 2000
+transient = 100
+nChains = 2 
 set.seed(1)
 
 # Run MCMC chains. took at least 12 hours on KS laptop
 
-mod <- sampleMcmc(mgrazer, samples = samples , transient = 50, 
+mod <- sampleMcmc(mgrazer, samples = samples , transient = transient, 
                   thin = thin, verbose = 10, nChains = nChains) # nParallel = 3 when running more than 1 Chain for the real model = running more than one chain allows us to check if all arer doing the same thing
 
 
@@ -196,12 +199,12 @@ pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
 pos.neg[pos.neg< 0.95] <- 0
 pos.neg$neg <- -pos.neg$neg
 pos.neg$value <- pos.neg$pos + pos.neg$neg
-pos.neg$parameter <- factor(c("intercept", "temperature", "do", "salinity", "quadrat_biomass_g", 
-                                "quadrat_lai", "quadrat_microepiphyte_mg" ),
-                            levels = c("intercept", "temperature", "do", "salinity", "quadrat_biomass_g", 
-                                       "quadrat_lai", "quadrat_microepiphyte_mg" ), 
+pos.neg$parameter <- factor(c("intercept", "temperature",  "salinity", "biomass", 
+                                "lai", "microepi", "macro", "depth" ),
+                            levels = c("intercept", "temperature",  "salinity", "biomass", 
+                                       "lai", "microepi", "macro", "depth" ), 
                             ordered = TRUE)
-pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 7), 
+pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 8), 
                           levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
                           ordered = TRUE)
 
@@ -218,8 +221,8 @@ taxa.pos.anom <- as.character(pos.neg[ pos.neg$parameter=='quadrat_lai' & pos.ne
 
 # calculate mean and variance of parameter esimates
 pbdf <- data.frame( t(postBeta$mean), taxon=colnames(postBeta$mean) )
-names(pbdf) <- c("intercept","temp","do","sal",
-                 "biomass","LAI","microepi","taxon")
+names(pbdf) <- c("intercept","temp","sal",
+                 "biomass","LAI","microepi","macro", "depth","taxon")
 # ## Add some basic trait information
 # pbdf$alga <- "alga"
 # pbdf$alga[c(3,15,20,56,57,62,68,82)] <- "invert"
@@ -250,11 +253,11 @@ VP = computeVariancePartitioning(m) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("
 # plotVariancePartitioning(m, VP = VP)
 
 VP.df <- as.data.frame(VP$vals) %>% 
-  mutate(effect = factor(c("temp","do","sal",
-                            "biomass","LAI","microepi",
+  mutate(effect = factor(c("temp","sal",
+                            "biomass","LAI","microepi","macro","depth",
                            "quadrat","region","site"), 
-                         levels = rev(c("temp","do","sal",
-                                        "biomass","LAI","microepi",
+                         levels = rev(c("temp","sal","depth",
+                                        "biomass","LAI","microepi","macro",
                                         "quadrat","region","site")), 
                          ordered = TRUE)) %>% 
   gather(key = species, value = variance, -effect) %>% 
@@ -275,7 +278,7 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
   geom_bar(stat = "identity", color = 1)+
   theme_classic()+
   theme(axis.text.x = element_text(angle = 90))+
-  scale_fill_manual(values = c("darkred", "maroon","pink", "darkgreen","forestgreen", "chartreuse", "gray25","gray75","whitesmoke"), name = "")+
+  scale_fill_manual(values = c("darkred", "maroon","pink", "darkgreen","forestgreen","lightgreen", "chartreuse", "gray25","gray75","whitesmoke"), name = "")+
   geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
@@ -290,7 +293,7 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
 OmegaCor = computeAssociations(m)
 supportLevel = 0.95
 # choose the random variable to plot
-rlevel = 3
+rlevel = 1
 toPlot = ((OmegaCor[[rlevel]]$support>supportLevel) 
           + (OmegaCor[[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[rlevel]]$mean
 # reorder species matrix
