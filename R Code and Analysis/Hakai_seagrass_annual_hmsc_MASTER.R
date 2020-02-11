@@ -101,8 +101,12 @@ X <- X %>%  filter( !is.na(quadrat_shoot_density),!is.na(quadrat_biomass_g),!is.
 ## select columns for fixed and random effects
 # explanatory data = abiotic + seagrass metrics
 Xenvironmental <- X %>% 
-  select( temperature, salinity, biomass=quadrat_biomass_g, lai=quadrat_lai, 
-          microepi=quadrat_microepiphyte_mg, macro=quadrat_macroalgae_g, depth=depth..m..chart.datum. ) 
+  select( temperature, salinity, 
+          depth=depth..m..chart.datum., area=bed_area_m2,
+          biomass=quadrat_biomass_g, lai=quadrat_lai, 
+          microepi=quadrat_microepiphyte_mg, 
+          macro=quadrat_macroalgae_g, 
+          ) 
 
 # random effects (quadrat, site, region level)
 studyDesign <- X %>% 
@@ -138,8 +142,8 @@ rL4 = HmscRandomLevel( sData = spatial )
 
 
 ## formula for fixed effects
-XFormula = ~( temperature + salinity + biomass +  
-                lai + microepi + macro + depth ) # add bed area when available
+XFormula = ~( temperature + salinity + depth + area + biomass +  
+                lai + microepi + macro  ) # add bed area when available
 
 
 # the model
@@ -155,7 +159,7 @@ mgrazer <- Hmsc( Y = Ygrazer,
 
 ### running the model
 thin = 100
-samples = 2000
+samples = 1000
 transient = 100
 nChains = 2 
 set.seed(1)
@@ -199,12 +203,14 @@ pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
 pos.neg[pos.neg< 0.95] <- 0
 pos.neg$neg <- -pos.neg$neg
 pos.neg$value <- pos.neg$pos + pos.neg$neg
-pos.neg$parameter <- factor(c("intercept", "temperature",  "salinity", "biomass", 
-                                "lai", "microepi", "macro", "depth" ),
-                            levels = c("intercept", "temperature",  "salinity", "biomass", 
-                                       "lai", "microepi", "macro", "depth" ), 
+pos.neg$parameter <- factor(c("intercept", "temperature",  "salinity",
+                              "depth", "area", "biomass",
+                                "lai", "microepi", "macro" ),
+                            levels = c("intercept", "temperature",  "salinity",
+                                       "depth", "area", "biomass",
+                                       "lai", "microepi", "macro" ),
                             ordered = TRUE)
-pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 8), 
+pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 9),
                           levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
                           ordered = TRUE)
 
@@ -221,15 +227,15 @@ taxa.pos.anom <- as.character(pos.neg[ pos.neg$parameter=='quadrat_lai' & pos.ne
 
 # calculate mean and variance of parameter esimates
 pbdf <- data.frame( t(postBeta$mean), taxon=colnames(postBeta$mean) )
-names(pbdf) <- c("intercept","temp","sal",
-                 "biomass","LAI","microepi","macro", "depth","taxon")
+names(pbdf) <- c("intercept","temp","sal","depth","area",
+                 "biomass","LAI","microepi","macro", "taxon")
 # ## Add some basic trait information
 # pbdf$alga <- "alga"
 # pbdf$alga[c(3,15,20,56,57,62,68,82)] <- "invert"
 # # More specific groups
 
 
-coef_plot <- pbdf %>% 
+coef_plot <- pbdf %>%
   select( -taxon ) %>%
   gather( coefficient, value )
 
@@ -252,23 +258,23 @@ ggplot( coef_plot, aes(y=value, x=factor(1))) +
 VP = computeVariancePartitioning(m) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
 # plotVariancePartitioning(m, VP = VP)
 
-VP.df <- as.data.frame(VP$vals) %>% 
-  mutate(effect = factor(c("temp","sal",
-                            "biomass","LAI","microepi","macro","depth",
-                           "quadrat","region","site"), 
-                         levels = rev(c("temp","sal","depth",
+VP.df <- as.data.frame(VP$vals) %>%
+  mutate(effect = factor(c("temp","sal","depth","area",
+                            "biomass","LAI","microepi","macro",
+                           "quadrat","region","site"),
+                         levels = rev(c("temp","sal","depth","area",
                                         "biomass","LAI","microepi","macro",
-                                        "quadrat","region","site")), 
-                         ordered = TRUE)) %>% 
-  gather(key = species, value = variance, -effect) %>% 
-  group_by(species) %>% 
+                                        "quadrat","region","site")),
+                         ordered = TRUE)) %>%
+  gather(key = species, value = variance, -effect) %>%
+  group_by(species) %>%
   mutate(tempR2 = variance[effect == "temp"])
 
 
 hold <- VP.df %>% filter(effect == "temp") %>% arrange(desc(tempR2))
 
-VP.df$species <- factor(VP.df$species, 
-                        levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)], 
+VP.df$species <- factor(VP.df$species,
+                        levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
                         ordered = TRUE)
 
 R2.df <- data.frame(R2 = round(MF$SR2,1), species = colnames(m$Y))
@@ -278,7 +284,7 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
   geom_bar(stat = "identity", color = 1)+
   theme_classic()+
   theme(axis.text.x = element_text(angle = 90))+
-  scale_fill_manual(values = c("darkred", "maroon","pink", "darkgreen","forestgreen","lightgreen", "chartreuse", "gray25","gray75","whitesmoke"), name = "")+
+  scale_fill_manual(values = c("darkred", "maroon","pink", "darkorange2","orange","darkgreen","forestgreen","lightgreen", "chartreuse", "gray25","gray75","whitesmoke"), name = "")+
   geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
@@ -294,7 +300,7 @@ OmegaCor = computeAssociations(m)
 supportLevel = 0.95
 # choose the random variable to plot
 rlevel = 1
-toPlot = ((OmegaCor[[rlevel]]$support>supportLevel) 
+toPlot = ((OmegaCor[[rlevel]]$support>supportLevel)
           + (OmegaCor[[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[rlevel]]$mean
 # reorder species matrix
 plotorder <- order( postBeta$mean[5,], decreasing = TRUE )
@@ -303,7 +309,7 @@ toPlot <- toPlot[ plotorder, plotorder]
 library(lessR)
 mynewcor <- corReorder( toPlot, order="hclust", nclusters=4 )
 # windows(12,12)
-corrplot( mynewcor, method = "color", 
+corrplot( mynewcor, method = "color",
           col = colorRampPalette(c("blue","white","red"))(200),
           title = paste("random effect level:", m$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
 

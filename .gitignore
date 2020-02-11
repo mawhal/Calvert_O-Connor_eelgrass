@@ -20,3 +20,4 @@ vignettes/*.pdf
 *.pdf
 *.ppt
 *.pptx
+*.Rdata
