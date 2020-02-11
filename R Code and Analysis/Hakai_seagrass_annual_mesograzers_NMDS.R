@@ -75,7 +75,7 @@ meta$site <- fct_reorder( meta$site, -meta$lat )
 # nmds of comparable data
 # - first save the bray-curtis distances
 meta17 <- meta %>% 
-  filter(year==2017) %>% 
+  filter(year==2016) %>% 
   unite(sample, site, sample, sep="_")
 sample.names <- make.cepnames(meta17$sample)
 write_csv( meta17, "output data/2017_grazer_metadata.csv")
@@ -84,7 +84,7 @@ commdist17 <- as.matrix(commdist17)
 rownames(commdist17) <- sample.names
 colnames(commdist17) <- sample.names
 
-write_csv( data.frame(commdist17), "output data/2017_grazer_braycurtis.csv")
+write_csv( data.frame(commdist17), "output data/2016_grazer_braycurtis.csv")
 
 # NMDS
 mds <- metaMDS( comm, distance="bray", k=7 )
