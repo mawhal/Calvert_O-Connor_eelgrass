@@ -27,7 +27,7 @@ coordinates <- read.csv("~/PostDoc/projects/Calvert_O-Connor_eelgrass/metadata/c
 
 ##### QUADRAT LEVEL ####
 # Emily's summarised seagrass metrics for all years with LAI
-eelgrass_metrics <- read.csv("~/PostDoc/projects/Calvert_O-Connor_eelgrass/R Code and Analysis/output data/emily_hakai_quad_combined_20200205_bia_reviewed.csv", header=T)
+eelgrass_metrics <- read.csv("~/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/data_oconnor/seagrass_emily_files_final_code/hakai_quad_combined_20200214.csv", header=T)
 
 ############################################################
 ##### JOIN ABIOTICS, COORDINATES AND  SEAGRASS METRICS DATA ##### 
