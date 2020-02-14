@@ -10,7 +10,7 @@ library(vegan)
 ########################    
 
 # load data
-abiotic <- read.csv("~/PostDoc/projects/Calvert_O-Connor_eelgrass/R Code and Analysis/output data/Bia_reviewed_O'Connor_hakai_seagrass_MASTER_abiotic.csv")
+abiotic <- read.csv("~/PostDoc/projects/Calvert_O-Connor_eelgrass/R Code and Analysis/output data/Bia_reviewed_O'Connor_hakai_seagrass_MASTER_abiotic_20200214.csv")
 
 # abiotic variables of interest = temperature, dissolved_oxygen_concentration, salinity, pH
 abiotic_variables <- abiotic %>% 
@@ -49,5 +49,5 @@ environmental_spatial  <- environmental_spatial  %>%
 
 environmental_spatial  <- environmental_spatial[order(environmental_spatial$year),] 
 
-write.csv(environmental_spatial, file = "~/PostDoc/projects/Calvert_O-Connor_eelgrass/R Code and Analysis/output data/merged_explanatory.csv", quote = F, row.names = F)
+write.csv(environmental_spatial, file = "~/PostDoc/projects/Calvert_O-Connor_eelgrass/R Code and Analysis/output data/merged_explanatory_20200214.csv", quote = F, row.names = F)
 
