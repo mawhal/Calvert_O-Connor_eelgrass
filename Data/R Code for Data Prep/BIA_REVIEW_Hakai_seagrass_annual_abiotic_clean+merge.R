@@ -30,8 +30,8 @@ d14 <- NULL
 ##
 d15 <- read_csv( "~/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/data_oconnor/abiotic/hakai_abiotic_2015.csv" )
 a15 <- d15 %>% 
-  mutate( date=mdy(date) ) %>%
-  select( date, site, lat=latitude, long=longitude, depth=mean_depth, do=dissolved_oxygen_concentration, salinity, 
+  dplyr::mutate( date=mdy(date) ) %>%
+  dplyr::select( date, site, lat=latitude, long=longitude, depth=mean_depth, do=dissolved_oxygen_concentration, salinity, 
           temperature, pressure, par, fluorometry_chlorophyll, turbidity, chl_a, phaeo,
           nitrate_nitrite_ugL, phosphate_ugL, silicate_ugL, bed_area_m2 ) %>%
   distinct()
@@ -43,8 +43,8 @@ a15$site[ a15$site=="triquet bay south" ] <- "triquet_south"
 a15$site[ a15$site=="triquet north" ] <- "triquet_north"
 a15$site[ a15$site=="goose southeast" ] <- "goose_south_east"
 a15$site[ a15$site=="goose southwest" ] <- "goose_south_west"
-a15$site[ a15$site=="mcmullin south" ] <- "mcmullin_south"
-a15$site[ a15$site=="mcmullin north" ] <-  "mcmullin_north"
+a15$site[ a15$site=="mcmullin south" ] <- "mcmullins_south"
+a15$site[ a15$site=="mcmullin north" ] <-  "mcmullins_north"
 a15$site[ a15$site=="pruth pocket" ] <-  "pruth_pocket"
 
 # NO INFORMATION FOR PRUTH BAY FROM 2015
@@ -66,8 +66,8 @@ longsplit <- strsplit( long, split="[.]" )
 geo$long <- unlist(lapply( longsplit, function(z) -( as.numeric(paste(z[2],z[3],sep="."))/60 + as.numeric(z[1]) ) ))
 d16.geo <- cbind( d16, geo )
 a16 <- d16.geo %>% 
-  mutate( date=dmy(date) ) %>%
-  select( date, site, lat, long, depth=`depth (m)`, do=`do (mg/l)`,
+  dplyr::mutate( date=dmy(date) ) %>%
+  dplyr::select( date, site, lat, long, depth=`depth (m)`, do=`do (mg/l)`,
           salinity=`salinity (ppt)`, temperature = `temperature (c)`,
           site.depth = `max depth at site (m)`)
 # rename sites so they are constent across time
@@ -105,8 +105,8 @@ a16 <- a16 %>%
 ##
 d17 <- read_csv( "~/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/data_oconnor/abiotic/corrected_hakai_abiotic_2017.csv" )
 a17 <- d17 %>%
-  mutate( date=dmy(date) ) %>%
-  select( date, site, depth=`depth(m)`, temperature=`temp(c)`, salinity=`salinity(ppt)`, ph )
+  dplyr::mutate( date=dmy(date) ) %>%
+  dplyr::select( date, site, depth=`depth(m)`, temperature=`temp(c)`, salinity=`salinity(ppt)`, ph )
 # rename sites so they are constent across time
 a17$site <- gsub( x=a17$site, pattern= "_", replacement=" "  )
 a17$site[ a17$site=="choked interior i5" ] <- "choked_inner"
@@ -137,8 +137,8 @@ d18 <- read_csv( "~/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/data_oconnor
 # remove blank rows
 d18 <- d18 %>% filter( !is.na(`temp (c)`) )
 a18 <- d18 %>%
-  mutate( date=dmy(date) ) %>%
-  select( date, site, depth=`sampling_depth (m)`, temperature=`temp (c)`,
+  dplyr::mutate( date=dmy(date) ) %>%
+  dplyr::select( date, site, depth=`sampling_depth (m)`, temperature=`temp (c)`,
           salinity=`salinity (ppt)`,site.depth=`bottom depth (m)`, ph=pH )
 # pick the deepest sample for each site
 u18 <- list()
@@ -186,4 +186,5 @@ abiotic <- abiotic %>%
   dplyr::mutate(year = lubridate::year(date))
 
 #### WRITE THE MASTER DATA TO FILE -------------------------------------------------------------
-write_csv( abiotic, "~/PostDoc/projects/Calvert_O-Connor_eelgrass/R Code and Analysis/output data/BIA_REVIWED_O'Connor_hakai_seagrass_MASTER_abiotic.csv" )
+write_csv( abiotic, "~/PostDoc/projects/Calvert_O-Connor_eelgrass/R Code and Analysis/output data/Bia_reviewed_O'Connor_hakai_seagrass_MASTER_abiotic_20200214.csv" )
+
