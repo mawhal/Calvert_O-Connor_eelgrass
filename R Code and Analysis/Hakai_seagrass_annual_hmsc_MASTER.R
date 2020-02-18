@@ -81,7 +81,7 @@ Ygrazer <- Ygrazer[, colSums(Ygrazer) > 3]
 
 ###
 # explanatory data
-explanatory <- read_csv("output data/merged_explanatory.csv")
+explanatory <- read_csv("output data/merged_explanatory_20200214.csv")
 
 #  
 ab <- explanatory
@@ -161,7 +161,7 @@ mgrazer <- Hmsc( Y = Ygrazer,
 thin = 100
 samples = 1000
 transient = 100
-nChains = 2 
+nChains = 4 
 set.seed(1)
 
 # Run MCMC chains. took at least 12 hours on KS laptop
