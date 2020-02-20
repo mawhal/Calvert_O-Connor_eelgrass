@@ -79,6 +79,13 @@ l15$year <- 2015
 # rename and organize columns
 l15 <- l15 %>%
   select( year, date=Date, site=Site, sample=Sample, sieve=Sieve.size..mm., taxon, count )
+
+# merge with table describing quadrats (samples) as numbers
+quadid <- read_csv("mapping_18S_quadrat_id_number_letters.csv")
+names(quadid)
+quadid <- quadid %>% 
+  select( site, quad=meso_quadrat_id, sample=meso_shoot_id) %>% 
+  mutate( year=2015 )
 #### END OF 2015
 
 
@@ -260,7 +267,7 @@ sort(unique( f15$site ))
 sort(unique( f16$site ))
 sort(unique( f17$site ))
 
-f14$site[ f14$site=="Choked" ] <- "choked sandspit"  # I am totally not sure about this one, but there is a choked lower for this year, so it must be sandspit?
+f14$site[ f14$site=="Choked" ] <- "choked sandspit"  # not sure about this one
 f14$site[ f14$site=="Goose" ] <- "goose south west"
 f14$site[ f14$site=="Goose East" ] <- "goose south east"
 f14$site[ f14$site=="Lower Choked" ] <- "choked inner"
@@ -270,7 +277,7 @@ f14$site[ f14$site=="Triquet" ] <- "triquet north"
 f14$site[ f14$site=="Triquet/No Name Cove" ] <- "triquet south"
 f14 <- f14[ !is.na(f14$site), ]
 
-f15$site[ f15$site=="Choked Pass, S. Pigu" ] <- "choked inner"  # I am totally not sure about this one either
+f15$site[ f15$site=="Choked Pass, S. Pigu" ] <- "choked inner"  
 f15$site[ f15$site=="Goose E" ] <- "goose south east"
 f15$site[ f15$site=="Goose W" ] <- "goose south west"
 f15$site[ f15$site=="Goose N" ] <- "goose north"
@@ -279,6 +286,9 @@ f15$site[ f15$site=="McMullins S" ] <- "mcmullins south"
 f15$site[ f15$site=="McMullins N" ] <- "mcmullins north"
 f15$site[ f15$site=="Triquet N" ] <- "triquet north"
 f15$site[ f15$site=="Triquet S" ] <- "triquet south"
+# merge with quadrat information
+f15$sample
+right_join( quadid, f15 )
 
 f16$site[ f16$site=="Choked Lower" ] <- "choked inner"  # I am totally not sure about this one either
 f16$site[ f16$site=="Goose SW" ] <- "goose south west"
