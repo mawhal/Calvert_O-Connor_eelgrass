@@ -6,7 +6,8 @@
 ###  This code will clean and merge raw data from different years 
 ###  code by Matt Whalen
 ###  started on   22 January 2018
-###  
+###  updated by Coreen Forbes 22 Feb 2020- updated relative paths 
+###  and translated quadrat letters into numbers 2015
 ####################################################################
 
 ## Script goals and notes
@@ -24,7 +25,7 @@ library(reshape2)
 # person of record: Nicole Knight
 
 # read data
-d14 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2014.csv", stringsAsFactors = FALSE )
+d14 <- read.csv( "Data/data_oconnor/grazers/hakai_grazers_2014.csv", stringsAsFactors = FALSE )
 
 # several extra columns labelled "X","X.1","X.2",etc.
 # get rid of these columns
@@ -61,7 +62,26 @@ l14 <- l14 %>%
 # person of record: Allison Dennert
 
 # read data
-d15 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2015.csv", stringsAsFactors = FALSE )
+d15 <- read.csv( "Data/data_oconnor/grazers/hakai_grazers_2015.csv", stringsAsFactors = FALSE )
+
+##############samples don't match quadrat numbers in 2015, translate between them
+
+##Data with quadrat to sample name
+
+quadrat_sample_match <- read.csv("Data/data_oconnor/grazers/2015_quadrat_sample_match_old_names.csv")
+
+sample_match <- quadrat_sample_match %>%
+  select(site, quad_number, sample)
+
+sample_match$sample <- toupper(sample_match$sample)
+
+d15 <- left_join(d15, sample_match, by=c("Site"= "site","Sample"= "sample"))
+
+d15 <- d15 %>% 
+  mutate(Sample = as.numeric(d15$quad_number))%>%
+  select(-c("quad_number"))
+  
+
 
 # lots of NA values in this wide format
 # convert these all to zeros
@@ -81,11 +101,12 @@ l15 <- l15 %>%
   select( year, date=Date, site=Site, sample=Sample, sieve=Sieve.size..mm., taxon, count )
 
 # merge with table describing quadrats (samples) as numbers
-quadid <- read_csv("mapping_18S_quadrat_id_number_letters.csv")
-names(quadid)
-quadid <- quadid %>% 
-  select( site, quad=meso_quadrat_id, sample=meso_shoot_id) %>% 
-  mutate( year=2015 )
+##This was done above 
+#quadid <- read_csv("mapping_18S_quadrat_id_number_letters.csv")
+#names(quadid)
+#quadid <- quadid %>% 
+#  select( site, quad=meso_quadrat_id, sample=meso_shoot_id) %>% 
+#  mutate( year=2015 )
 #### END OF 2015
 
 
@@ -95,7 +116,7 @@ quadid <- quadid %>%
 # person of record: Tanya Prinzig
 
 # read data
-d16 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2016.csv", stringsAsFactors = FALSE )
+d16 <- read.csv( "Data/data_oconnor/grazers/hakai_grazers_2016.csv", stringsAsFactors = FALSE )
 # data is already in long format  
 
 
@@ -125,7 +146,7 @@ t16 <- d16 %>%
 # person of record: Tanya Prinzig
 
 # read data
-d17 <- read.csv( "../data_oconnor/grazers/hakai_grazers_2017.csv", stringsAsFactors = FALSE )
+d17 <- read.csv( "Data/data_oconnor/grazers/hakai_grazers_2017.csv", stringsAsFactors = FALSE )
 # data is already in long format
 
 # add a column for year
@@ -149,7 +170,7 @@ t17 <- d17 %>%
 
 # NOTES: Both 2014 and 2015 data started in wide format. These are now in long format
 # 2015 currently does not have date information
-# 2014 data listed sample numbers as integers, 2015 listed samples as letters (capitalized)
+# 2014 data listed sample numbers as integers, 2015 listed samples as letters (capitalized) <- this is now fixed
 # Site names are likely to be different between 2014 and 2015
 
 
@@ -286,9 +307,9 @@ f15$site[ f15$site=="McMullins S" ] <- "mcmullins south"
 f15$site[ f15$site=="McMullins N" ] <- "mcmullins north"
 f15$site[ f15$site=="Triquet N" ] <- "triquet north"
 f15$site[ f15$site=="Triquet S" ] <- "triquet south"
-# merge with quadrat information
-f15$sample
-right_join( quadid, f15 )
+# merge with quadrat information- this is already done above in 2015 section
+#f15$sample
+#right_join( quadid, f15 )
 
 f16$site[ f16$site=="Choked Lower" ] <- "choked inner"  # I am totally not sure about this one either
 f16$site[ f16$site=="Goose SW" ] <- "goose south west"
@@ -307,6 +328,7 @@ f17$site[ f17$site=="Triquet S" ] <- "triquet south"
 
 #### merge the data
 f15$date <- as.character(f15$date)
+f15$sample <- as.character(f15$sample)
 f16$sample <- as.character(f16$sample)
 f17$sample <- as.character(f17$sample)
 
@@ -320,7 +342,7 @@ dim(m)
 
 ####
 ## write mesograzers to disk
-write_csv( m, "master data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
+write.csv(m, "Data/R Code for Data Prep/master data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
 
 
 with(m, table(year,site ))

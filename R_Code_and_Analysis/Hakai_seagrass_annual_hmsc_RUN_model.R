@@ -32,7 +32,8 @@ set.seed(1)
 
 # Run MCMC chains
 mod <- sampleMcmc( x, samples = samples , transient = transient, 
-                  thin = thin, verbose = 10, nChains = nChains) # nParallel = 3 when running more than 1 Chain for the real model = running more than one chain allows us to check if all arer doing the same thing
+                  thin = thin, verbose = 10, nChains = nChains,
+                  nParallel = 4 ) 
 
 
 # saving
