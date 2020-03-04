@@ -76,60 +76,14 @@ meta$site <- gsub(" ","_",meta$site)
 meta$site <- fct_reorder( meta$site, -meta$lat )
 
 
-# nmds of comparable data
-# # - first save the bray-curtis distances
-# meta1 <- meta %>% 
-#   filter(year==2015) %>% 
-#   unite(sample, site, sample, sep="_")
-# sample.names <- make.cepnames(meta1$sample)
-# write_csv( meta1, "output_data/2015_grazer_metadata.csv")
-# commdist <- vegdist( comm[meta$year==2015,], method = "bray" )
-# commdist <- as.matrix(commdist)
-# rownames(commdist) <- sample.names
-# colnames(commdist) <- sample.names
-# 
-# write_csv( data.frame(commdist), "output_data/2015_grazer_braycurtis.csv")
+# comparable data across years
+with(meta, table(year,site))
+meta1415 <- meta %>% filter(year %in% 2014:2015)
+comm1415 <- comm[meta$year %in% 2014:2015,]
 
-# NMDS
-mds <- metaMDS( comm, distance="bray", k=7 )
-mds # very high stress with 2 axes 
-
-# extract points for first two axes
-meta <- cbind(meta, mds$points[,c(1,2)])
-
-# convex hull
-StatChull <- ggproto("StatChull", Stat,
-                     compute_group = function(data, scales) {
-                       data[chull(data$x, data$y), , drop = FALSE]
-                     },
-                     
-                     required_aes = c("x", "y")
-)
-
-stat_chull <- function(mapping = NULL, data = NULL, geom = "polygon",
-                       position = "identity", na.rm = FALSE, show.legend = NA, 
-                       inherit.aes = TRUE, ...) {
-  layer(
-    stat = StatChull, data = data, mapping = mapping, geom = geom, 
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}
-
-meta$site2 <- factor( meta$site, ordered=T )
-man.col <- viridis::viridis(5)
-cols <- c( 'black','black',man.col[2],man.col[2],man.col[2],
-           man.col[3],man.col[3],man.col[4],man.col[4],man.col[5] )
-ggplot( meta, aes(MDS1,MDS2,col=site)) + 
-  # stat_chull( fill=NA ) +
-  stat_ellipse( aes(lty=site), lwd=1 ) +
-  geom_point( size=3 ) +
-  scale_linetype_manual( values=c(1,2,1,2,3,1,2,1,2,1)) +
-  scale_color_manual( values=cols  )
-
-
-
-
+# pick which community data to use
+usecomm <- comm
+usemeta <- meta
 
 ## figure size parameters
 h <- 4
@@ -137,28 +91,28 @@ w <- 5
 dpi <- 300
 
 #### constrained ordination - rdRDA/capscale
-rda1 <- capscale( comm ~ as.factor(year)+site, data=meta, distance="bray" )
+rda1 <- capscale( usecomm ~ as.factor(year)+site, data=usemeta, distance="bray" )
 plot(rda1)
 summary(rda1)
 centroids <- as.data.frame(summary(rda1)$centroids)
 centroids$marker <- 2
 centroids$region   <- substr(unlist(lapply( strsplit( rownames(centroids), split="_" ), function(z) z[1] )),5,20)
-centroids$region[1:4] <- "year"
-centroids$marker[1:4] <- 1
+centroids$region[1:length(unique(usemeta$year))] <- "year"
+centroids$marker[1:length(unique(usemeta$year))] <- 1
 pointsrda <- as.data.frame(scores(rda1,scaling = 2)$sites)
 plot(pointsrda, pch=19, cex=0.5)
   points( centroids, cex=centroids$marker, 
           col=as.numeric(as.factor(centroids$region)),
           pch=centroids$marker+1 )
-pointsrda <- bind_cols(pointsrda,meta)
+pointsrda <- bind_cols(pointsrda,usemeta)
 pointsrda$region <- unlist( lapply( strsplit(as.character(pointsrda$site),split="_"),function(z) z[1] ) )
 pointsrda$region <- factor(pointsrda$region,
                            levels=c("mcmullins","goose","triquet","choked","pruth"),ordered=T)
-sitetroids <- centroids[-c(1:4),]
+sitetroids <- centroids[-c(1:length(unique(usemeta$year))),]
 sitetroids$region <- factor(sitetroids$region,
                            levels=c("mcmullins","goose","triquet","choked","pruth"),ordered=T)
-yeartroids <- centroids[1:4,]
-yeartroids$year   <- 2014:2017
+yeartroids <- centroids[1:length(unique(usemeta$year)),]
+yeartroids$year   <- unique(usemeta$year)
 R2 <- eigenvals(rda1)/sum(eigenvals(rda1))
 ggplot( data=pointsrda, aes(x=CAP1,y=CAP2)) +
   stat_ellipse( aes(col=region), level=0.7 ) +
@@ -173,17 +127,17 @@ ggsave( "figs/epifauna_CAP_year+site.pdf",width = w, height = h, dpi = dpi )
 
 #
 #### unconstrained ordination - rdRDA/capscale
-rda2 <- capscale( comm ~ 1, data=meta, distance="bray" )
+rda2 <- capscale( usecomm ~ 1, data=usemeta, distance="bray" )
 plot(rda2)
 summary(rda2)
 pointsrda <- as.data.frame(scores(rda2,scaling = 2)$sites)
 plot(pointsrda, pch=19, cex=0.5)
 
-meta$region <- unlist( lapply( strsplit(as.character(meta$site),split="_"),function(z) z[1] ) )
-meta$region <- factor( meta$region,
+usemeta$region <- unlist( lapply( strsplit(as.character(usemeta$site),split="_"),function(z) z[1] ) )
+usemeta$region <- factor( usemeta$region,
                            levels=c("mcmullins","goose","triquet","choked","pruth"),ordered=T)
 
-pointsrda <- bind_cols(pointsrda,meta)
+pointsrda <- bind_cols(pointsrda,usemeta)
 # get group centroids
 sitetroids <- pointsrda %>% 
   group_by(site,region) %>% 
@@ -203,15 +157,24 @@ ggplot( data=pointsrda, aes(x=MDS1,y=MDS2)) +
   viridis::scale_fill_viridis(discrete=T) 
 ggsave( "figs/epifauna_CAP_1.pdf",width = w, height = h, dpi = dpi )
 
+
+
+# NMDS
+mds <- metaMDS( usecomm, distance="bray", k=7 )
+mds # very high stress with 2 axes 
+
+# extract points for first two axes
+usemeta <- cbind(usemeta, mds$points[,c(1,2)])
+
 # match nmds to capscale plots
 # get group centroids
-sitetroids <- meta %>% 
+sitetroids <- usemeta %>% 
   group_by(site,region) %>% 
   summarize( MDS1=mean(MDS1),MDS2=mean(MDS2))
-yeartroids <- meta %>% 
+yeartroids <- usemeta %>% 
   group_by(year) %>% 
   summarize( MDS1=mean(MDS1),MDS2=mean(MDS2))
-ggplot( meta, aes(MDS1,MDS2)) + 
+ggplot( usemeta, aes(MDS1,MDS2)) + 
   stat_ellipse( aes(col=region), level=0.7 ) +
   geom_point(data=sitetroids, aes(fill=region), size=3,pch=21 )+
   geom_point( aes(col=region), alpha=0.5) + 

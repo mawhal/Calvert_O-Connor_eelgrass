@@ -3,43 +3,50 @@
 # Feb 2020
 
 library(Hmsc)
+library(tidyverse)
+library(corrplot)
 
 # MCMC trace plot inspection / model fit----------------------------------------------
 models <- list.files( path = paste0(getwd(),"/output_data"), pattern = "*.Rdata")
 # pick a model
-mselect <- models[1]
+m <- models[2]
 
+load(paste0(getwd(),"/output_data/",m))
 
-mpost = convertToCodaObject(m)
-plot( mpost$Beta )
+mpost = convertToCodaObject(mod)
+# plot( mpost$Beta )
 
 #I realize this is ugly or overwhelming but I really can't think of any other way to plot this
 
 
 ## Assess model fit
-preds = computePredictedValues(m)
-MF <- evaluateModelFit(hM = m, predY = preds)
+preds = computePredictedValues(mod)
+MF <- evaluateModelFit(hM = mod, predY = preds)
 # The R2 and RMSE 
 
-
+# spatial data
+mod$XData$region
+mod$XData$site
+test<-lm( mod$Y[,1] ~ mod$XData$region + mod$XData$site)
+names(coef(test))
 # Visualizing significance and directionality of beta parameters (I think Whalen wrote this code) ----------
 
 ## parameter estimates
-postBeta = getPostEstimate(m, parName = "Beta")
+postBeta = getPostEstimate(mod, parName = "Beta")
 
 pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
 pos.neg[pos.neg< 0.95] <- 0
 pos.neg$neg <- -pos.neg$neg
 pos.neg$value <- pos.neg$pos + pos.neg$neg
-pos.neg$parameter <- factor(c("intercept", "temperature",  "salinity",
-                              "depth", "area", "biomass",
-                              "lai", "microepi", "macro" ),
-                            levels = c("intercept", "temperature",  "salinity",
-                                       "depth", "area", "biomass",
-                                       "lai", "microepi", "macro" ),
+pos.neg$parameter <- factor(c("intercept","region:goose","region:mcmullins","region:triquet", "site:choked_sandspit",
+                              "site:goose_north","site:goose_south_east","site:goose_south_west","site:mcmullins_north",
+                              "site:mcmullins_south","site:triquet_north","site:triquet_south"),
+                            levels = c("intercept","region:goose","region:mcmullins","region:triquet", "site:choked_sandspit",
+                                       "site:goose_north","site:goose_south_east","site:goose_south_west","site:mcmullins_north",
+                                       "site:mcmullins_south","site:triquet_north","site:triquet_south"),
                             ordered = TRUE)
-pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 9),
-                          levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
+pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 12),
+                          levels = colnames(mod$Y)[order(colSums(mod$Y),decreasing = TRUE)],
                           ordered = TRUE)
 
 windows(12,4)
@@ -52,39 +59,41 @@ ggplot(pos.neg, aes(y = parameter, x = species, fill = value))+
 
 # Variance partitioning ---------------------------------------------------
 
-VP = computeVariancePartitioning(m) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
+VP = computeVariancePartitioning(mod) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
 # plotVariancePartitioning(m, VP = VP) 
 
 # rowMeans(VP$vals)
 # ^ this line gives mean variance explained across species, you could manually write these percentages in to the labels in the new dataframe below so it's easier to see the importance of the variables. The package version automatically prints these, but I don't know how to replicate this in tidyverse
 
 VP.df <- as.data.frame(VP$vals) %>%
-  mutate(effect = factor(c("temperature","salinity","depth","area",
-                           "biomass","LAI","microepiphytes","macroalgae",
-                           "random: quadrat","random: region","random: site"),
-                         levels = rev(c("temperature","salinity","depth","area",
-                                        "biomass","LAI","microepiphytes","macroalgae",
-                                        "random: quadrat","random: region","random: site")),
-                         ordered = TRUE)) #%>%
-  #gather(key = species, value = variance, -effect) %>%
-  #group_by(species) %>%
-  #mutate(tempR2 = variance[effect == "temp"])
+  mutate(effect = factor(c("region:goose","region:mcmullins","region:triquet", "site:choked_sandspit",
+                           "site:goose_north","site:goose_south_east","site:goose_south_west","site:mcmullins_north",
+                           "site:mcmullins_south","site:triquet_north","site:triquet_south",
+                           "random:quadrat","random:site"),
+                         levels = rev(c("region:goose","region:mcmullins","region:triquet", "site:choked_sandspit",
+                                        "site:goose_north","site:goose_south_east","site:goose_south_west","site:mcmullins_north",
+                                        "site:mcmullins_south","site:triquet_north","site:triquet_south",
+                                        "random:quadrat","random:site")),
+                         ordered = TRUE)) %>%
+  gather(key = species, value = variance, -effect) %>%
+  group_by(species) %>%
+  mutate(tempR2 = variance[effect == "random:quadrat"])
 
 
-hold <- VP.df %>% filter(effect == "temp") %>% arrange(desc(tempR2))
+hold <- VP.df %>% filter(effect == "random:quadrat") %>% arrange(desc(tempR2))
 
 VP.df$species <- factor(VP.df$species,
-                        levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
+                        levels = colnames(mod$Y)[order(colSums(mod$Y),decreasing = TRUE)],
                         ordered = TRUE)
 
-R2.df <- data.frame(R2 = round(MF$SR2,1), species = colnames(m$Y))
+R2.df <- data.frame(R2 = round(MF$SR2,1), species = colnames(mod$Y))
 
 windows(8,5)
 ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
   geom_bar(stat = "identity", color = 1)+
   theme_classic()+
   theme(axis.text.x = element_text(angle = 90))+
-  scale_fill_manual(values = c("darkred", "maroon","pink", "darkorange2","orange","darkgreen","forestgreen","lightgreen", "chartreuse", "gray25","gray75","whitesmoke"), name = "Variance explained")+
+  scale_fill_manual(values = c( rep("pink",2), rep("orange",8), rep("gray25",3) ), name = "Variance explained")+
   geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
