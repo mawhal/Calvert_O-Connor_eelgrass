@@ -9,7 +9,7 @@ library(corrplot)
 # MCMC trace plot inspection / model fit----------------------------------------------
 models <- list.files( path = paste0(getwd(),"/output_data"), pattern = "*.Rdata")
 # pick a model
-m <- models[2]
+m <- models[1]
 
 load(paste0(getwd(),"/output_data/",m))
 
