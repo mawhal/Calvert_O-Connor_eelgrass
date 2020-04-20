@@ -24,20 +24,28 @@ d14 <- NULL
 ##
 ##
 ##
+
+
 ## 2015
 ##
 ##
 ##
+# metadata linking od quadrat letters to quadrat numbers
+quadnames15 <- read_csv("../../metadata/2015_quadrat_sample_match.csv")
+quadnames15 <- quadnames15 %>% select( site, quad_number, id=sample )
+# 
 # quadrats
 q15 <- read_csv( "../data_oconnor/seagrass+epiphytes/Hakai_2015_eelgrass_quadrat.csv" )
 q15 <- q15 %>%
   select( site, id=`sample ID`, shoot.count=`# of shoots in quadrat`, 
           biomass=`total dry weight`, unknown.weight.shoots=`weight.#shoots`,
           microepiphyte.bulk=microepiphyte, macroepiphyte.quad=macroepiphyte, 
-          drift=`drift seaweed`, anchored=`rooted seaweed` )
+          drift=`drift seaweed`, anchored=`rooted seaweed` ) %>% 
+  mutate( site= gsub(" ","_", site))
 q15$site[ q15$site=="mcmullins_nroth"] <- "mcmullins_north"
 q15$site[ q15$site=="sandspit"] <- "choked_sandspit"
 q15$year <- 2015
+q15$id  <- recode(q15$id, woof = "a", hiss = "b", chirp = "c", quack = "d", moo = "e", meow = "f")
 
 # single shoots
 s15 <- read_csv( "../data_oconnor/seagrass+epiphytes/Hakai_2015_eelgrass_single_shoots.csv" )
@@ -47,6 +55,8 @@ s15 <- s15 %>%
           blades, shoot.biomass=`total dry weight`,microepiphyte.filter=microepiphyte, 
           macroepiphyte.shoot=macroepiphyte, smithora )  # microepiphytes were measured after filtering through GFC filters?
 s15$year <- 2015
+s15$id  <- recode(s15$id, woof = "a", hiss = "b", chirp = "c", quack = "d", moo = "e", meow = "f")
+
 
 # merge 2015 data
 d15 <- left_join( s15, q15 )
@@ -259,6 +269,39 @@ q <- full_join(full_join(full_join(q15,bqd16),q17),q18)
 #
 # d <- full_join(s,q, by=c("site","id","year"))
 
+
+# rename sites and quadrat ID (sample)
+s$site[ s$site == "choked_south_pigu"] <- "choked_inner"
+s$site[ s$site == "flat_island"]       <- "choked_inner"
+s$site[ s$site == "inner choked i5"]   <- "choked_inner"
+s$site[ s$site == "sand spit"]         <- "choked_sandspit"
+s$site[ s$site == "triquet_bay"]       <- "triquet_south"
+s$site[ s$site == "triquet bay"]       <- "triquet_south"
+s$site[ s$site == "triquet north"]     <- "triquet_north"
+s$site[ s$site == "goose_east"]        <- "goose_south_east"
+s$site[ s$site == "goose_west"]        <- "goose_south_west"
+s$site[ s$site == "pruth bay"]         <- "pruth_bay"
+s$site[ s$site == "pruth pocket"]      <- "pruth_pocket"
+unique(s$site)
+with(s, table(site,year))
+quadnames15$year <- 2015
+s <- left_join( s, quadnames15 )
+s$quad_number[ is.na(s$quad_number) ] <- s$id[ is.na(s$quad_number) ]
+s <- s %>% 
+  mutate( id = as.numeric( s$quad_number ) ) %>% 
+  select( -quad_number )
+
+q$site <- gsub(" ","_",q$site)
+q$site[ q$site == "goose_east"]        <- "goose_south_east"
+q$site[ q$site == "goose_west"]        <- "goose_south_west"
+q$site[ q$site == "inner_choked_i5"]   <- "choked_inner"
+q$site[ q$site == "flat_island"]       <- "choked_inner"
+q$site[ q$site == "sand_spit"]         <- "choked_sandspit"
+q$site[ q$site == "mcmullins_nroth"]   <- "mcmullins_north"
+q$site[ q$site == "triquet_bay"]       <- "triquet_south"
+unique(q$site)
+with(q, table(site,year))
+unique(q$id)
 
 #####
 ## Write shoot level and quadrat level data to disk
