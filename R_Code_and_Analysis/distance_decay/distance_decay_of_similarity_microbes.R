@@ -1,7 +1,7 @@
 ### DISTANCE DECAY OF SIMILARITY ###
 ### Author: Bianca Trevizan Segovia ###
 ### Date created: April 7, 2020 ###
-
+### Date modified: April 23, 2020 ###
 library(vegan)
 library(stats)
 library(ggplot2)
