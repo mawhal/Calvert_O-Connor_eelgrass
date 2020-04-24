@@ -10,7 +10,7 @@ library(dplyr)
 #############################
 
 ### Read table metadata and abundances
-microbes_16S <- read.csv("Data/data_parfrey/16S/16S_ASV_MASTER_Hakai_final.csv", header=T)
+microbes_16S <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", header=T)
 names(microbes_16S)[1:17]
 
 # split by year

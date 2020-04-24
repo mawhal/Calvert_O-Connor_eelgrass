@@ -26,7 +26,7 @@ library(adespatial)
 
 ### read data
 # read data
-zostera_16S <- read.csv("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/data_parfrey/16S/16S_3000_MASTER_Hakai_final.csv", header=T)
+zostera_16S <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", header=T)
  
 zostera_16S <- zostera_16S[order(zostera_16S$year, zostera_16S$site),]
  names(zostera_16S)
@@ -64,7 +64,7 @@ LCBD_16S <- ggplot( data=LCBD, aes( x=year, y=factor(site), size=LCBD, color=p.a
                     # labels=c("visual\nsessile","meta\nsessile","meta\nmobile","visual\nmobile") ) + 
   ylab( "Site" ) + theme_bw( ) 
 
-ggsave("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/R_Code_and_Analysis/output_data/LCBD_microbes/LCBD_16S.tiff", plot = LCBD_16S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/figs/LCBD_16S.tiff", plot = LCBD_16S, width=250, height=200, units="mm",dpi=300)
 
 ################################################
 ################# 18S dataset ##################
@@ -72,7 +72,7 @@ ggsave("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/R_Code_and_Analysi
 
 ### read data
 # read data
-zostera_18S <- read.csv("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/data_parfrey/18S/18S_3000_MASTER_Hakai_final.csv", header=T)
+zostera_18S <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_ASV_level.csv", header=T)
 
 zostera_18S <- zostera_18S[order(zostera_18S$year, zostera_18S$site),]
 names(zostera_18S)
@@ -110,4 +110,4 @@ LCBD_18S <-ggplot( data=LCBD, aes( x=year, y=factor(site), size=LCBD, color=p.ad
   # labels=c("visual\nsessile","meta\nsessile","meta\nmobile","visual\nmobile") ) + 
   ylab( "Site" ) + theme_bw( ) 
 
-ggsave("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/R_Code_and_Analysis/output_data/LCBD_microbes/LCBD_18S.tiff", plot = LCBD_18S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/figs/LCBD_18S.tiff", plot = LCBD_18S, width=250, height=200, units="mm",dpi=300)
