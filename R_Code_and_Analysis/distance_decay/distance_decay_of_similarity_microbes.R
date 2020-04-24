@@ -14,7 +14,7 @@ library(dplyr)
 #############################
 
 ### Read table metadata and abundances
-microbes_16S <- read.csv("Data/data_parfrey/16S/16S_ASV_MASTER_Hakai_final.csv", header=T)
+microbes_16S <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", header=T)
 names(microbes_16S)[1:17]
 
 # split by year
@@ -37,27 +37,28 @@ spe_hell_16S <- mapply( function(d) decostand(d, "hellinger"),
                 d )
 
 ### CREATE DISTANCE MATRIX FOR SPECIES
-spe_dist_16S <- lapply( spe_hell_16S[c(2,4,6,8)], function(d) vegdist(spe_hell_16S,method="bray"), 
-                        d )
-lapply( adds[c(2,4,6,8)], function(z) data.frame(z[c("z","pval")]) )
-
-
-
-### Spatial data - coordinates lat long
-spa_coord_16S <- microbes_16S %>% 
-  dplyr::select(c("LAT" , "LONG"))
+spe_dist_16S <- mapply(function(spe_hell_16S) vegdist(spe_hell_16S,method="bray"), 
+                        spe_hell_16S )
 
 ### CREATE DISTANCE MATRIX FOR LATLONG
-spa_dist_16S <- vegdist(spa_coord_16S, method="eu")
-spa_dist_16S
+spa_dist_16S <- mapply(function(lat_long) vegdist(lat_long, method="eu"), 
+                       lat_long)
 
 ## MANTEL
-mantel_16S <-mantel(spe_dist_16S, spa_dist_16S, permutations=9999, method = "pearson") 
+mantel_16S <-mapply(function(spe_dist_16S, spa_dist_16S) mantel(spe_dist_16S, spa_dist_16S, permutations=9999, method = "pearson"),
+                    spe_dist_16S, spa_dist_16S)
 mantel_16S
-out_mantel_16S <- capture.output(mantel_16S)
-write.csv(as.data.frame(out_mantel_16S), file = "R_Code_and_Analysis/output_data/mantel_distance_decay_output/mantel_distance_decay_16S.csv", row.names=F)
+#out_mantel_16S <- capture.output(mantel_16S)
+#write.csv(as.data.frame(out_mantel_16S), file = "R_Code_and_Analysis/output_data/mantel_distance_decay_output/mantel_distance_decay_16S.csv", row.names=F)
+
+# DON'T KNOW HOW TO APPLY THE REST OF THE CODE TO LISTS TO MAKE THE GGPLOT GRAPH
 
 ### convert into data frame for ggplot
+# BELOW IS THE EXAMPLE FROM ADIPART
+#add.plot <- data.frame( year=rep(c(2015:2018),each=4),
+                        #level=rep(c("alpha","beta_sample","beta_site","beta_region"),4), 
+                        #observed=do.call( c, adds.obs ), null=do.call( c, adds.mean ) )
+
 df_spe_dist_16S.vector <- melt(as.matrix(spe_dist_16S), varnames = c("row", "col"))
 names(df_spe_dist_16S.vector)[names(df_spe_dist_16S.vector) == 'value'] <- 'dissimilarity_16S'
 
