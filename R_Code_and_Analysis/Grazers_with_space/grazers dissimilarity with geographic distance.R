@@ -11,7 +11,7 @@ library(cowplot)
 
 # Geographic distance between site pairs ---------------------------------------
 
-Hakaispatial <- read.csv("Data/abiotic/00_Hakai_UBC_metadata_MASTER - geolocation_site.csv.csv")
+Hakaispatial <- read.csv("metadata/00_Hakai_UBC_metadata_MASTER - geolocation_site.csv")
 
 Hakaispatial1 <- Hakaispatial %>%
   select(site_name,lat, long)
@@ -40,7 +40,7 @@ Hakai.geographic.distance <- Hakai.geog %>%
 
 # 2016 grazers ------------------------------------------------------------
 
-grazers_all <- read.csv("hakai_seagrass_MASTER_grazers.csv")
+grazers_all <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv")
 
 ###Spread the data for an nmds
 
