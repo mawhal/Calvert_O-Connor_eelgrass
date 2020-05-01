@@ -158,7 +158,7 @@ plot_grid(Graph1, Graph2, nrow = 2)
 
 
 # 2017 Grazers --------------------------------------------------------------------
-grazers_all <- read.csv("hakai_seagrass_MASTER_grazers.csv")
+grazers_all <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv")
 
 
 ###Spread the data for an nmds
@@ -208,7 +208,7 @@ species.scores$species <- rownames(species.scores)  # create a column of species
 # 2015 Grazers --------------------------------------------------------------------
 
 
-grazers_all <- read.csv("hakai_seagrass_MASTER_grazers.csv")
+grazers_all <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv")
 
 
 ###Spread the data for an nmds
@@ -329,7 +329,7 @@ plot_grid(Graph1, Graph2, nrow = 2)
 
 # 2014 Grazers --------------------------------------------------------------------
 
-grazers_all <- read.csv("hakai_seagrass_MASTER_grazers.csv")
+grazers_all <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv")
 
 
 ###Spread the data for an nmds
