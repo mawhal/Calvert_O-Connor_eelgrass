@@ -52,11 +52,16 @@ otu2 <- as.data.frame(otu_table(all_years_16S_filtered)) #free of noise
 
 all_years_16S_filtered
 
-###  include metadata (year column), and add it to phyloseq object
+###  include metadata (year column and sample_type_growth), and add it to phyloseq object
 date_year_column <- read.csv("Data/prokaryotes/date_year_column_16S_ALL_YEARS_FILTERED.csv")
 nrow(date_year_column)
 
 sample_data(all_years_16S_filtered)$year<- date_year_column$year 
+
+sample_type_growth <- read.csv("Data/prokaryotes/sample_type_growth_column_ALL_YEARS_FILTERED.csv")
+nrow(sample_type_growth)
+
+sample_data(all_years_16S_filtered)$sample_type_growth <- sample_type_growth$sample_type_growth 
 
 # subset samples from 2015, 2017 and 2018 to rarefy only those to 3,000 * 2016 had lower sequencing depth and will be rarefied to a lower level
 all_years_16S_filtered_no_2016 <- all_years_16S_filtered %>% subset_samples(!year=="2016") 
@@ -91,9 +96,7 @@ write.csv(all_years_16S_2016_NOT_RAREFIED.tax, file="Data/prokaryotes/16S_3000_f
 write.csv(all_years_16S_2016_NOT_RAREFIED.sam , file="Data/prokaryotes/16S_3000_final.sam_REMOVED_CONT_2016_NOT_RARE.csv", row.names=F)
 
 ### add metadata according to #SampleID labels
-metadata <- read.csv(file="Data/prokaryotes/16S_3000_final.sam_REMOVED_CONT_2016_NOT_RARE.csv",header=T )
-
-metadata <- metadata %>% dplyr::rename( SampleID = X.SampleID)
+metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",header=T )
 
 metadata_sel <- metadata %>% 
   dplyr::select(c(SampleID,swab_id, barcode_plate, barcode_well, year ,region, site, host_species, host_type, sample_type, survey_type, quadrat_id, meso_shoot_id))
@@ -112,7 +115,7 @@ master_table <- master_table %>%
   dplyr::filter(!SampleID %in% choked_exclude)
 
 ###recode to site names used by grazers
-recoded_master <- master_table %>% 
+master_table <- master_table %>% 
   dplyr::mutate(site=recode(site,
                             "choked_south_pigu" = "choked_inner",
                             "choked_flat_island" = "choked_inner",
@@ -121,6 +124,22 @@ recoded_master <- master_table %>%
                             "pruth_bay_south" = "pruth_bay",
                             "pruth_baysouth" = "pruth_bay"))
 
-levels(recoded_master$site)
+levels(master_table$site)
 
-write.csv(master_table, file="16S_3000_MASTER_REMOVED_CONT_2016_NOT_RARE.csv", quote=F, row.names=F) 
+
+write.csv(master_table, file="Data/prokaryotes/16S_3000_MASTER_REMOVED_CONT_2016_NOT_RARE.csv", quote=F, row.names=F)
+
+# For mastel final table, get only leaf_old of meso_quadrat survey and remove mcmullin 2016 samples
+master_table_final <- master_table %>% 
+  dplyr::filter(sample_type =="leaf_old")
+
+master_table_final <- master_table_final %>% 
+  dplyr::filter(survey_type == "meso_quadrat")
+
+master_table_final <- master_table_final %>% 
+  dplyr::mutate(region_year = paste(region, year, sep = "_"))
+
+master_table_final <- master_table_final %>% 
+  dplyr::filter(!region_year == "mcmullin_2016")
+
+write.csv(master_table_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", quote=F, row.names=F)
