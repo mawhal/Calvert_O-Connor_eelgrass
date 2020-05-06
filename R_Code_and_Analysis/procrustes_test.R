@@ -2,7 +2,7 @@
 ### Author: Bianca Trevizan Segovia ###
 ### Date created: March 02, 2020 ###
 
-library(dplyr)
+library(tidyverse)
 library(vegan)
 #library(usedist)
 
@@ -11,23 +11,23 @@ library(vegan)
 ###################################
 
 #load grazers metadata
-metadata_grazers_2016 <- read.csv("~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/2016_grazer_metadata.csv")
+metadata_grazers_2016 <- read_csv("R_Code_and_Analysis/output_data/2016_grazer_metadata.csv")
 
 #The row and column names in the distance matrix can be created from metadata$sample using vegan::make.cepnames()
 metadata_grazers_2016$labels <- vegan::make.cepnames(metadata_grazers_2016$sample)
 
 #load grazers bray curtis dissimilarity matrix
-df_grazers_2016 <- read.csv("~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/2016_grazer_braycurtis.csv")
+df_grazers_2016 <- read.csv("R_Code_and_Analysis/mantel_microbes_grazers/2016_grazer_braycurtis.csv")
 
 df_grazers_2016$sample <- colnames(df_grazers_2016)
 
 #load 16S microbial distance matrix GENUS
-df_16S_2016_genus <- read.csv("~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/genus_16S_2016_braycurtis.csv")
+df_16S_2016_genus <- read.csv("R_Code_and_Analysis/mantel_microbes_grazers/genus_16S_2016_braycurtis.csv")
 df_16S_2016_genus <- df_16S_2016_genus %>% 
   dplyr::rename("sample" = "X")
 
 #load 18S microbial distance matrix GENUS
-df_18S_2016_genus <- read.csv("~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/genus_18S_2016_braycurtis.csv")
+df_18S_2016_genus <- read.csv("R_Code_and_Analysis/mantel_microbes_grazers/genus_18S_2016_braycurtis.csv")
 df_18S_2016_genus <- df_18S_2016_genus %>% 
   dplyr::rename("sample" = "X")
 
