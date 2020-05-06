@@ -23,11 +23,11 @@ library(vegan)
 
 ### read data
 # read data
-m <- read_csv( "../Data/R Code for Data Prep/master data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
+m <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv")
 # replace spaces with periods for consistency and merging names
 m$taxon <- gsub( " ", ".", m$taxon )
 # bring in the updated data 
-mtaxa_update <- read_csv( "output_data/O'Connor_hakai_seagrass_taxa_edit_20191114.csv" )
+mtaxa_update <- read_csv( "R_Code_and_Analysis/output_data/O'Connor_hakai_seagrass_taxa_edit.csv" )
 # merge
 m <- left_join( m,  mtaxa_update )
 # replace periods with spaces for making simple names in vegan
@@ -40,7 +40,7 @@ m$group <- paste0( "year",m$year )
 
 # filter taxa and sites
 mfilt <- m %>%
-  select( year, group, region, site, sample, ID, taxon = taxon2, remove, size ) %>% 
+  select( year, group, region, site, sample, ID, taxon = taxon4, remove, size ) %>% 
   filter( is.na(remove), !is.na(taxon))
 
 # summarize taxon counts per sample
@@ -140,7 +140,7 @@ ggplot( data=add.plot, aes(x=year,fill=level,y=observed)) + geom_bar(stat='ident
 ggsave( "figs/inverts_gamma_partition_additive_taxon3_shannon.png", width=4, height=3 )
 add.plot2 <- add.plot %>% 
   gather( value="value", key = "key", - year, -level)
-write_csv(add.plot2,"output_data/adipart_invert.csv")
+write_csv(add.plot2,"R_Code_and_Analysis/output_data/adipart_invert_family.csv")
 g1 <- ggplot(add.plot2 %>% filter(key == "observed"),
              aes(x=year - 0.15, y=value, fill=level)) +
   geom_bar(stat="identity", width=0.3) + 
