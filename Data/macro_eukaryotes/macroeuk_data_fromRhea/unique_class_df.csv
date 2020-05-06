@@ -1,0 +1,108 @@
+"","name","phylum","class","order","family","genus","species"
+"1","Actiniidae","Cnidaria","Anthozoa","Actiniaria","Actiniidae",NA,NA
+"2","Alia carinata","Mollusca","Gastropoda","Neogastropoda","Columbellidae","Alia","Alia carinata"
+"3","Alvania compacta","Mollusca","Gastropoda","Neotaenioglossa","Rissoidae","Alvania","Alvania compacta"
+"4","Americorophium","Arthropoda","Malacostraca","Amphipoda","Corophiidae","Americorophium",NA
+"5","Amphissa columbiana","Mollusca","Gastropoda","Neogastropoda","Columbellidae","Amphissa","Amphissa columbiana"
+"6","Ampithoe lacertosa","Arthropoda","Malacostraca","Amphipoda","Ampithoidae","Ampithoe","Ampithoe lacertosa"
+"7","Ampithoidae","Arthropoda","Malacostraca","Amphipoda","Ampithoidae",NA,NA
+"8","Anthuridae","Arthropoda","Malacostraca","Isopoda","Anthuridae",NA,NA
+"9","Aoroides","Arthropoda","Malacostraca","Amphipoda","Aoridae","Aoroides",NA
+"10","Aoroides intermedius","Arthropoda","Malacostraca","Amphipoda","Aoridae","Aoroides","Aoroides intermedius"
+"11","Ascidiacea","Chordata","Ascidiacea",NA,NA,NA,NA
+"12","Asteroidea","Echinodermata","Asteroidea",NA,NA,NA,NA
+"13","Balanus","Arthropoda","Maxillopoda","Sessilia","Balanidae","Balanus",NA
+"14","Bivalvia","Mollusca","Bivalvia",NA,NA,NA,NA
+"15","Calliostoma","Mollusca","Gastropoda","Archaeogastropoda","Calliostomatidae","Calliostoma",NA
+"16","Cancer magister","Arthropoda","Malacostraca","Decapoda","Cancridae","Cancer","Cancer magister"
+"17","Capitellidae","Annelida","Polychaeta",NA,"Capitellidae",NA,NA
+"18","Caprella","Arthropoda","Malacostraca","Amphipoda","Caprellidae","Caprella",NA
+"19","Caprella californica","Arthropoda","Malacostraca","Amphipoda","Caprellidae","Caprella","Caprella californica"
+"20","Caprella laeviuscula","Arthropoda","Malacostraca","Amphipoda","Caprellidae","Caprella","Caprella laeviuscula"
+"21","Cerithiidae","Mollusca","Gastropoda","Neotaenioglossa","Cerithiidae",NA,NA
+"22","Colus","Mollusca","Gastropoda","Neogastropoda","Buccinidae","Colus",NA
+"23","Corophiidae","Arthropoda","Malacostraca","Amphipoda","Corophiidae",NA,NA
+"24","Cumacea","Arthropoda","Malacostraca","Cumacea",NA,NA,NA
+"25","Decapoda","Arthropoda","Malacostraca","Decapoda",NA,NA,NA
+"26","Enteropneusta","Hemichordata","Enteropneusta",NA,NA,NA,NA
+"27","Eogammarus confervicolus","Arthropoda","Malacostraca","Amphipoda","Anisogammaridae","Eogammarus","Eogammarus confervicolus"
+"28","Epitoniidae","Mollusca","Gastropoda","Neotaenioglossa","Epitoniidae",NA,NA
+"29","Ericthonius","Arthropoda","Malacostraca","Amphipoda","Ischyroceridae","Ericthonius",NA
+"30","Eulalia",NA,"Magnoliopsida","Poales","Poaceae","Eulalia",NA
+"31","Eusiridae","Arthropoda","Malacostraca","Amphipoda","Eusiridae",NA,NA
+"32","Gammaridae","Arthropoda","Malacostraca","Amphipoda","Gammaridae",NA,NA
+"33","Gammaropsis","Arthropoda","Malacostraca","Amphipoda","Isaeidae","Gammaropsis",NA
+"34","Gammaropsis barnardi","Arthropoda","Malacostraca","Amphipoda","Isaeidae","Gammaropsis","Gammaropsis barnardi"
+"35","Gammaropsis thompsoni","Arthropoda","Malacostraca","Amphipoda","Isaeidae","Gammaropsis","Gammaropsis thompsoni"
+"36","Gastropoda","Mollusca","Gastropoda",NA,NA,NA,NA
+"37","Glyceridae","Annelida","Polychaeta","Phyllodocida","Glyceridae",NA,NA
+"38","Gymnolaemata","Bryozoa","Gymnolaemata",NA,NA,NA,NA
+"39","Halacaridae","Arthropoda","Arachnida","Trombidiformes","Halacaridae",NA,NA
+"40","Haminoea","Mollusca","Gastropoda","Cephalaspidea","Haminoeidae","Haminoea",NA
+"41","Harpacticoida","Arthropoda","Maxillopoda","Harpacticoida",NA,NA,NA
+"42","Heptacarpus","Arthropoda","Malacostraca","Decapoda","Hippolytidae","Heptacarpus",NA
+"43","Hesionidae","Annelida","Polychaeta","Phyllodocida","Hesionidae",NA,NA
+"44","Heterophoxus","Arthropoda","Malacostraca","Amphipoda","Phoxocephalidae","Heterophoxus",NA
+"45","Hyalellidae","Arthropoda","Malacostraca","Amphipoda","Hyalellidae",NA,NA
+"46","Hyalidae","Arthropoda","Malacostraca","Amphipoda","Hyalidae",NA,NA
+"47","Isaeidae","Arthropoda","Malacostraca","Amphipoda","Isaeidae",NA,NA
+"48","Ischyroceridae","Arthropoda","Malacostraca","Amphipoda","Ischyroceridae",NA,NA
+"49","Ischyrocerus anguipes","Arthropoda","Malacostraca","Amphipoda","Ischyroceridae","Ischyrocerus","Ischyrocerus anguipes"
+"50","Isopoda","Arthropoda","Malacostraca","Isopoda",NA,NA,NA
+"51","Lacuna","Mollusca","Gastropoda","Neotaenioglossa","Littorinidae","Lacuna",NA
+"52","Lepidepecreum","Arthropoda","Malacostraca","Amphipoda","Lysianassidae","Lepidepecreum",NA
+"53","Leptasterias","Echinodermata","Asteroidea","Forcipulatida","Asteriidae","Leptasterias",NA
+"54","Leptochelia","Arthropoda","Malacostraca","Tanaidacea","Leptocheliidae","Leptochelia",NA
+"55","Leptochelia dubia","Arthropoda","Malacostraca","Tanaidacea","Leptocheliidae","Leptochelia","Leptochelia dubia"
+"56","Lirularia","Mollusca","Gastropoda","Archaeogastropoda","Trochidae","Lirularia",NA
+"57","Lirularia lirulata","Mollusca","Gastropoda","Archaeogastropoda","Trochidae","Lirularia","Lirularia lirulata"
+"58","Littorinidae","Mollusca","Gastropoda","Neotaenioglossa","Littorinidae",NA,NA
+"59","Lottia alveus","Mollusca","Gastropoda","Patellogastropoda","Lottiidae","Lottia","Lottia alveus"
+"60","Lottiidae","Mollusca","Gastropoda","Patellogastropoda","Lottiidae",NA,NA
+"61","Lumbrineridae","Annelida","Polychaeta","Eunicida","Lumbrineridae",NA,NA
+"62","Lysianassidae","Arthropoda","Malacostraca","Amphipoda","Lysianassidae",NA,NA
+"63","Maldanidae","Annelida","Polychaeta",NA,"Maldanidae",NA,NA
+"64","Margarites helicinus","Mollusca","Gastropoda","Archaeogastropoda","Trochidae","Margarites","Margarites helicinus"
+"65","Margarites pupillus","Mollusca","Gastropoda","Archaeogastropoda","Trochidae","Margarites","Margarites pupillus"
+"66","Micronereis nanaimoensis","Annelida","Polychaeta","Phyllodocida","Nereididae","Micronereis","Micronereis nanaimoensis"
+"67","Monocorophium","Arthropoda","Malacostraca","Amphipoda","Corophiidae","Monocorophium",NA
+"68","Munnidae","Arthropoda","Malacostraca","Isopoda","Munnidae",NA,NA
+"69","Mytilus","Mollusca","Bivalvia","Mytiloida","Mytilidae","Mytilus",NA
+"70","Nassarius mendicus","Mollusca","Gastropoda","Neogastropoda","Nassariidae","Nassarius","Nassarius mendicus"
+"71","Nematoda","Nematoda",NA,NA,NA,NA,NA
+"72","Nudibranchia","Mollusca","Gastropoda","Nudibranchia",NA,NA,NA
+"73","Ophiuroidea","Echinodermata","Ophiuroidea",NA,NA,NA,NA
+"74","Ostracoda","Arthropoda","Ostracoda",NA,NA,NA,NA
+"75","Paguridae","Arthropoda","Malacostraca","Decapoda","Paguridae",NA,NA
+"76","Paleanotus bellis","Annelida","Polychaeta","Phyllodocida","Chrysopetalidae","Paleanotus","Paleanotus bellis"
+"77","Pectinidae","Mollusca","Bivalvia","Ostreoida","Pectinidae",NA,NA
+"78","Pentidotea","Arthropoda","Malacostraca","Isopoda","Idoteidae","Pentidotea",NA
+"79","Pentidotea resecata","Arthropoda","Malacostraca","Isopoda","Idoteidae","Pentidotea","Pentidotea resecata"
+"80","Pholoidae","Annelida","Polychaeta","Phyllodocida","Pholoidae",NA,NA
+"81","Photis","Arthropoda","Malacostraca","Amphipoda","Isaeidae","Photis",NA
+"82","Phyllaplysia taylori","Mollusca","Gastropoda","Anaspidea","Notarchidae","Phyllaplysia","Phyllaplysia taylori"
+"83","Phyllodocidae","Annelida","Polychaeta","Phyllodocida","Phyllodocidae",NA,NA
+"84","Pilargidae","Annelida","Polychaeta","Phyllodocida","Pilargidae",NA,NA
+"85","Platynereis bicanaliculata","Annelida","Polychaeta","Phyllodocida","Nereididae","Platynereis","Platynereis bicanaliculata"
+"86","Pleocyemata","Arthropoda","Malacostraca","Decapoda",NA,NA,NA
+"87","Pleustidae","Arthropoda","Malacostraca","Amphipoda","Pleustidae",NA,NA
+"88","Podoceridae","Arthropoda","Malacostraca","Amphipoda","Podoceridae",NA,NA
+"89","Polychaeta","Annelida","Polychaeta",NA,NA,NA,NA
+"90","Polynoidae","Annelida","Polychaeta","Phyllodocida","Polynoidae",NA,NA
+"91","Pontogeneia","Arthropoda","Malacostraca","Amphipoda","Eusiridae","Pontogeneia",NA
+"92","Porcellidium","Arthropoda","Maxillopoda","Harpacticoida","Porcellidiidae","Porcellidium",NA
+"93","Pugettia","Arthropoda","Malacostraca","Decapoda","Epialtidae","Pugettia",NA
+"94","Pycnogonida","Arthropoda","Pycnogonida",NA,NA,NA,NA
+"95","Serpulidae","Annelida","Polychaeta","Sabellida","Serpulidae",NA,NA
+"96","Solariella","Mollusca","Gastropoda","Archaeogastropoda","Trochidae","Solariella",NA
+"97","Solasteridae","Echinodermata","Asteroidea","Valvatida","Solasteridae",NA,NA
+"98","Sphaeromatidae","Arthropoda","Malacostraca","Isopoda","Sphaeromatidae",NA,NA
+"99","Stauromedusae","Cnidaria","Staurozoa","Stauromedusae",NA,NA,NA
+"100","Stenothoidae","Arthropoda","Malacostraca","Amphipoda","Stenothoidae",NA,NA
+"101","Strongylocentrotus","Echinodermata","Echinoidea","Echinoida","Strongylocentrotidae","Strongylocentrotus",NA
+"102","Syllidae","Annelida","Polychaeta","Phyllodocida","Syllidae",NA,NA
+"103","Tegula","Mollusca","Gastropoda","Archaeogastropoda","Trochidae","Tegula",NA
+"104","Terebellidae","Annelida","Polychaeta","Terebellida","Terebellidae",NA,NA
+"105","Thorlaksonius","Arthropoda","Malacostraca","Amphipoda","Pleustidae","Thorlaksonius",NA
+"106","Veneridae","Mollusca","Bivalvia","Veneroida","Veneridae",NA,NA
+"107","Veneroida","Mollusca","Bivalvia","Veneroida",NA,NA,NA
