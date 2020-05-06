@@ -39,7 +39,6 @@ all_years_16S_filtered <- all_years_16S_filtered %>%
   subset_taxa(Rank1 != "Unassigned") 
 
 # 5. Remove contaminants (those were on the 2016 data)
-### WHEN I REMOVE CONTAMINANTS, MCMULLIN 2015 DISSAPEAR
 all_years_16S_filtered <- all_years_16S_filtered %>%
   subset_taxa(Rank7 != "Pseudomonas_sp._ANT7125") %>% 
   subset_taxa(Rank7 != "Alcaligenes_faecalis") %>% 
