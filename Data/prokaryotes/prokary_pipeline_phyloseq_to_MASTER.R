@@ -44,7 +44,7 @@ all_years_16S_filtered <- all_years_16S_filtered %>%
   subset_taxa(Rank7 != "Alcaligenes_faecalis") %>% 
   subset_taxa(Rank7 != "Pseudomonas_sp._ZJY-246")
 
-# Remove counts that represent less than specified percentage of the total for each sample
+# 6. Remove counts that represent less than specified percentage of the total for each sample
 otu <- as.data.frame(otu_table(all_years_16S_filtered))
 otu_table(all_years_16S_filtered)[otu <= 3] <- 0 #free of noise, I set to 3 otus/sample
 otu2 <- as.data.frame(otu_table(all_years_16S_filtered)) #free of noise
@@ -109,7 +109,7 @@ View(as.data.frame(master_table ))
 ### Exclude the following samples for analyses that DON’T require metadata:
 ### choked_exclude –> c(ZosCSPE, ZosCSPF, ZosCSPnewE, ZosCSPnewG, ZosCSPnewH, ZosCSPnewL, ZosCSPnewM, ZosCSPoldL, ZosCSPoldM, ZosCSPnewD, ZosCSPnewC, , ZosCSPnewB, ZosCSPnewB2, waterCSPa, waterCSPb, waterCSPc, ZosCSPnewA)
 # For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway)
-choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM")
+choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM", "ZosPBSoldD18")
 master_table <- master_table %>% 
   dplyr::filter(!SampleID %in% choked_exclude)
 
@@ -137,6 +137,9 @@ master_table_final <- master_table_final %>%
 
 master_table_final <- master_table_final %>% 
   dplyr::mutate(region_year = paste(region, year, sep = "_"))
+
+master_table_final <- master_table_final %>%
+  dplyr::select(SampleID, swab_id, barcode_plate, barcode_well, year, region_year, everything())
 
 master_table_final <- master_table_final %>% 
   dplyr::filter(!region_year == "mcmullin_2016")
