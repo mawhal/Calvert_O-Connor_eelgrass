@@ -18,11 +18,11 @@ library( vegan )
 library( cowplot )
 
 # read data
-m <- read_csv( "output_data/O'Connor_hakai_seagrass_MASTER_grazers.csv" )
+m <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv" )
 # replace spaces with periods for consistency and merging names
 m$taxon <- gsub( " ", ".", m$taxon )
 # bring in the updated data 
-mtaxa_update <- read_csv( "output_data/O'Connor_hakai_seagrass_taxa_edit_20191114.csv" )
+mtaxa_update <- read_csv( "R_Code_and_Analysis/output_data/O'Connor_hakai_seagrass_taxa_edit.csv" )
 # merge
 m <- left_join( m,  mtaxa_update )
 # replace periods with spaces for making simple names in vegan
@@ -30,30 +30,56 @@ m <- left_join( m,  mtaxa_update )
 ### select sites
 # filter taxa and sites
 mfilt <- m %>%
-  filter( is.na(remove), !is.na(taxon4))
-# # Four core sites
-# mfilt <- m %>%
-#   filter( is.na(remove), !is.na(taxon4),
-#           site %in% c("inner choked","sandspit",
-#                       "triquet north","triquet south") )
+  filter( !is.na(taxon2) )
 
 
 # summarize taxon counts per sample
-m.sum <- mfilt %>% 
+m.sum.fine <- mfilt %>% 
   # unite( "ID", year,site,sample, remove=FALSE ) %>% 
-  group_by( year, site, sample, taxon4 ) %>% 
+  group_by( year, site, sample, taxon=taxon2 ) %>% 
   summarize( abundance=length(size) )
+m.spread.fine <- m.sum.fine %>% 
+  spread( taxon, abundance, fill=0 )
+meta.fine <- data.frame(m.spread.fine[,c(1:3)])
+comm.fine <- data.frame(m.spread.fine[,-c(1:3)])
+names(comm.fine) <- make.cepnames( names(comm.fine) )
+m.sum.family <- mfilt %>% 
+  group_by( year, site, sample, taxon=taxon4 ) %>% 
+  summarize( abundance=length(size) )
+m.spread.family <- m.sum.family %>% 
+  spread( taxon, abundance, fill=0 )
+meta.family <- data.frame(m.spread.family[,c(1:3)])
+comm.family <- data.frame(m.spread.family[,-c(1:3)])
+comm.family <- comm.family[,names(comm.family)!="X.NA."]
+names(comm.family) <- make.cepnames( names(comm.family) )
+m.sum.coarse <- mfilt %>% 
+  group_by( year, site, sample, taxon=taxon5 ) %>% 
+  summarize( abundance=length(size) )
+m.spread.coarse <- m.sum.coarse %>% 
+  spread( taxon, abundance, fill=0 )
+meta.coarse <- data.frame(m.spread.coarse[,c(1:3)])
+comm.coarse <- data.frame(m.spread.coarse[,-c(1:3)])
+comm.coarse <- comm.coarse[,names(comm.coarse)!="X.NA."]
+names(comm.coarse) <- make.cepnames( names(comm.coarse) )
 
-
-
-# make a community dataset
-m.meta <- m.sum %>% 
-  spread( taxon4, abundance, fill=0 )
-
-meta <- data.frame(m.meta[,c(1:3)])
-# meta$year <- factor( meta$year, ordered=T )
-comm <- data.frame(m.meta[,-c(1:3)])
 names(comm) <- make.cepnames( names(comm) )
+
+
+# - first save the bray-curtis distances
+meta1 <- meta %>%
+  filter(year==2015) %>%
+  unite(sample, site, sample, sep="_")
+sample.names <- make.cepnames(meta1$sample)
+write_csv( meta1, "output_data/2015_grazer_metadata.csv")
+commdist <- vegdist( comm[meta$year==2015,], method = "bray" )
+commdist <- as.matrix(commdist)
+rownames(commdist) <- sample.names
+colnames(commdist) <- sample.names
+
+write_csv( data.frame(commdist), "output_data/2015_grazer_braycurtis.csv")
+
+
+
 
 # richness and diversity
 meta$richness <- specnumber(comm)
@@ -77,18 +103,7 @@ meta$site <- fct_reorder( meta$site, -meta$lat )
 
 
 # nmds of comparable data
-# # - first save the bray-curtis distances
-# meta1 <- meta %>% 
-#   filter(year==2015) %>% 
-#   unite(sample, site, sample, sep="_")
-# sample.names <- make.cepnames(meta1$sample)
-# write_csv( meta1, "output_data/2015_grazer_metadata.csv")
-# commdist <- vegdist( comm[meta$year==2015,], method = "bray" )
-# commdist <- as.matrix(commdist)
-# rownames(commdist) <- sample.names
-# colnames(commdist) <- sample.names
-# 
-# write_csv( data.frame(commdist), "output_data/2015_grazer_braycurtis.csv")
+
 
 # NMDS
 mds <- metaMDS( comm, distance="bray", k=7 )
