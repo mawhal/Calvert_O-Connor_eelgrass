@@ -106,12 +106,10 @@ colnames(otu_table)[1]<-"SampleID"
 master_table <- left_join(metadata_sel , otu_table , by = "SampleID")
 View(as.data.frame(master_table ))
 
-### Exclude the following samples for analyses that DON’T require metadata:
-### choked_exclude –> c(ZosCSPE, ZosCSPF, ZosCSPnewE, ZosCSPnewG, ZosCSPnewH, ZosCSPnewL, ZosCSPnewM, ZosCSPoldL, ZosCSPoldM, ZosCSPnewD, ZosCSPnewC, , ZosCSPnewB, ZosCSPnewB2, waterCSPa, waterCSPb, waterCSPc, ZosCSPnewA)
-# For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway) and ZosPBSoldD18 which was all NAs
-choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM", "ZosPBSoldD18")
+### Exclude the following samples for analyses: "ZosCSPE", "ZosCSPF" # no info if new or old leaf and ZosCSPoldM and ZosPBSoldD18 which was all NAs
+exclude <- c("ZosCSPE", "ZosCSPF", "ZosPBSoldD18", "ZosCSPoldM")
 master_table <- master_table %>% 
-  dplyr::filter(!SampleID %in% choked_exclude)
+  dplyr::filter(!SampleID %in% exclude)
 
 ###recode to site names used by grazers
 master_table <- master_table %>% 
@@ -151,7 +149,8 @@ master_table_final <- master_table_final %>%
 #create a unique site_quadrat_id column
 master_table_final <- master_table_final %>% 
   unite(site_quadrat_id, site, quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
-
+View(master_table_final)
+# This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
 write.csv(master_table_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", quote=F, row.names=F)
 
 
@@ -190,12 +189,10 @@ colnames(otu_table_genus)[1]<-"SampleID"
 
 master_table_genus <- left_join(metadata_sel , otu_table_genus , by = "SampleID")
 
-### Exclude the following samples for analyses that DON’T require metadata:
-### choked_exclude –> c(ZosCSPE, ZosCSPF, ZosCSPnewE, ZosCSPnewG, ZosCSPnewH, ZosCSPnewL, ZosCSPnewM, ZosCSPoldL, ZosCSPoldM, ZosCSPnewD, ZosCSPnewC, , ZosCSPnewB, ZosCSPnewB2, waterCSPa, waterCSPb, waterCSPc, ZosCSPnewA)
-# For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway) and ZosPBSoldD18 which was all NAs
-choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM", "ZosPBSoldD18")
-master_table_genus <- master_table_genus %>% 
-  dplyr::filter(!SampleID %in% choked_exclude)
+### Exclude the following samples for analyses: "ZosCSPE", "ZosCSPF" # no info if new or old leaf and ZosPBSoldD18 which was all NAs
+exclude <-  c("ZosCSPE", "ZosCSPF", "ZosPBSoldD18", "ZosCSPoldM")
+master_table <- master_table %>% 
+  dplyr::filter(!SampleID %in% exclude)
 
 ###recode to site names used by grazers
 master_table_genus <- master_table_genus %>% 
@@ -233,6 +230,7 @@ master_table_final_genus <- master_table_final_genus %>%
 master_table_final_genus <- master_table_final_genus %>% 
   unite(site_quadrat_id, site, quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
 
+# This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
 write.csv(master_table_final_genus, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level.csv", quote=F, row.names=F)
 
 
@@ -268,12 +266,10 @@ colnames(otu_table_family)[1]<-"SampleID"
 
 master_table_family <- left_join(metadata_sel , otu_table_family , by = "SampleID")
 
-### Exclude the following samples for analyses that DON’T require metadata:
-### choked_exclude –> c(ZosCSPE, ZosCSPF, ZosCSPnewE, ZosCSPnewG, ZosCSPnewH, ZosCSPnewL, ZosCSPnewM, ZosCSPoldL, ZosCSPoldM, ZosCSPnewD, ZosCSPnewC, , ZosCSPnewB, ZosCSPnewB2, waterCSPa, waterCSPb, waterCSPc, ZosCSPnewA)
-# For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway) and ZosPBSoldD18 which was all NAs
-choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM", "ZosPBSoldD18")
-master_table_family <- master_table_family %>% 
-  dplyr::filter(!SampleID %in% choked_exclude)
+### Exclude the following samples for analyses: "ZosCSPE", "ZosCSPF" # no info if new or old leaf and ZosPBSoldD18 which was all NAs
+exclude <-  c("ZosCSPE", "ZosCSPF", "ZosPBSoldD18", "ZosCSPoldM")
+master_table <- master_table %>% 
+  dplyr::filter(!SampleID %in% exclude)
 
 ###recode to site names used by grazers
 master_table_family <- master_table_family %>% 
@@ -311,4 +307,5 @@ master_table_final_family <- master_table_final_family %>%
 master_table_final_family <- master_table_final_family %>% 
   unite(site_quadrat_id, site, quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
 
+# This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
 write.csv(master_table_final_family, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_family_level.csv", quote=F, row.names=F)
