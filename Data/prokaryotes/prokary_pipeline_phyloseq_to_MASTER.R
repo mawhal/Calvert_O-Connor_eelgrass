@@ -24,13 +24,13 @@ smean <-
 smax <- 
   max(sample_sums(all_years_16S_unfiltered))
 
-# 2. Remove samples with less than N reads. (N = 1000 in example) 
+# 2. Remove samples with less than N reads. (N = 1000 in example) wholw dataset
 all_years_16S_filtered <- prune_samples(sample_sums(all_years_16S_unfiltered) >= 1000, all_years_16S_unfiltered)
 
-# 3. Remove OTUs with less than N total reads. (N = 250 in example) 
+# 3. Remove OTUs with less than N total reads. (N = 250 in example) whole dataset
 all_years_16S_filtered <- prune_taxa(taxa_sums(all_years_16S_filtered) >= 250, all_years_16S_filtered) 
 
-# 4. Remove mitochondrial and chloroplast OTUs
+# 4. Remove mitochondrial and chloroplast ASVs
 all_years_16S_filtered <- all_years_16S_filtered %>%
   subset_taxa(Rank5 != "Mitochondria") %>%
   subset_taxa(Rank3 != "Chloroplastida") %>% 
@@ -44,9 +44,9 @@ all_years_16S_filtered <- all_years_16S_filtered %>%
   subset_taxa(Rank7 != "Alcaligenes_faecalis") %>% 
   subset_taxa(Rank7 != "Pseudomonas_sp._ZJY-246")
 
-# 6. Remove counts that represent less than specified percentage of the total for each sample
+# 6. Remove ASVs with less than ~ 2-5 reads in a given sample - PER SAMPLE FILTERING
 otu <- as.data.frame(otu_table(all_years_16S_filtered))
-otu_table(all_years_16S_filtered)[otu <= 3] <- 0 #free of noise, I set to 3 otus/sample
+otu_table(all_years_16S_filtered)[otu <= 3] <- 0 #free of noise, I set to 3 asvs/sample
 otu2 <- as.data.frame(otu_table(all_years_16S_filtered)) #free of noise
 
 all_years_16S_filtered
@@ -108,7 +108,7 @@ View(as.data.frame(master_table ))
 
 ### Exclude the following samples for analyses that DON’T require metadata:
 ### choked_exclude –> c(ZosCSPE, ZosCSPF, ZosCSPnewE, ZosCSPnewG, ZosCSPnewH, ZosCSPnewL, ZosCSPnewM, ZosCSPoldL, ZosCSPoldM, ZosCSPnewD, ZosCSPnewC, , ZosCSPnewB, ZosCSPnewB2, waterCSPa, waterCSPb, waterCSPc, ZosCSPnewA)
-# For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway)
+# For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway) and ZosPBSoldD18 which was all NAs
 choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM", "ZosPBSoldD18")
 master_table <- master_table %>% 
   dplyr::filter(!SampleID %in% choked_exclude)
@@ -128,20 +128,187 @@ levels(master_table$site)
 
 write.csv(master_table, file="Data/prokaryotes/16S_3000_MASTER_REMOVED_CONT_2016_NOT_RARE.csv", quote=F, row.names=F)
 
-# For mastel final table, get only leaf_old of meso_quadrat survey and remove mcmullin 2016 samples
+# For mastel final table, get only leaf_old 
 master_table_final <- master_table %>% 
   dplyr::filter(sample_type =="leaf_old")
 
+# get only meso_quadrat survey 
 master_table_final <- master_table_final %>% 
   dplyr::filter(survey_type == "meso_quadrat")
 
+# create a region_year column so can remove only mcmullin 2016 samples
 master_table_final <- master_table_final %>% 
   dplyr::mutate(region_year = paste(region, year, sep = "_"))
 
+# reorganize column orders (get region_year to first columns together with metadata)
 master_table_final <- master_table_final %>%
   dplyr::select(SampleID, swab_id, barcode_plate, barcode_well, year, region_year, everything())
 
+# remove mcmullin 2016 samples
 master_table_final <- master_table_final %>% 
   dplyr::filter(!region_year == "mcmullin_2016")
 
+#create a unique site_quadrat_id column
+master_table_final <- master_table_final %>% 
+  unite(site_quadrat_id, site, quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
+
 write.csv(master_table_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", quote=F, row.names=F)
+
+
+####### COLLAPSE ######
+
+###Collapse data at the genus level
+genus_level_16S <- all_years_16S_2016_NOT_RAREFIED  %>%
+  tax_glom(taxrank = "Rank6") 
+
+### SAVING TABLES ###
+
+genus_level_16S
+
+genus_level_16S.otu <- as.data.frame(otu_table(genus_level_16S))
+
+genus_level_16S.tax <- as.data.frame(unclass(tax_table(genus_level_16S)))
+
+genus_level_16S.sam <- as.data.frame(sample_data(genus_level_16S))
+
+write.csv(genus_level_16S.otu, file="Data/prokaryotes/genus_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+
+write.csv(genus_level_16S.tax, file="Data/prokaryotes/genus_level_final.tax_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+
+write.csv(genus_level_16S.sam , file="Data/prokaryotes/genus_level_final.sam_REMOVED_CONT_2016_NOT_RARE.csv",row.names=F)
+
+### add metadata according to #SampleID labels
+metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",header=T )
+
+#metadata <- metadata %>% dplyr::rename( SampleID = X.SampleID)
+metadata_sel <- metadata %>% 
+  dplyr::select(c(SampleID,swab_id, barcode_plate, barcode_well, year ,region, site, host_species, host_type, sample_type, survey_type, quadrat_id, meso_shoot_id))
+
+otu_table_genus <- read.csv(file="Data/prokaryotes/genus_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv",header=T )
+
+colnames(otu_table_genus)[1]<-"SampleID"
+
+master_table_genus <- left_join(metadata_sel , otu_table_genus , by = "SampleID")
+
+### Exclude the following samples for analyses that DON’T require metadata:
+### choked_exclude –> c(ZosCSPE, ZosCSPF, ZosCSPnewE, ZosCSPnewG, ZosCSPnewH, ZosCSPnewL, ZosCSPnewM, ZosCSPoldL, ZosCSPoldM, ZosCSPnewD, ZosCSPnewC, , ZosCSPnewB, ZosCSPnewB2, waterCSPa, waterCSPb, waterCSPc, ZosCSPnewA)
+# For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway) and ZosPBSoldD18 which was all NAs
+choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM", "ZosPBSoldD18")
+master_table_genus <- master_table_genus %>% 
+  dplyr::filter(!SampleID %in% choked_exclude)
+
+###recode to site names used by grazers
+master_table_genus <- master_table_genus %>% 
+  dplyr::mutate(site=recode(site,
+                            "choked_south_pigu" = "choked_inner",
+                            "choked_flat_island" = "choked_inner",
+                            "goose_southwest" = "goose_south_west",
+                            "goose_southeast" = "goose_south_east",
+                            "pruth_bay_south" = "pruth_bay",
+                            "pruth_baysouth" = "pruth_bay"))
+
+levels(master_table_genus$site)
+
+# For mastel final table, get only leaf_old 
+master_table_final_genus <- master_table_genus %>% 
+  dplyr::filter(sample_type =="leaf_old")
+
+# get only meso_quadrat survey 
+master_table_final_genus <- master_table_final_genus %>% 
+  dplyr::filter(survey_type == "meso_quadrat")
+
+# create a region_year column so can remove only mcmullin 2016 samples
+master_table_final_genus <- master_table_final_genus %>% 
+  dplyr::mutate(region_year = paste(region, year, sep = "_"))
+
+# reorganize column orders (get region_year to first columns together with metadata)
+master_table_final_genus <- master_table_final_genus %>%
+  dplyr::select(SampleID, swab_id, barcode_plate, barcode_well, year, region_year, everything())
+
+# remove mcmullin 2016 samples
+master_table_final_genus <- master_table_final_genus %>% 
+  dplyr::filter(!region_year == "mcmullin_2016")
+
+#create a unique site_quadrat_id column
+master_table_final_genus <- master_table_final_genus %>% 
+  unite(site_quadrat_id, site, quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
+
+write.csv(master_table_final_genus, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level.csv", quote=F, row.names=F)
+
+
+###Collapse data at the family level
+family_level_16S <- all_years_16S_2016_NOT_RAREFIED  %>%
+  tax_glom(taxrank = "Rank5") 
+
+### SAVING TABLES ###
+family_level_16S
+
+family_level_16S.otu <- as.data.frame(otu_table(family_level_16S))
+
+family_level_16S.tax <- as.data.frame(unclass(tax_table(family_level_16S)))
+
+family_level_16S.sam <- as.data.frame(sample_data(family_level_16S))
+
+write.csv(family_level_16S.otu, file="Data/prokaryotes/family_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+
+write.csv(family_level_16S.tax, file="Data/prokaryotes/family_level_final.tax_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+
+write.csv(family_level_16S.sam , file="Data/prokaryotes/family_level_final.sam_REMOVED_CONT_2016_NOT_RARE.csv",row.names=F)
+
+### add metadata according to #SampleID labels
+metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",header=T )
+
+#metadata <- metadata %>% dplyr::rename( SampleID = X.SampleID)
+metadata_sel <- metadata %>% 
+  dplyr::select(c(SampleID,swab_id, barcode_plate, barcode_well, year ,region, site, host_species, host_type, sample_type, survey_type, quadrat_id, meso_shoot_id))
+
+otu_table_family <- read.csv(file="Data/prokaryotes/family_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv",header=T )
+
+colnames(otu_table_family)[1]<-"SampleID"
+
+master_table_family <- left_join(metadata_sel , otu_table_family , by = "SampleID")
+
+### Exclude the following samples for analyses that DON’T require metadata:
+### choked_exclude –> c(ZosCSPE, ZosCSPF, ZosCSPnewE, ZosCSPnewG, ZosCSPnewH, ZosCSPnewL, ZosCSPnewM, ZosCSPoldL, ZosCSPoldM, ZosCSPnewD, ZosCSPnewC, , ZosCSPnewB, ZosCSPnewB2, waterCSPa, waterCSPb, waterCSPc, ZosCSPnewA)
+# For now, I'll just exclude the OLD ones and ones that don't have old or new - we don't know what those are (others will be filtered out anyway) and ZosPBSoldD18 which was all NAs
+choked_exclude <- c("ZosCSPE", "ZosCSPF", "ZosCSPoldL", "ZosCSPoldM", "ZosPBSoldD18")
+master_table_family <- master_table_family %>% 
+  dplyr::filter(!SampleID %in% choked_exclude)
+
+###recode to site names used by grazers
+master_table_family <- master_table_family %>% 
+  dplyr::mutate(site=recode(site,
+                            "choked_south_pigu" = "choked_inner",
+                            "choked_flat_island" = "choked_inner",
+                            "goose_southwest" = "goose_south_west",
+                            "goose_southeast" = "goose_south_east",
+                            "pruth_bay_south" = "pruth_bay",
+                            "pruth_baysouth" = "pruth_bay"))
+
+levels(master_table_family$site)
+
+# For mastel final table, get only leaf_old 
+master_table_final_family <- master_table_family %>% 
+  dplyr::filter(sample_type =="leaf_old")
+
+# get only meso_quadrat survey 
+master_table_final_family <- master_table_final_family %>% 
+  dplyr::filter(survey_type == "meso_quadrat")
+
+# create a region_year column so can remove only mcmullin 2016 samples
+master_table_final_family <- master_table_final_family %>% 
+  dplyr::mutate(region_year = paste(region, year, sep = "_"))
+
+# reorganize column orders (get region_year to first columns together with metadata)
+master_table_final_family <- master_table_final_family %>%
+  dplyr::select(SampleID, swab_id, barcode_plate, barcode_well, year, region_year, everything())
+
+# remove mcmullin 2016 samples
+master_table_final_family <- master_table_final_family %>% 
+  dplyr::filter(!region_year == "mcmullin_2016")
+
+#create a unique site_quadrat_id column
+master_table_final_family <- master_table_final_family %>% 
+  unite(site_quadrat_id, site, quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
+
+write.csv(master_table_final_family, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_family_level.csv", quote=F, row.names=F)
