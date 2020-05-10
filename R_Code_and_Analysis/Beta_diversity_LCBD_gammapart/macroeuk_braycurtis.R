@@ -43,6 +43,7 @@ m.spread.fine <- m.sum.fine %>%
 meta.fine <- data.frame(m.spread.fine[,c(1:3)])
 comm.fine <- data.frame(m.spread.fine[,-c(1:3)])
 names(comm.fine) <- make.cepnames( names(comm.fine) )
+write_csv( m.spread.fine,"R_Code_and_Analysis/output_data/macroeuk_community_finest.csv" )
 m.sum.family <- mfilt %>% 
   group_by( year, site, sample, taxon=taxon4 ) %>% 
   summarize( abundance=length(size) )
@@ -52,6 +53,7 @@ meta.family <- data.frame(m.spread.family[,c(1:3)])
 comm.family <- data.frame(m.spread.family[,-c(1:3)])
 comm.family <- comm.family[,names(comm.family)!="X.NA."]
 names(comm.family) <- make.cepnames( names(comm.family) )
+write_csv( m.spread.family,"R_Code_and_Analysis/output_data/macroeuk_community_family.csv" )
 m.sum.coarse <- mfilt %>% 
   group_by( year, site, sample, taxon=taxon5 ) %>% 
   summarize( abundance=length(size) )
@@ -61,7 +63,7 @@ meta.coarse <- data.frame(m.spread.coarse[,c(1:3)])
 comm.coarse <- data.frame(m.spread.coarse[,-c(1:3)])
 comm.coarse <- comm.coarse[,names(comm.coarse)!="X.NA."]
 names(comm.coarse) <- make.cepnames( names(comm.coarse) )
-
+write_csv( m.spread.coarse,"R_Code_and_Analysis/output_data/macroeuk_community_coarse.csv" )
 names(comm) <- make.cepnames( names(comm) )
 
 

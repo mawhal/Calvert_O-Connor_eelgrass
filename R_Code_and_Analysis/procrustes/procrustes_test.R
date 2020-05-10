@@ -42,14 +42,14 @@ labels_16S_genus <- as.vector(df_16S_genus$sample)
 labels_18S_genus <- as.vector(df_18S_genus$sample)
 
 # filter only samples that are common to both 
-common_samples <- intersect(labels_macro, labels_16S_genus)
+common_samples1 <- intersect(labels_macro, labels_16S_genus)
 
 df_macro_mantel <- df_macro %>% 
-  dplyr::filter(sample %in% common_samples)
+  dplyr::filter(sample %in% common_samples1)
 dist_macro <- dist(df_macro_mantel, diag = TRUE, upper = FALSE)
 
 df_16S_genus_mantel <- df_16S_genus %>% 
-  dplyr::filter(sample %in% common_samples)
+  dplyr::filter(sample %in% common_samples1)
 dist_16S_genus <- dist(df_16S_genus_mantel , diag = TRUE, upper = FALSE)
 
 
@@ -72,14 +72,14 @@ p1$ss
 # which samples are common to both matrices?
 
 # filter only samples that are common to both 
-common_samples <- intersect(labels_macro, labels_18S_genus)
+common_samples2 <- intersect(labels_macro, labels_18S_genus)
 
 df_macro_mantel <- df_macro %>% 
-  dplyr::filter(sample %in% common_samples)
+  dplyr::filter(sample %in% common_samples2)
 dist_macro <- dist(df_macro_mantel, diag = TRUE, upper = FALSE)
 
 df_18S_genus_mantel <- df_18S_genus %>% 
-  dplyr::filter(sample %in% common_samples)
+  dplyr::filter(sample %in% common_samples2)
 dist_18S_genus <- dist(df_18S_genus_mantel , diag = TRUE, upper = FALSE)
 
 
@@ -102,13 +102,13 @@ p2$ss
 # which samples are common to both matrices?
 
 # filter only samples that are common to both 
-common_samples <- intersect(labels_18S_genus, labels_16S_genus)
+common_samples3 <- intersect(labels_18S_genus, labels_16S_genus)
 
 df_16S_genus_mantel <- df_16S_genus %>% 
-  dplyr::filter(sample %in% common_samples)
+  dplyr::filter(sample %in% common_samples3)
 dist_16S_genus <- dist(df_16S_genus_mantel , diag = TRUE, upper = FALSE)
 df_18S_genus_mantel <- df_18S_genus %>% 
-  dplyr::filter(sample %in% common_samples)
+  dplyr::filter(sample %in% common_samples3)
 dist_18S_genus <- dist(df_18S_genus_mantel , diag = TRUE, upper = FALSE)
 
 
@@ -127,8 +127,11 @@ p3$ss
 
 
 # wrap results together
-res <- data.frame(pair=c("macro-16S","macro-18S","18S-16S"),matrix( c(p1$ss,p1$signif,p2$ss,p2$signif,p3$ss,p3$signif), ncol=2, byrow=T ))
-names(res) <- c('pair','ss',"signif")
+res <- data.frame(year=year, pair=c("macro-16S","macro-18S","18S-16S"),
+                  samples=c(length(common_samples1),length(common_samples2),length(common_samples3)),
+                  matrix( c(p1$ss,p1$signif,p2$ss,p2$signif,p3$ss,p3$signif), ncol=2, byrow=T ))
+names(res) <- c('year','pair','samples','ss',"signif")
 
 res$corr <- sqrt(1-res$ss)
-res$year <- year
+res
+
