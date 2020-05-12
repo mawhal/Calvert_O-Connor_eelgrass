@@ -1,6 +1,7 @@
 ### ADIPART ###
 ### Author: Bianca Trevizan Segovia, modified using Matt's code ###
 ### Date created: April 7, 2020 ###
+
 library(vegan)
 library(tidyverse)
 library(dplyr)
@@ -14,11 +15,7 @@ library(dplyr)
 ### Read table metadata and abundances
 ### Read table metadata and abundances
 microbes_16S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", header=T)
-
 names(microbes_16S_ASV)[1:16]
-
-microbes_16S_ASV <- microbes_16S_ASV %>% 
-  unite(site_quadrat_id, site, quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
 
 # split by year
 comm.years <- split( microbes_16S_ASV, microbes_16S_ASV$year )
@@ -73,7 +70,7 @@ ggsave( "R_Code_and_Analysis/figs/microbes_16S_ASV_gamma_partition_additive_rich
 
 ## FAMILY LEVEL adipart to compare ###
 ### Read table metadata and abundances
-microbes_16S_family <- read.csv("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/prokaryotes/family_16S_core_microbes.csv", header=T)
+microbes_16S_family <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_family_level.csv", header=T)
 names(microbes_16S_family)[1:17]
 
 # split by year
@@ -82,14 +79,14 @@ lapply(comm.years_family, dim)
 
 # remove taxa that did not appear in a given year
 comm.zero_family <- lapply( comm.years_family, function(z) {
-  tmp <- z[,-c(1:7)]
+  tmp <- z[,-c(1:15)]
   w <- colSums(tmp)>0
   df <- tmp[, w ]
-  return( data.frame(z[,c(1:7)],df))
+  return( data.frame(z[,c(1:15)],df))
 })
 
-meta_family <- lapply(comm.zero_family, function(z) z[,1:7])
-d_family <- lapply(comm.zero_family, function(z) z[,-c(1:7)])
+meta_family <- lapply(comm.zero_family, function(z) z[,1:15])
+d_family <- lapply(comm.zero_family, function(z) z[,-c(1:15)])
 
 x_family <- lapply( meta_family, function(z) data.frame(z[,c("site_quadrat_id", "site", "region")],whole=1) )
 
@@ -112,7 +109,7 @@ write.csv(add.plot2_family, file="R_Code_and_Analysis/output_data/adipart_16S_fa
 
 ## GENUS LEVEL adipart to compare ###
 ### Read table metadata and abundances
-microbes_16S_genus <- read.csv("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/prokaryotes/genus_16S_core_microbes.csv", header=T)
+microbes_16S_genus <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level.csv", header=T)
 names(microbes_16S_genus)[1:17]
 
 # split by year
@@ -121,14 +118,14 @@ lapply(comm.years_genus, dim)
 
 # remove taxa that did not appear in a given year
 comm.zero_genus <- lapply( comm.years_genus, function(z) {
-  tmp <- z[,-c(1:7)]
+  tmp <- z[,-c(1:15)]
   w <- colSums(tmp)>0
   df <- tmp[, w ]
-  return( data.frame(z[,c(1:7)],df))
+  return( data.frame(z[,c(1:15)],df))
 })
 
-meta_genus <- lapply(comm.zero_genus, function(z) z[,1:7])
-d_genus <- lapply(comm.zero_genus, function(z) z[,-c(1:7)])
+meta_genus <- lapply(comm.zero_genus, function(z) z[,1:15])
+d_genus <- lapply(comm.zero_genus, function(z) z[,-c(1:15)])
 
 x_genus <- lapply( meta_genus, function(z) data.frame(z[,c("site_quadrat_id", "site", "region")],whole=1) )
 
@@ -149,7 +146,6 @@ add.plot2_genus <- add.plot_genus %>%
   gather( value="value", key = "key", - year, -level)
 write.csv(add.plot2_genus, file="R_Code_and_Analysis/output_data/adipart_16S_genus_level.csv", row.names = F)
 
-
 #############################
 ############ 18S ############
 #############################
@@ -165,16 +161,16 @@ lapply(comm.years, dim)
 
 # remove taxa that did not appear in a given year
 comm.zero <- lapply( comm.years, function(z) {
-  tmp <- z[,-c(1:11)]
+  tmp <- z[,-c(1:9)]
   w <- colSums(tmp)>0
   df <- tmp[, w ]
-  return( data.frame(z[,c(1:11)],df))
+  return( data.frame(z[,c(1:9)],df))
 })
 
-meta <- lapply(comm.zero, function(z) z[,1:11])
-d <- lapply(comm.zero, function(z) z[,-c(1:11)])
+meta <- lapply(comm.zero, function(z) z[,1:9])
+d <- lapply(comm.zero, function(z) z[,-c(1:9)])
 
-x <- lapply( meta, function(z) data.frame(z[,c("quadrat", "site", "region")],whole=1) )
+x <- lapply( meta, function(z) data.frame(z[,c("site_quadrat_id", "site", "region")],whole=1) )
 
 adds <- mapply( function(comm,x) adipart(comm,x, index="richness",weights="prop", 
                                          relative=T, nsimul = 20 ), 
@@ -198,7 +194,7 @@ ggplot( data=add.plot, aes(x=year,fill=level,y=observed)) + geom_bar(stat='ident
 
 add.plot2 <- add.plot %>% 
   gather( value="value", key = "key", - year, -level)
-write.csv(add.plot2, file="/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/R_Code_and_Analysis/output_data/adipart_18S_ASV_level.csv", row.names=F)
+write.csv(add.plot2, file="R_Code_and_Analysis/output_data/adipart_18S_ASV_level.csv", row.names=F)
 
 g1 <- ggplot(add.plot2 %>% dplyr::filter(key == "observed"),
              aes(x=year - 0.15, y=value, fill=level)) +
@@ -214,26 +210,23 @@ ggsave( "R_Code_and_Analysis/figs/microbes_18S_ASV_gamma_partition_additive_rich
 
 ## FAMILY LEVEL adipart to compare ###
 ### Read table metadata and abundances
-microbes_18S_family <- read.csv("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/micro_eukaryotes/family_18S_core_microbes.csv", header=T)
-names(microbes_18S_family)[1:17]
+microbes_18S_family <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv", header=T)
+names(microbes_18S_family)[1:13]
 
-microbes_18S_family <- microbes_18S_family %>% 
-  unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
-names(microbes_18S_family)
 # split by year
 comm.years_family <- split( microbes_18S_family, microbes_18S_family$year )
 lapply(comm.years_family, dim)
 
 # remove taxa that did not appear in a given year
 comm.zero_family <- lapply( comm.years_family, function(z) {
-  tmp <- z[,-c(1:7)]
+  tmp <- z[,-c(1:9)]
   w <- colSums(tmp)>0
   df <- tmp[, w ]
-  return( data.frame(z[,c(1:7)],df))
+  return( data.frame(z[,c(1:9)],df))
 })
 
-meta_family <- lapply(comm.zero_family, function(z) z[,1:7])
-d_family <- lapply(comm.zero_family, function(z) z[,-c(1:7)])
+meta_family <- lapply(comm.zero_family, function(z) z[,1:9])
+d_family <- lapply(comm.zero_family, function(z) z[,-c(1:9)])
 
 x_family <- lapply( meta_family, function(z) data.frame(z[,c("site_quadrat_id", "site", "region")],whole=1) )
 
@@ -256,27 +249,23 @@ write.csv(add.plot2_family, file="R_Code_and_Analysis/output_data/adipart_18S_fa
 
 ## GENUS LEVEL adipart to compare ###
 ### Read table metadata and abundances
-microbes_18S_genus <- read.csv("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/micro_eukaryotes/genus_18S_core_microbes.csv", header=T)
+microbes_18S_genus <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_genus_level.csv", header=T)
 names(microbes_18S_genus)[1:17]
 
-microbes_18S_genus <- microbes_18S_genus %>% 
-  unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
-
-names(microbes_18S_genus)
 # split by year
 comm.years_genus <- split( microbes_18S_genus, microbes_18S_genus$year )
 lapply(comm.years_genus, dim)
 
 # remove taxa that did not appear in a given year
 comm.zero_genus <- lapply( comm.years_genus, function(z) {
-  tmp <- z[,-c(1:7)]
+  tmp <- z[,-c(1:9)]
   w <- colSums(tmp)>0
   df <- tmp[, w ]
-  return( data.frame(z[,c(1:7)],df))
+  return( data.frame(z[,c(1:9)],df))
 })
 
-meta_genus <- lapply(comm.zero_genus, function(z) z[,1:7])
-d_genus <- lapply(comm.zero_genus, function(z) z[,-c(1:7)])
+meta_genus <- lapply(comm.zero_genus, function(z) z[,1:9])
+d_genus <- lapply(comm.zero_genus, function(z) z[,-c(1:9)])
 
 x_genus <- lapply( meta_genus, function(z) data.frame(z[,c("site_quadrat_id", "site", "region")],whole=1) )
 
