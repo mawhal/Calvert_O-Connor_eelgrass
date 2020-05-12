@@ -247,7 +247,7 @@ master_table_genus_final <- master_table_genus_final %>%
   unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
 
 # This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
-write.csv(master_table, file="Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_genus_level.csv", quote=F, row.names=F) 
+write.csv(master_table_genus_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_genus_level.csv", quote=F, row.names=F) 
 
 
 ####### COLLAPSE ######
@@ -310,4 +310,4 @@ master_table_family_final <- master_table_family_final %>%
   unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
 
 # This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
-write.csv(master_table, file="Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv", quote=F, row.names=F) 
+write.csv(master_table_family_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv", quote=F, row.names=F) 
