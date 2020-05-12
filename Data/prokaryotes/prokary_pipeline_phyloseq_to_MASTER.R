@@ -153,7 +153,6 @@ View(master_table_final)
 # This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
 write.csv(master_table_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", quote=F, row.names=F)
 
-
 ####### COLLAPSE ######
 
 ###Collapse data at the genus level
@@ -184,14 +183,13 @@ metadata_sel <- metadata %>%
   dplyr::select(c(SampleID,swab_id, barcode_plate, barcode_well, year ,region, site, host_species, host_type, sample_type, survey_type, quadrat_id, meso_shoot_id))
 
 otu_table_genus <- read.csv(file="Data/prokaryotes/genus_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv",header=T )
-
 colnames(otu_table_genus)[1]<-"SampleID"
 
 master_table_genus <- left_join(metadata_sel , otu_table_genus , by = "SampleID")
 
 ### Exclude the following samples for analyses: "ZosCSPE", "ZosCSPF" # no info if new or old leaf and ZosPBSoldD18 which was all NAs
 exclude <-  c("ZosCSPE", "ZosCSPF", "ZosPBSoldD18", "ZosCSPoldM")
-master_table <- master_table %>% 
+master_table_genus <- master_table_genus %>% 
   dplyr::filter(!SampleID %in% exclude)
 
 ###recode to site names used by grazers
@@ -268,7 +266,7 @@ master_table_family <- left_join(metadata_sel , otu_table_family , by = "SampleI
 
 ### Exclude the following samples for analyses: "ZosCSPE", "ZosCSPF" # no info if new or old leaf and ZosPBSoldD18 which was all NAs
 exclude <-  c("ZosCSPE", "ZosCSPF", "ZosPBSoldD18", "ZosCSPoldM")
-master_table <- master_table %>% 
+master_table_family <- master_table_family %>% 
   dplyr::filter(!SampleID %in% exclude)
 
 ###recode to site names used by grazers
@@ -309,3 +307,4 @@ master_table_final_family <- master_table_final_family %>%
 
 # This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
 write.csv(master_table_final_family, file="Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_family_level.csv", quote=F, row.names=F)
+
