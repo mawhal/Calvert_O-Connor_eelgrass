@@ -6,6 +6,7 @@ library(vegan)
 library(ggplot2)
 library(reshape2)
 library(dplyr)
+library(readr)
 
 #########################################
 ############ 16S prokaryotes ############
@@ -217,7 +218,7 @@ nmds_macroeukaryotes <- ggplot(NMDS_inverts, aes(x=NMDS1, y=NMDS2, shape = year,
   ggtitle("Macroeukaryotes") + 
   annotate("text", label = "stress = 0.19", x = 1.3, y = -1.5, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
-  scale_shape_manual(values=c(19,8,17,18))
+  scale_shape_manual(values=c(0,19,8,17))
 
 nmds_macroeukaryotes <- nmds_macroeukaryotes +  theme_bw() + 
   theme (axis.title.x = element_text(size=20, margin = margin(t = 10, r = 0, b = 0, l = 0)), #font size of x title
@@ -236,3 +237,33 @@ nmds_macroeukaryotes <- nmds_macroeukaryotes +  theme_bw() +
 
 nmds_macroeukaryotes
 ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes.png", plot = nmds_macroeukaryotes, width=250, height=200, units="mm",dpi=300)
+
+### macroeukaryotes (inverts) without 2014
+NMDS_inverts_no_2014 <- NMDS_inverts %>% 
+  filter(!year == 2014)
+
+nmds_macroeukaryotes_no_2014 <- ggplot(NMDS_inverts_no_2014, aes(x=NMDS1, y=NMDS2, shape = year, colour=region)) +
+  stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
+  geom_point(size = 5, alpha = 0.8) +
+  ggtitle("Macroeukaryotes") + 
+  annotate("text", label = "stress = 0.19", x = 1.3, y = -1.5, size = 4, colour = "black") +
+  scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
+  scale_shape_manual(values=c(19,8,17))
+
+nmds_macroeukaryotes_no_2014 <- nmds_macroeukaryotes_no_2014 +  theme_bw() + 
+  theme (axis.title.x = element_text(size=20, margin = margin(t = 10, r = 0, b = 0, l = 0)), #font size of x title
+         axis.title.y = element_text(size=20, margin = margin(t = 0, r = 10, b = 0, l = 0)), #font size of y title
+         axis.text = element_text(size = 16), #font size of numbers in axis
+         panel.grid.major = element_blank(), #remove major grid
+         panel.grid.minor = element_blank(), #remove minor grid
+         axis.line = element_line(colour = "black"), #draw line in the axis
+         panel.border = element_blank(), #remove lines outside the graph
+         legend.title=element_blank(), #remove legend title
+         legend.direction = "vertical", #direction
+         legend.justification = c(1, 1), legend.position = "right", #legend is top right
+         legend.key.size = unit(2.0, 'lines'), #spacing between legends
+         legend.text = element_text(size = 16), #font size of legend
+         plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
+
+nmds_macroeukaryotes_no_2014
+ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes_no_2014.png", plot = nmds_macroeukaryotes_no_2014, width=250, height=200, units="mm",dpi=300)
