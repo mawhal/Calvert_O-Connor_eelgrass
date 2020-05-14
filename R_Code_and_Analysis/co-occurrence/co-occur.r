@@ -9,10 +9,20 @@
 library( tidyverse )
 
 # read data 
-comm18 <- read_csv( "Data/micro_eukaryotes/family_18S_core_microbes.csv" )
-comm16 <- read_csv( "Data/prokaryotes/family_16S_core_microbes.csv" )
+comm18 <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv" )
+# remove choked samples with no quadrat info from 18S dataset
+comm18 <- comm18 %>% 
+  filter(!SampleID == "ZosCSPoldA", !SampleID == "ZosCSPoldF", !SampleID == "ZosCSPoldM")
+# keep only year, site and meso_quadrat_id metadata from 18S dataset
+comm18 <- comm18 %>% 
+  select( year, site, site_quadrat_id)
+comm16 <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_family_level.csv" )
+# remove choked samples with no quadrat info from 16S dataset
 comm16 <- comm16 %>% 
-  select( -quadrat_id, -meso_shoot_id )
+  filter(!SampleID == "ZosCSPoldA", !SampleID == "ZosCSPoldF", !SampleID == "ZosCSPoldG", !SampleID == "ZosCSPoldH", !SampleID == "ZosCSPoldL")
+# keep only year, site and quadrat_id metadata from 16S dataset
+comm16 <- comm16 %>% 
+  select( year, site, site_quadrat_id)
 commin <- read_csv( "R_Code_and_Analysis/output_data/macroeuk_community_family.csv" )
 commin <- commin %>% 
   unite( site_quadrat_id, site, sample, remove = F ) %>% 
