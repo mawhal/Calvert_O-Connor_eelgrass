@@ -26,7 +26,7 @@ g1 <- ggplot(d %>% filter(key == "observed" & type=="prok"),
   geom_bar(stat="identity", width=0.15, col='black',alpha=0.75) + 
   geom_text( aes(y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) +
   scale_x_continuous(limits=c(2013.9,2018.1), labels=2014:2018) +
-  labs(x="Year", y="Proportion of gamma diversity (finest taxonomic level") +
+  labs(x="Year", y="Proportion of gamma diversity", title = "Finest taxonomic level") +
   scale_fill_viridis_d()
   # scale_fill_manual( values=rev(c("black","gray25","gray75","whitesmoke")) )
 g1 + geom_bar(data=d %>% filter(key == "observed" & type=="micro"),
@@ -61,7 +61,7 @@ g1 <- ggplot(d %>% filter(key == "observed" & type=="prok"),
   geom_bar(stat="identity", width=0.15, col='black',alpha=0.75) + 
   geom_text( aes(y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) +
   scale_x_continuous(limits=c(2013.9,2018.1), labels=2014:2018) +
-  labs(x="Year", y="Proportion of gamma diversity (family level)") +
+  labs(x="Year", y="Proportion of gamma diversity", title = "Family level") +
   scale_fill_viridis_d()
 # scale_fill_manual( values=rev(c("black","gray25","gray75","whitesmoke")) )
 g1 + geom_bar(data=d %>% filter(key == "observed" & type=="micro"),
@@ -95,7 +95,7 @@ g1 <- ggplot(d %>% filter(key == "observed" & type=="prok"),
   geom_bar(stat="identity", width=0.15, col='black',alpha=0.75) + 
   geom_text( aes(y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) +
   scale_x_continuous(limits=c(2013.9,2018.1), labels=2014:2018) +
-  labs(x="Year", y="Proportion of gamma diversity (inverts finest microbes genus)") +
+  labs(x="Year", y="Proportion of gamma diversity", title = "Inverts finest taxonomic level, microbes genus level") +
   scale_fill_viridis_d()
 # scale_fill_manual( values=rev(c("black","gray25","gray75","whitesmoke")) )
 g1 + geom_bar(data=d %>% filter(key == "observed" & type=="micro"),
