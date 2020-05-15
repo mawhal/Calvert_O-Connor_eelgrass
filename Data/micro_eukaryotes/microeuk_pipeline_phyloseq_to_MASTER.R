@@ -156,9 +156,8 @@ master_table <- left_join(metadata , otu_table , by = "SampleID")
 View(as.data.frame(master_table ))
 
 ### Exclude the following samples for analyses: ZosCSPtrans3Amb3 (not meso_quadrat but wrongly assigned as such)
-exclude <- c("ZosCSPtrans3Amb3")
 master_table <- master_table %>% 
-  dplyr::filter(!SampleID %in% exclude)
+  dplyr::filter(!SampleID == "ZosCSPtrans3Amb3")
 
 ###recode to site names used by grazers
 master_table <- master_table %>%
@@ -178,6 +177,8 @@ master_table_final <- master_table %>%
 master_table_final <- master_table_final %>% 
   dplyr::filter(survey_type == "meso_quadrat")
 View(master_table_final)
+
+master_table_final$meso_quadrat_id[master_table_final$meso_quadrat_id == 0]  <- "na" 
 
 #create a unique site_quadrat_id column
 master_table_final <- master_table_final %>% 
@@ -240,8 +241,9 @@ master_table_genus_final <- master_table_genus %>%
 # get only meso_quadrat survey 
 master_table_genus_final <- master_table_genus_final %>% 
   dplyr::filter(survey_type == "meso_quadrat")
-View(master_table_genus_final)
+#View(master_table_genus_final)
 
+master_table_genus_final$meso_quadrat_id[master_table_genus_final$meso_quadrat_id == 0]  <- "na" 
 #create a unique site_quadrat_id column
 master_table_genus_final <- master_table_genus_final %>% 
   unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
@@ -279,7 +281,7 @@ otu_table_family <- read.csv(file="Data/micro_eukaryotes/family_level_18S.otu.cs
 colnames(otu_table_family)[1]<-"SampleID"
 
 master_table_family <- left_join(metadata , otu_table_family , by = "SampleID")
-View(as.data.frame(master_table_family ))
+#View(as.data.frame(master_table_family ))
 
 ### Exclude the following samples for analyses: ZosCSPtrans3Amb3 (not meso_quadrat but wrongly assigned as such)
 exclude <- c("ZosCSPtrans3Amb3")
@@ -303,11 +305,13 @@ master_table_family_final <- master_table_family %>%
 # get only meso_quadrat survey 
 master_table_family_final <- master_table_family_final %>% 
   dplyr::filter(survey_type == "meso_quadrat")
-View(master_table_family_final)
 
+master_table_family_final$meso_quadrat_id[master_table_family_final$meso_quadrat_id == 0]  <- "na" 
+
+View(master_table_family_final)
 #create a unique site_quadrat_id column
 master_table_family_final <- master_table_family_final %>% 
   unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
-
+#View(as.data.frame(master_table_family ))
 # This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
 write.csv(master_table_family_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv", quote=F, row.names=F) 
