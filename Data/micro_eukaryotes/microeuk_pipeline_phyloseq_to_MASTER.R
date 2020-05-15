@@ -11,6 +11,7 @@ library(reshape2)
 library(stringr)
 library(ape)
 
+
 #### Importing files ####
 all_years_18S_unfiltered <- readRDS("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/micro_eukaryotes/18S_allyears_unfiltered.RDS")
 
@@ -139,17 +140,17 @@ all_years_18S_1000.tax <- as.data.frame(tax_table(all_years_18S_1000))
 
 all_years_18S_1000.sam <- as.data.frame(sample_data(all_years_18S_1000))
 
-write.csv(all_years_18S_1000.otu, file="Data/micro_eukaryotes/18S_1000_final.otu.csv", row.names=T)
+write.csv(all_years_18S_1000.otu, file="Data/micro_eukaryotes/18S_ASV_level_otu_table.csv", row.names=T)
 
-write.csv(all_years_18S_1000.tax, file="Data/micro_eukaryotes/18S_1000_final.tax.csv", row.names=T)
+write.csv(all_years_18S_1000.tax, file="Data/micro_eukaryotes/18S_ASV_level_taxonomy_table.csv", row.names=T)
 
-write.csv(all_years_18S_1000.sam , file="Data/micro_eukaryotes/18S_1000_final.sam.csv", row.names=F)
+write.csv(all_years_18S_1000.sam , file="Data/micro_eukaryotes/18S_ASV_level_metadata_table.csv", row.names=F)
 
 ### add metadata according to #SampleID labels
-metadata <- read.csv(file="Data/micro_eukaryotes/18S_1000_final.sam.csv",header=T )
+metadata <- read.csv(file="Data/micro_eukaryotes/18S_ASV_level_metadata_table.csv",header=T )
 View(metadata)
 
-otu_table <- read.csv(file="Data/micro_eukaryotes/18S_1000_final.otu.csv",header=T )
+otu_table <- read.csv(file="Data/micro_eukaryotes/18S_ASV_level_otu_table.csv",header=T )
 colnames(otu_table)[1]<-"SampleID"
 
 master_table <- left_join(metadata , otu_table , by = "SampleID")
@@ -178,7 +179,9 @@ master_table_final <- master_table_final %>%
   dplyr::filter(survey_type == "meso_quadrat")
 View(master_table_final)
 
-master_table_final$meso_quadrat_id[master_table_final$meso_quadrat_id == 0]  <- "na" 
+master_table_final$meso_quadrat_id <- replace(master_table_final$meso_quadrat_id, master_table_final$meso_quadrat_id == "na", NA)
+
+master_table_final$meso_quadrat_id <- replace(master_table_final$meso_quadrat_id, master_table_final$meso_quadrat_id == "0", NA)
 
 #create a unique site_quadrat_id column
 master_table_final <- master_table_final %>% 
@@ -204,16 +207,16 @@ genus_level_18S.tax <- as.data.frame(unclass(tax_table(genus_level_18S)))
 
 genus_level_18S.sam <- as.data.frame(sample_data(genus_level_18S))
 
-write.csv(genus_level_18S.otu, file="Data/micro_eukaryotes/genus_level_18S.otu.csv", row.names=T)
+write.csv(genus_level_18S.otu, file="Data/micro_eukaryotes/18S_genus_level_otu_table.csv", row.names=T)
 
-write.csv(genus_level_18S.tax, file="Data/micro_eukaryotes/genus_level_18S.tax.csv", row.names=T)
+write.csv(genus_level_18S.tax, file="Data/micro_eukaryotes/18S_genus_level_taxonomy_table.csv", row.names=T)
 
-write.csv(genus_level_18S.sam , file="Data/micro_eukaryotes/genus_level_18S.sam.csv", row.names=F)
+write.csv(genus_level_18S.sam , file="Data/micro_eukaryotes/18S_genus_level_metadata_table.csv", row.names=F)
 
 ### add metadata according to #SampleID labels
-metadata <- read.csv(file="Data/micro_eukaryotes/18S_1000_final.sam.csv",header=T )
+metadata <- read.csv(file="Data/micro_eukaryotes/18S_genus_level_metadata_table.csv",header=T )
 
-otu_table_genus <- read.csv(file="Data/micro_eukaryotes/genus_level_18S.otu.csv",header=T )
+otu_table_genus <- read.csv(file="Data/micro_eukaryotes/18S_genus_level_otu_table.csv",header=T )
 colnames(otu_table_genus)[1]<-"SampleID"
 
 master_table_genus <- left_join(metadata , otu_table_genus , by = "SampleID")
@@ -243,7 +246,10 @@ master_table_genus_final <- master_table_genus_final %>%
   dplyr::filter(survey_type == "meso_quadrat")
 #View(master_table_genus_final)
 
-master_table_genus_final$meso_quadrat_id[master_table_genus_final$meso_quadrat_id == 0]  <- "na" 
+master_table_genus_final$meso_quadrat_id <- replace(master_table_genus_final$meso_quadrat_id, master_table_genus_final$meso_quadrat_id == "na", NA)
+
+master_table_genus_final$meso_quadrat_id <- replace(master_table_genus_final$meso_quadrat_id, master_table_genus_final$meso_quadrat_id == "0", NA)
+
 #create a unique site_quadrat_id column
 master_table_genus_final <- master_table_genus_final %>% 
   unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns that were combined
@@ -268,16 +274,16 @@ family_level_18S.tax <- as.data.frame(unclass(tax_table(family_level_18S)))
 
 family_level_18S.sam <- as.data.frame(sample_data(family_level_18S))
 
-write.csv(family_level_18S.otu, file="Data/micro_eukaryotes/family_level_18S.otu.csv", row.names=T)
+write.csv(family_level_18S.otu, file="Data/micro_eukaryotes/18S_family_level_otu_table.csv", row.names=T)
 
-write.csv(family_level_18S.tax, file="Data/micro_eukaryotes/family_level_18S.tax.csv", row.names=T)
+write.csv(family_level_18S.tax, file="Data/micro_eukaryotes/18S_family_level_taxonomy_table.csv", row.names=T)
 
-write.csv(family_level_18S.sam , file="Data/micro_eukaryotes/family_level_18S.sam.csv", row.names=F)
+write.csv(family_level_18S.sam , file="Data/micro_eukaryotes/18S_family_level_metadata_table.csv", row.names=F)
 
 ### add metadata according to #SampleID labels
-metadata <- read.csv(file="Data/micro_eukaryotes/18S_1000_final.sam.csv",header=T )
+metadata <- read.csv(file="Data/micro_eukaryotes/18S_family_level_metadata_table.csv",header=T )
 
-otu_table_family <- read.csv(file="Data/micro_eukaryotes/family_level_18S.otu.csv",header=T )
+otu_table_family <- read.csv(file="Data/micro_eukaryotes/18S_family_level_otu_table.csv",header=T )
 colnames(otu_table_family)[1]<-"SampleID"
 
 master_table_family <- left_join(metadata , otu_table_family , by = "SampleID")
@@ -306,7 +312,9 @@ master_table_family_final <- master_table_family %>%
 master_table_family_final <- master_table_family_final %>% 
   dplyr::filter(survey_type == "meso_quadrat")
 
-master_table_family_final$meso_quadrat_id[master_table_family_final$meso_quadrat_id == 0]  <- "na" 
+master_table_family_final$meso_quadrat_id <- replace(master_table_family_final$meso_quadrat_id, master_table_family_final$meso_quadrat_id == "na", NA)
+
+master_table_family_final$meso_quadrat_id <- replace(master_table_family_final$meso_quadrat_id, master_table_family_final$meso_quadrat_id == "0", NA)
 
 View(master_table_family_final)
 #create a unique site_quadrat_id column
