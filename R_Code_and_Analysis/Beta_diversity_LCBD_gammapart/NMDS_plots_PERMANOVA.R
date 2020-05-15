@@ -72,6 +72,25 @@ nmds_prokaryotes <- nmds_prokaryotes +  theme_bw() +
 nmds_prokaryotes
 ggsave("R_Code_and_Analysis/figs/NMDS_prokaryotes.png", plot = nmds_prokaryotes, width=250, height=200, units="mm",dpi=300)
 
+### PERMANOVA 16S ###
+#### LOG-transformation
+log_16S <- log1p(abundances_16S_NMDS)
+####  Distance matrix * this is using Bray-Curtis  ###
+bray_16S <- vegdist(log_16S ,m="bray")
+
+#### run PERMANOVA with region and year - marginal
+permanova_16S <-adonis2(bray_16S ~ region + year,
+                                         data=microbes_16S_ASV, permutations=999, by = "margin")
+
+#### run PERMDISP
+microbes_16S_ASV$region
+attach(microbes_16S_ASV)
+permdisp_16S <- betadisper(bray_16S, region, type = c("median","centroid")) 
+plot(permdisp_16S)
+boxplot(permdisp_16S,
+        par(cex.lab=1.5))
+permutest(permdisp_16S, pairwise = TRUE)
+
 #############################################
 ############ 18S microeukaryotes ############
 #############################################
@@ -135,6 +154,25 @@ nmds_microeukaryotes <- nmds_microeukaryotes +  theme_bw() +
 
 nmds_microeukaryotes
 ggsave("R_Code_and_Analysis/figs/NMDS_microeukaryotes.png", plot = nmds_microeukaryotes, width=250, height=200, units="mm",dpi=300)
+
+### PERMANOVA 18S ###
+#### LOG-transformation
+log_18S <- log1p(abundances_18S_NMDS)
+####  Distance matrix * this is using Bray-Curtis  ###
+bray_18S <- vegdist(log_18S ,m="bray")
+
+#### run PERMANOVA with region and year - marginal
+permanova_18S <-adonis2(bray_18S ~ region + year,
+                        data=microbes_18S_ASV, permutations=999, by = "margin")
+
+#### run PERMDISP
+microbes_18S_ASV$region
+attach(microbes_18S_ASV)
+permdisp_18S <- betadisper(bray_18S, region, type = c("median","centroid")) 
+plot(permdisp_18S)
+boxplot(permdisp_18S,
+        par(cex.lab=1.5))
+permutest(permdisp_18S, pairwise = TRUE)
 
 #################################################
 ############ Inverts Macroeukaryotes ############
@@ -267,3 +305,29 @@ nmds_macroeukaryotes_no_2014 <- nmds_macroeukaryotes_no_2014 +  theme_bw() +
 
 nmds_macroeukaryotes_no_2014
 ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes_no_2014.png", plot = nmds_macroeukaryotes_no_2014, width=250, height=200, units="mm",dpi=300)
+
+### PERMANOVA inverts ###
+#### LOG-transformation
+log_inverts <- log1p(abundances_inverts_NMDS)
+####  Distance matrix * this is using Bray-Curtis  ###
+bray_inverts <- vegdist(log_inverts ,m="bray")
+
+#### run PERMANOVA with region and year - marginal
+permanova_inverts <-adonis2(bray_inverts ~ region + year,
+                        data=m.meta, permutations=999, by = "margin")
+
+#### run PERMDISP
+m.meta$region
+m.meta$year
+attach(m.meta)
+permdisp_inverts <- betadisper(bray_inverts, region, type = c("median","centroid")) 
+plot(permdisp_inverts)
+boxplot(permdisp_inverts,
+        par(cex.lab=1.5))
+permutest(permdisp_inverts, pairwise = TRUE)
+
+permdisp_inverts_year <- betadisper(bray_inverts, year, type = c("median","centroid")) 
+plot(permdisp_inverts_year)
+boxplot(permdisp_inverts_year,
+        par(cex.lab=1.5))
+permutest(permdisp_inverts_year, pairwise = TRUE)
