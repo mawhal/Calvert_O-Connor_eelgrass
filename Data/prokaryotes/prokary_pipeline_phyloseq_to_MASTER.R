@@ -88,11 +88,11 @@ all_years_16S_2016_NOT_RAREFIED.tax <- as.data.frame(tax_table(all_years_16S_201
 
 all_years_16S_2016_NOT_RAREFIED.sam <- as.data.frame(sample_data(all_years_16S_2016_NOT_RAREFIED ))
 
-write.csv(all_years_16S_2016_NOT_RAREFIED.otu, file="Data/prokaryotes/16S_3000_final.otu_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+write.csv(all_years_16S_2016_NOT_RAREFIED.otu, file="Data/prokaryotes/16S_ASV_level_otu_table.csv", row.names=T)
 
-write.csv(all_years_16S_2016_NOT_RAREFIED.tax, file="Data/prokaryotes/16S_3000_final.tax_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+write.csv(all_years_16S_2016_NOT_RAREFIED.tax, file="Data/prokaryotes/16S_ASV_level_taxonomy_table.csv", row.names=T)
 
-write.csv(all_years_16S_2016_NOT_RAREFIED.sam , file="Data/prokaryotes/16S_3000_final.sam_REMOVED_CONT_2016_NOT_RARE.csv", row.names=F)
+write.csv(all_years_16S_2016_NOT_RAREFIED.sam , file="Data/prokaryotes/16S_ASV_level_metadata_table.csv", row.names=F)
 
 ### add metadata according to #SampleID labels
 metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",header=T )
@@ -100,7 +100,7 @@ metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",heade
 metadata_sel <- metadata %>% 
   dplyr::select(c(SampleID,swab_id, barcode_plate, barcode_well, year ,region, site, host_species, host_type, sample_type, survey_type, quadrat_id, meso_shoot_id))
 
-otu_table <- read.csv(file="Data/prokaryotes/16S_3000_final.otu_REMOVED_CONT_2016_NOT_RARE.csv",header=T )
+otu_table <- read.csv(file="Data/prokaryotes/16S_ASV_level_otu_table.csv",header=T )
 colnames(otu_table)[1]<-"SampleID"
 
 master_table <- left_join(metadata_sel , otu_table , by = "SampleID")
@@ -122,9 +122,6 @@ master_table <- master_table %>%
                             "pruth_baysouth" = "pruth_bay"))
 
 levels(master_table$site)
-
-
-write.csv(master_table, file="Data/prokaryotes/16S_3000_MASTER_REMOVED_CONT_2016_NOT_RARE.csv", quote=F, row.names=F)
 
 # For mastel final table, get only leaf_old 
 master_table_final <- master_table %>% 
@@ -169,11 +166,11 @@ genus_level_16S.tax <- as.data.frame(unclass(tax_table(genus_level_16S)))
 
 genus_level_16S.sam <- as.data.frame(sample_data(genus_level_16S))
 
-write.csv(genus_level_16S.otu, file="Data/prokaryotes/genus_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+write.csv(genus_level_16S.otu, file="Data/prokaryotes/16S_genus_level_otu_table.csv", row.names=T)
 
-write.csv(genus_level_16S.tax, file="Data/prokaryotes/genus_level_final.tax_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+write.csv(genus_level_16S.tax, file="Data/prokaryotes/16S_genus_level_taxonomy_table.csv", row.names=T)
 
-write.csv(genus_level_16S.sam , file="Data/prokaryotes/genus_level_final.sam_REMOVED_CONT_2016_NOT_RARE.csv",row.names=F)
+write.csv(genus_level_16S.sam , file="Data/prokaryotes/16S_genus_level_metadata_table.csv",row.names=F)
 
 ### add metadata according to #SampleID labels
 metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",header=T )
@@ -182,7 +179,7 @@ metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",heade
 metadata_sel <- metadata %>% 
   dplyr::select(c(SampleID,swab_id, barcode_plate, barcode_well, year ,region, site, host_species, host_type, sample_type, survey_type, quadrat_id, meso_shoot_id))
 
-otu_table_genus <- read.csv(file="Data/prokaryotes/genus_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv",header=T )
+otu_table_genus <- read.csv(file="Data/prokaryotes/16S_genus_level_otu_table.csv",header=T )
 colnames(otu_table_genus)[1]<-"SampleID"
 
 master_table_genus <- left_join(metadata_sel , otu_table_genus , by = "SampleID")
@@ -245,11 +242,11 @@ family_level_16S.tax <- as.data.frame(unclass(tax_table(family_level_16S)))
 
 family_level_16S.sam <- as.data.frame(sample_data(family_level_16S))
 
-write.csv(family_level_16S.otu, file="Data/prokaryotes/family_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+write.csv(family_level_16S.otu, file="Data/prokaryotes/16S_family_level_otu_table.csv", row.names=T)
 
-write.csv(family_level_16S.tax, file="Data/prokaryotes/family_level_final.tax_REMOVED_CONT_2016_NOT_RARE.csv", row.names=T)
+write.csv(family_level_16S.tax, file="Data/prokaryotes/16S_family_level_taxonomy_table.csv", row.names=T)
 
-write.csv(family_level_16S.sam , file="Data/prokaryotes/family_level_final.sam_REMOVED_CONT_2016_NOT_RARE.csv",row.names=F)
+write.csv(family_level_16S.sam , file="Data/prokaryotes/16S_family_level_metadata_table.csv",row.names=F)
 
 ### add metadata according to #SampleID labels
 metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",header=T )
@@ -258,7 +255,7 @@ metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",heade
 metadata_sel <- metadata %>% 
   dplyr::select(c(SampleID,swab_id, barcode_plate, barcode_well, year ,region, site, host_species, host_type, sample_type, survey_type, quadrat_id, meso_shoot_id))
 
-otu_table_family <- read.csv(file="Data/prokaryotes/family_level_final.otu_REMOVED_CONT_2016_NOT_RARE.csv",header=T )
+otu_table_family <- read.csv(file="Data/prokaryotes/16S_family_level_otu_table.csv",header=T )
 
 colnames(otu_table_family)[1]<-"SampleID"
 
