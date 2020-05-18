@@ -11,19 +11,27 @@ library( tidyverse )
 # read data 
 comm18 <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv" )
 # remove choked samples with no quadrat info from 18S dataset
-comm18 <- comm18 %>% 
-  filter(!SampleID == "ZosCSPoldA", !SampleID == "ZosCSPoldF", !SampleID == "ZosCSPoldM")
+comm18 <- comm18[!is.na(comm18$meso_quadrat_id),]
 # keep only year, site and meso_quadrat_id metadata from 18S dataset
 comm18 <- comm18 %>% 
+<<<<<<< HEAD
   select( -SampleID, -host_type, -survey_type, -sample_type, -meso_quadrat_id )
+=======
+  select( year, site, site_quadrat_id)
+
+>>>>>>> 20f558da6469d6e6806fd6bf7d757a8c8dd4f7b8
 comm16 <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_family_level.csv" )
 # remove choked samples with no quadrat info from 16S dataset
-comm16 <- comm16 %>% 
-  filter(!SampleID == "ZosCSPoldA", !SampleID == "ZosCSPoldF", !SampleID == "ZosCSPoldG", !SampleID == "ZosCSPoldH", !SampleID == "ZosCSPoldL")
+comm16 <- comm16[!is.na(comm16$quadrat_id),]
 # keep only year, site and quadrat_id metadata from 16S dataset
 comm16 <- comm16 %>% 
+<<<<<<< HEAD
   select( -SampleID, -swab_id, -barcode_plate,-barcode_well,-region_year,
           -host_species, -host_type, -survey_type, -sample_type, -meso_shoot_id, -quadrat_id )
+=======
+  select( year, site, site_quadrat_id)
+
+>>>>>>> 20f558da6469d6e6806fd6bf7d757a8c8dd4f7b8
 commin <- read_csv( "R_Code_and_Analysis/output_data/macroeuk_community_family.csv" )
 commin <- commin %>% 
   unite( site_quadrat_id, site, sample, remove = F ) %>% 
