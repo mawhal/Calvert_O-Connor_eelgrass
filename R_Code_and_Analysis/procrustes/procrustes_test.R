@@ -7,7 +7,7 @@ library(vegan)
 #library(usedist)
 
 # pick a year
-year <- 2016
+year <- 2017
 
 #load grazers metadata
 metadata_macro <- read_csv(paste0("R_Code_and_Analysis/mantel/",year,"_macroeuk_metadata.csv") )
@@ -135,3 +135,7 @@ names(res) <- c('year','pair','samples','ss',"signif")
 res$corr <- sqrt(1-res$ss)
 res
 
+# write to disk
+write_csv( res, paste0("R_Code_and_Analysis/procrustes/procrustes_",year,".csv") )
+
+           
