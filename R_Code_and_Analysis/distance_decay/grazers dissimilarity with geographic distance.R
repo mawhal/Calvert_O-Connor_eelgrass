@@ -102,7 +102,7 @@ data.scores %>%
 data.scores1 <- data.scores %>%
   unite("Site.Sample", site, sample, sep = "-", remove = TRUE)
 
-Hakai.community.distance<- distances(data.scores1, id_variable = "Site.Sample", dist_variables = NULL)
+Hakai.community.distance <- distances(data.scores1, id_variable = "Site.Sample", dist_variables = NULL)
 
 
 ###Now make the distance matricies long

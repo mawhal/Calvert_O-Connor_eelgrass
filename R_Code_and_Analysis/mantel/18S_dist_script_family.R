@@ -2,12 +2,14 @@
 ### Author: Bianca Trevizan Segovia ###
 ### Date created: January 14, 2020 ###
 ### Date modified: February 14, 2020 ###
+### modified by Whalen on 18 May 2020: save metadata along with Bray-Curtis distance matrix
 
 library(dplyr)
 library(vegan)
 library(usedist)
 
-allsamples_18S <- read.csv("~/PostDoc/projects/Hakai_Quadra_data_retreat/18S_retreat/family_level_18S_MASTER.csv", header=T)
+
+allsamples_18S <- read_csv("R_Code_and_Analysis/mantel/family_level_18S_MASTER.csv")
 
 allsamples_18S <- allsamples_18S[order(allsamples_18S$year, allsamples_18S$site),]
 
@@ -62,14 +64,19 @@ microbes_18S_2015_abund <- microbes_18S_2015 %>%
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_18S_2015 <- vegdist(microbes_18S_2015_abund, method = "bray")
-# add labels 
-site_id <- microbes_18S_2015$labels
-dist_microbes_18S_2015 <- dist_setNames(dist_microbes_18S_2015, site_id)
 
 # set new matrix from dist matrix discarding upper triangle
 mat_microbes_18S_2015 <- as.matrix(dist_microbes_18S_2015)
-mat_microbes_18S_2015[upper.tri(mat_microbes_18S_2015, diag = FALSE)] <- ""
-write.csv(mat_microbes_18S_2015, "~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/family_18S_2015_braycurtis.csv")
+# mat_microbes_18S_2015[upper.tri(mat_microbes_18S_2015, diag = TRUE)] <- NA
+# add labels 
+site_id <- microbes_18S_2015$labels
+rownames(mat_microbes_18S_2015) <- site_id
+colnames(mat_microbes_18S_2015) <- site_id
+write_csv( data.frame(mat_microbes_18S_2015), "R_Code_and_Analysis/mantel/family_18S_2015_braycurtis.csv" )
+
+# save metadata
+meta_18S_2015 <- microbes_18S_2015 %>% select(year,site,site_quadrat_id,labels)
+write_csv( meta_18S_2015, "R_Code_and_Analysis/mantel/family_18S_2015_metadata.csv" )
 
 ###################################
 ############### 2016 ##############
@@ -103,14 +110,19 @@ microbes_18S_2016_abund <- microbes_18S_2016 %>%
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_18S_2016 <- vegdist(microbes_18S_2016_abund, method = "bray")
-# add labels 
-site_id <- microbes_18S_2016$labels
-dist_microbes_18S_2016 <- dist_setNames(dist_microbes_18S_2016, site_id)
 
 # set new matrix from dist matrix discarding upper triangle
-mat_microbes_18S_2016 <- as.matrix(dist_microbes_18S_2016 )
-mat_microbes_18S_2016[upper.tri(mat_microbes_18S_2016, diag = FALSE)] <- ""
-write.csv(mat_microbes_18S_2016, "~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/family_18S_2016_braycurtis.csv")
+mat_microbes_18S_2016 <- as.matrix(dist_microbes_18S_2016)
+# mat_microbes_18S_2016[upper.tri(mat_microbes_18S_2016, diag = TRUE)] <- NA
+# add labels 
+site_id <- microbes_18S_2016$labels
+rownames(mat_microbes_18S_2016) <- site_id
+colnames(mat_microbes_18S_2016) <- site_id
+write_csv( data.frame(mat_microbes_18S_2016), "R_Code_and_Analysis/mantel/family_18S_2016_braycurtis.csv" )
+
+# save metadata
+meta_18S_2016 <- microbes_18S_2016 %>% select(year,site,site_quadrat_id,labels)
+write_csv( meta_18S_2016, "R_Code_and_Analysis/mantel/family_18S_2016_metadata.csv" )
 
 
 ###################################
@@ -148,14 +160,20 @@ microbes_18S_2017_abund <- microbes_18S_2017 %>%
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_18S_2017 <- vegdist(microbes_18S_2017_abund, method = "bray")
-# add labels 
-site_id <- microbes_18S_2017$labels
-dist_microbes_18S_2017 <- dist_setNames(dist_microbes_18S_2017, site_id)
 
 # set new matrix from dist matrix discarding upper triangle
-mat_microbes_18S_2017 <- as.matrix(dist_microbes_18S_2017 )
-mat_microbes_18S_2017[upper.tri(mat_microbes_18S_2017, diag = FALSE)] <- ""
-write.csv(mat_microbes_18S_2017, "~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/family_18S_2017_braycurtis.csv")
+mat_microbes_18S_2017 <- as.matrix(dist_microbes_18S_2017)
+# mat_microbes_18S_2017[upper.tri(mat_microbes_18S_2017, diag = TRUE)] <- NA
+# add labels 
+site_id <- microbes_18S_2017$labels
+rownames(mat_microbes_18S_2017) <- site_id
+colnames(mat_microbes_18S_2017) <- site_id
+write_csv( data.frame(mat_microbes_18S_2017), "R_Code_and_Analysis/mantel/family_18S_2017_braycurtis.csv" )
+
+# save metadata
+meta_18S_2017 <- microbes_18S_2017 %>% select(year,site,site_quadrat_id,labels)
+write_csv( meta_18S_2017, "R_Code_and_Analysis/mantel/family_18S_2017_metadata.csv" )
+
 
 ###################################
 ############### 2018 ##############
@@ -189,12 +207,17 @@ microbes_18S_2018_abund <- microbes_18S_2018 %>%
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_18S_2018 <- vegdist(microbes_18S_2018_abund, method = "bray")
-# add labels 
-site_id <- microbes_18S_2018$labels
-dist_microbes_18S_2018 <- dist_setNames(dist_microbes_18S_2018, site_id)
 
 # set new matrix from dist matrix discarding upper triangle
 mat_microbes_18S_2018 <- as.matrix(dist_microbes_18S_2018)
-mat_microbes_18S_2018[upper.tri(mat_microbes_18S_2018, diag = FALSE)] <- ""
-write.csv(mat_microbes_18S_2018, "~/PostDoc/projects/Hakai_Quadra_data_retreat/mantel_microbes_grazers/family_18S_2018_braycurtis.csv")
+# mat_microbes_18S_2018[upper.tri(mat_microbes_18S_2018, diag = TRUE)] <- NA
+# add labels 
+site_id <- microbes_18S_2018$labels
+rownames(mat_microbes_18S_2018) <- site_id
+colnames(mat_microbes_18S_2018) <- site_id
+write_csv( data.frame(mat_microbes_18S_2018), "R_Code_and_Analysis/mantel/family_18S_2018_braycurtis.csv" )
+
+# save metadata
+meta_18S_2018 <- microbes_18S_2018 %>% select(year,site,site_quadrat_id,labels)
+write_csv( meta_18S_2018, "R_Code_and_Analysis/mantel/family_18S_2018_metadata.csv" )
 
