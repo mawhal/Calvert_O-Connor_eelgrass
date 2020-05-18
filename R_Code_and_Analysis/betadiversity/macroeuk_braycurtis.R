@@ -64,7 +64,6 @@ comm.coarse <- data.frame(m.spread.coarse[,-c(1:3)])
 comm.coarse <- comm.coarse[,names(comm.coarse)!="X.NA."]
 names(comm.coarse) <- make.cepnames( names(comm.coarse) )
 write_csv( m.spread.coarse,"R_Code_and_Analysis/output_data/macroeuk_community_coarse.csv" )
-names(comm) <- make.cepnames( names(comm) )
 
 
 # - save the bray-curtis distances
@@ -72,11 +71,23 @@ for( i in 2014:2017 ){
   metai <- meta.fine %>%
     filter(year==i) %>%
     unite(sample, site, sample, sep="_")
-  write_csv( metai, paste0("R_Code_and_Analysis/output_data/",i,"_macroeuk_metadata.csv") )
+  write_csv( metai, paste0("R_Code_and_Analysis/output_data/",i,"_macroeuk_metadata_finest.csv") )
   sample.names <- make.cepnames(metai$sample)
   commdisti <- vegdist( comm.fine[meta.fine$year==i,], method = "bray" )
   commdisti <- as.matrix(commdisti)
   rownames(commdisti) <- sample.names
   colnames(commdisti) <- sample.names
-  write_csv( data.frame(commdisti), paste0("R_Code_and_Analysis/output_data/",i,"_macroeuk_braycurtis.csv") )
+  write_csv( data.frame(commdisti), paste0("R_Code_and_Analysis/output_data/",i,"_macroeuk_braycurtis_finest.csv") )
+}
+for( i in 2014:2017 ){
+  metai <- meta.family %>%
+    filter(year==i) %>%
+    unite(sample, site, sample, sep="_")
+  write_csv( metai, paste0("R_Code_and_Analysis/output_data/",i,"_macroeuk_metadata_family.csv") )
+  sample.names <- make.cepnames(metai$sample)
+  commdisti <- vegdist( comm.fine[meta.fine$year==i,], method = "bray" )
+  commdisti <- as.matrix(commdisti)
+  rownames(commdisti) <- sample.names
+  colnames(commdisti) <- sample.names
+  write_csv( data.frame(commdisti), paste0("R_Code_and_Analysis/output_data/",i,"_macroeuk_braycurtis_family.csv") )
 }
