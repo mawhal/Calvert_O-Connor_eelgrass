@@ -37,14 +37,14 @@ comm.years <- split( zostera_16S, zostera_16S$year )
 # remove taxa that did not appear in a given year
 # lapply( comm.years, function(z) = select this and run first
 comm.zero <- lapply(comm.years, function(z) {
-  tmp <- z[,-c(1:13)]
+  tmp <- z[,-c(1:16)]
   w <- colSums(tmp)>0
   df <- tmp[, w ]
-  return( data.frame(z[,c(1:13)],df))
+  return( data.frame(z[,c(1:16)],df))
 })
 
 meta <- lapply(comm.zero, function(z) z[,7])
-d <- lapply(comm.zero, function(z) z[,-c(1:13)])
+d <- lapply(comm.zero, function(z) z[,-c(1:16)])
 
 # Species and Local contributions to beta diversity
 # transform community data
@@ -59,12 +59,11 @@ names(LCBD) <- c("LCBD","p.adj")
 LCBD <- data.frame( zostera_16S[,1:13], LCBD )
 
 #windows(3.5,4)
-LCBD_16S <- ggplot( data=LCBD, aes( x=year, y=factor(site), size=LCBD, color=p.adj )) + geom_point(alpha=1) +
-  # scale_x_discrete( limits=unique(LCBD$method)[c(6,1,3,5)], 
-                    # labels=c("visual\nsessile","meta\nsessile","meta\nmobile","visual\nmobile") ) + 
-  ylab( "Site" ) + theme_bw( ) 
+LCBD_16S <- ggplot( data=LCBD, aes( x=factor(year), y=factor(site), size=LCBD, fill=p.adj )) +
+  geom_point(shape=21,alpha=0.5,position=position_jitter(width=0.1,height = 0.1)) +
+  ylab( "Site" ) + xlab( "Year" ) + ggtitle("Prokaryotes") + theme_bw( )
 
-ggsave("R_Code_and_Analysis/figs/LCBD_16S.tiff", plot = LCBD_16S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/LCBD_16S.png", plot = LCBD_16S, width=250, height=200, units="mm",dpi=300)
 
 ################################################
 ################# 18S dataset ##################
@@ -105,9 +104,8 @@ names(LCBD) <- c("LCBD","p.adj")
 LCBD <- data.frame( zostera_18S[,1:13], LCBD )
 
 #windows(3.5,4)
-LCBD_18S <-ggplot( data=LCBD, aes( x=year, y=factor(site), size=LCBD, color=p.adj )) + geom_point(alpha=1) +
-  # scale_x_discrete( limits=unique(LCBD$method)[c(6,1,3,5)], 
-  # labels=c("visual\nsessile","meta\nsessile","meta\nmobile","visual\nmobile") ) + 
-  ylab( "Site" ) + theme_bw( ) 
+LCBD_18S <- ggplot( data=LCBD, aes( x=factor(year), y=factor(site), size=LCBD, fill=p.adj )) +
+  geom_point(shape=21,alpha=0.5,position=position_jitter(width=0.1,height = 0.1)) +
+  ylab( "Site" ) + xlab( "Year" ) + ggtitle("Microeukaryotes") + theme_bw( )
 
-ggsave("R_Code_and_Analysis/figs/LCBD_18S.tiff", plot = LCBD_18S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/LCBD_18S.png", plot = LCBD_18S, width=250, height=200, units="mm",dpi=300)

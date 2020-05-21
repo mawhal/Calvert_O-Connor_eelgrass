@@ -91,11 +91,10 @@ names(LCBD) <- c("LCBD","p.adj")
 LCBD <- data.frame( m.meta[,1:5], LCBD )
 
 # windows(3.5,4)
-ggplot( data=LCBD, aes( x=factor(year), y=factor(site), size=LCBD, fill=p.adj )) +
+LCBD_inverts <- ggplot( data=LCBD, aes( x=factor(year), y=factor(site), size=LCBD, fill=p.adj )) +
   geom_point(shape=21,alpha=0.5,position=position_jitter(width=0.1,height = 0.1)) +
-  ylab( "Site" ) + theme_bw( )
-
-
+  ylab( "Site" ) + xlab( "Year" ) + ggtitle("Macroeukaryotes") + theme_bw( )
+ggsave("R_Code_and_Analysis/betadiversity/LCBD_inverts.png", plot = LCBD_inverts, width=250, height=200, units="mm",dpi=300)
 
 ## diversity partitioning
 # community matrix, matrix with levels of sampling hierarchy
