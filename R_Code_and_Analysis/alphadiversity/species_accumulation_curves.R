@@ -77,7 +77,7 @@ curve_16S_all <- ggplot(df.curve_16S_all, aes(x=sites, y=richness))+
   labs(y = "Species Richness", x = "Number of Sites") 
 curve_16S_all
 
-ggsave("R_Code_and_Analysis/figs/specaccum_curve_prokaryotes.png", curve_16S_all, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_prokaryotes.png", curve_16S_all, width=250, height=200, units="mm",dpi=300)
 
 poolaccum_16S <- poolaccum(abundances_16S)
 plot_poolaccum_16S <- plot(poolaccum_16S)
@@ -153,7 +153,7 @@ curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness))+
   labs(y = "Species Richness", x = "Number of Sites") 
 curve_18S_all
 
-ggsave("R_Code_and_Analysis/figs/specaccum_curve_microeukaryotes.png", curve_18S_all, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_microeukaryotes.png", curve_18S_all, width=250, height=200, units="mm",dpi=300)
 
 poolaccum_18S <- poolaccum(abundances_18S)
 plot_poolaccum_18S <- plot(poolaccum_18S)
@@ -268,7 +268,7 @@ curve_inverts_all <- ggplot(df.curve_inverts_all, aes(x=sites, y=richness))+
   labs(y = "Species Richness", x = "Number of Sites") 
 curve_inverts_all
 
-ggsave("R_Code_and_Analysis/figs/specaccum_curve_macroeukaryotes.png", curve_inverts_all, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_macroeukaryotes.png", curve_inverts_all, width=250, height=200, units="mm",dpi=300)
 
 poolaccum_inverts <- poolaccum(abundances_inverts_finest)
 plot_poolaccum_inverts <- plot(poolaccum_inverts)

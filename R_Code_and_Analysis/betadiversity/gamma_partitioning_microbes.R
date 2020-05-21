@@ -65,7 +65,7 @@ g1 <- ggplot(add.plot2 %>% dplyr::filter(key == "observed"),
 g1 + geom_bar(data=add.plot2 %>% dplyr::filter(key == "null"),
               aes(x=year + 0.15, fill=level),
               stat="identity", position="stack", width=0.3, alpha=0.5)
-ggsave( "R_Code_and_Analysis/figs/microbes_16S_ASV_gamma_partition_additive_richness_prop.png", width=4, height=3 )
+ggsave( "R_Code_and_Analysis/betadiversity/microbes_16S_ASV_gamma_partition_additive_richness_prop.png", width=4, height=3 )
 
 
 ## FAMILY LEVEL adipart to compare ###
@@ -204,7 +204,7 @@ g1 <- ggplot(add.plot2 %>% dplyr::filter(key == "observed"),
 g1 + geom_bar(data=add.plot2 %>% dplyr::filter(key == "null"),
               aes(x=year + 0.15, fill=level),
               stat="identity", position="stack", width=0.3, alpha=0.5)
-ggsave( "R_Code_and_Analysis/figs/microbes_18S_ASV_gamma_partition_additive_richness_prop.png", width=4, height=3 )
+ggsave( "R_Code_and_Analysis/betadiversity/microbes_18S_ASV_gamma_partition_additive_richness_prop.png", width=4, height=3 )
 
 # sampling design (alpha, beta1= within sites, b2=between sites, b3=between regions)
 

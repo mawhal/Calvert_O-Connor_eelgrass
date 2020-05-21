@@ -6,7 +6,7 @@
 
 ### libraries
 library(tidyverse)
-
+library(ggplot2)
 
 ## read data
 invert_finest <- read_csv("R_Code_and_Analysis/output_data/adipart_invert_finest.csv")
@@ -37,8 +37,8 @@ g1 + geom_bar(data=d %>% filter(key == "observed" & type=="micro"),
               aes(x=year + 0.15, fill=level),
               stat="identity", position="stack", width=0.15, alpha=0.75, col='black') +
   geom_text( data=d %>% filter(key == "observed" & type=="macro"), aes(x=year+0.15,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) 
-ggsave( "R_Code_and_Analysis/figs/adipart_all_finest.svg", width=6, height=4)
-ggsave( "R_Code_and_Analysis/figs/adipart_all_finest.png", width=6, height=4)
+ggsave( "R_Code_and_Analysis/betadiversity/adipart_all_finest.svg", width=6, height=4)
+ggsave( "R_Code_and_Analysis/betadiversity/adipart_all_finest.png", width=6, height=4)
 
 
 #test with family level
@@ -72,7 +72,7 @@ g1 + geom_bar(data=d %>% filter(key == "observed" & type=="micro"),
            aes(x=year + 0.15, fill=level),
            stat="identity", position="stack", width=0.15, alpha=0.75, col='black') +
   geom_text( data=d %>% filter(key == "observed" & type=="macro"), aes(x=year+0.15,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) 
-ggsave( "R_Code_and_Analysis/figs/adipart_all_family_level.png", width=6, height=4)
+ggsave( "R_Code_and_Analysis/betadiversity/adipart_all_family_level.png", width=6, height=4)
 
 
 #test with genus level
@@ -106,5 +106,5 @@ g1 + geom_bar(data=d %>% filter(key == "observed" & type=="micro"),
            aes(x=year + 0.15, fill=level),
            stat="identity", position="stack", width=0.15, alpha=0.75, col='black') +
   geom_text( data=d %>% filter(key == "observed" & type=="macro"), aes(x=year+0.15,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) 
-ggsave( "R_Code_and_Analysis/figs/adipart_all_microbes_genus_macro_finest_level.png", width=6, height=4)
+ggsave( "R_Code_and_Analysis/betadiversity/adipart_all_microbes_genus_macro_finest_level.png", width=6, height=4)
 

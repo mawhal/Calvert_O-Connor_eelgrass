@@ -137,7 +137,7 @@ add.plot <- data.frame( year=rep(c(2014:2017),each=4),
                         observed=do.call( c, adds.obs ), null=do.call( c, adds.mean ) )
 add.plot$level <- factor( add.plot$level, levels=c("alpha","beta_sample","beta_site","beta_region") )
 ggplot( data=add.plot, aes(x=year,fill=level,y=observed)) + geom_bar(stat='identity')
-ggsave( "figs/inverts_gamma_partition_additive_taxon3_shannon.png", width=4, height=3 )
+ggsave( "R_Code_and_Analysis/betadiversity/inverts_gamma_partition_additive_taxon3_shannon.png", width=4, height=3 )
 add.plot2 <- add.plot %>% 
   gather( value="value", key = "key", - year, -level)
 write_csv(add.plot2,"R_Code_and_Analysis/output_data/adipart_invert_family.csv")

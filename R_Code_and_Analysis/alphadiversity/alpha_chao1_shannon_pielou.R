@@ -45,7 +45,7 @@ dat.16S$region <- factor(dat.16S$region, levels=c("choked", "pruth", "triquet","
 #### year ####
 p_16S_year <- ggplot(dat.16S, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_fill_brewer(palette = "Dark2")
 
 p_16S_year <- p_16S_year + labs(y = "alpha diversity measures prokaryotes") # y-axis label
@@ -68,12 +68,12 @@ p_16S_year <- p_16S_year + ggtitle("") + #add title (optional)
 
 p_16S_year
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_16S_years.png", plot = p_16S_year, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_16S_years.png", plot = p_16S_year, width=250, height=200, units="mm",dpi=300)
 
 #### region ####
 p_16S_region <- ggplot(dat.16S, aes(x = region, y = value, fill = region)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) 
 
 p_16S_region <- p_16S_region + labs(y = "alpha diversity measures prokaryotes") # y-axis label
@@ -96,7 +96,7 @@ p_16S_region <- p_16S_region + ggtitle("") + #add title (optional)
 
 p_16S_region
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_16S_regions.png", plot = p_16S_region, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_16S_regions.png", plot = p_16S_region, width=250, height=200, units="mm",dpi=300)
 
 #############################################
 ############ 18S microeukaryotes ############
@@ -133,7 +133,7 @@ levels(dat.18S$year)
 #### year ####
 p_18S_year <- ggplot(dat.18S, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_fill_brewer(palette = "Dark2")
 
 p_18S_year <- p_18S_year + labs(y = "alpha diversity measures microeukaryotes") # y-axis label
@@ -156,12 +156,12 @@ p_18S_year <- p_18S_year + ggtitle("") + #add title (optional)
 
 p_18S_year
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_18S_years.png", plot = p_18S_year, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_18S_years.png", plot = p_18S_year, width=250, height=200, units="mm",dpi=300)
 
 #### region ####
 p_18S_region <- ggplot(dat.18S, aes(x = region, y = value, fill = region)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) 
 
 p_18S_region <- p_18S_region + labs(y = "alpha diversity measures microeukaryotes") # y-axis label
@@ -184,7 +184,7 @@ p_18S_region <- p_18S_region + ggtitle("") + #add title (optional)
 
 p_18S_region
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_18S_regions.png", plot = p_18S_region, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_18S_regions.png", plot = p_18S_region, width=250, height=200, units="mm",dpi=300)
 
 #################################################
 ############ Inverts macroeukaryotes ############
@@ -264,7 +264,7 @@ dat.inverts_finest$region <- factor(dat.inverts_finest$region, levels=c("choked"
 #### year ####
 p_inverts_finest_year <- ggplot(dat.inverts_finest, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_fill_manual(values=c("#E6AB02", "#1B9E77", "#D95F02", "#7570B3"))
 
 p_inverts_finest_year <- p_inverts_finest_year + labs(y = "alpha diversity measures macroeukaryotes finest") # y-axis label
@@ -287,12 +287,12 @@ p_inverts_finest_year <- p_inverts_finest_year + ggtitle("") + #add title (optio
 
 p_inverts_finest_year
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_inverts_finest_years.png", plot = p_inverts_finest_year, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_finest_years.png", plot = p_inverts_finest_year, width=250, height=200, units="mm",dpi=300)
 
 #### region ####
 p_inverts_finest_region <- ggplot(dat.inverts_finest, aes(x = region, y = value, fill = region)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) 
 
 p_inverts_finest_region <- p_inverts_finest_region + labs(y = "alpha diversity measures macroeukaryotes finest") # y-axis label
@@ -315,7 +315,7 @@ p_inverts_finest_region <- p_inverts_finest_region + ggtitle("") + #add title (o
 
 p_inverts_finest_region
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_inverts_finest_regions.png", plot = p_inverts_finest_region, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_finest_regions.png", plot = p_inverts_finest_region, width=250, height=200, units="mm",dpi=300)
 
 #### Family level ####
 
@@ -375,7 +375,7 @@ dat.inverts_family$region <- factor(dat.inverts_family$region, levels=c("choked"
 #### year ####
 p_inverts_family_year <- ggplot(dat.inverts_family, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_fill_manual(values=c("#E6AB02", "#1B9E77", "#D95F02", "#7570B3"))
 
 p_inverts_family_year <- p_inverts_family_year + labs(y = "alpha diversity measures macroeukaryotes family") # y-axis label
@@ -398,12 +398,12 @@ p_inverts_family_year <- p_inverts_family_year + ggtitle("") + #add title (optio
 
 p_inverts_family_year
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_inverts_family_years.png", plot = p_inverts_family_year, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_family_years.png", plot = p_inverts_family_year, width=250, height=200, units="mm",dpi=300)
 
 #### region ####
 p_inverts_family_region <- ggplot(dat.inverts_family, aes(x = region, y = value, fill = region)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
-  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = T) + geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) 
 
 p_inverts_family_region <- p_inverts_family_region + labs(y = "alpha diversity measures macroeukaryotes family") # y-axis label
@@ -426,6 +426,6 @@ p_inverts_family_region <- p_inverts_family_region + ggtitle("") + #add title (o
 
 p_inverts_family_region
 
-ggsave("R_Code_and_Analysis/figs/alpha_diversity_inverts_family_regions.png", plot = p_inverts_family_region, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_family_regions.png", plot = p_inverts_family_region, width=250, height=200, units="mm",dpi=300)
 
 

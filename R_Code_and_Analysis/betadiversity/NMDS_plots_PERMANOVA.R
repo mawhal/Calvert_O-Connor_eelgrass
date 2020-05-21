@@ -71,7 +71,7 @@ nmds_prokaryotes <- nmds_prokaryotes +  theme_bw() +
          plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_prokaryotes
-ggsave("R_Code_and_Analysis/figs/NMDS_prokaryotes.png", plot = nmds_prokaryotes, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_prokaryotes.png", plot = nmds_prokaryotes, width=250, height=200, units="mm",dpi=300)
 
 ### PERMANOVA 16S ###
 #### LOG-transformation
@@ -155,7 +155,7 @@ nmds_microeukaryotes <- nmds_microeukaryotes +  theme_bw() +
          plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_microeukaryotes
-ggsave("R_Code_and_Analysis/figs/NMDS_microeukaryotes.png", plot = nmds_microeukaryotes, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_microeukaryotes.png", plot = nmds_microeukaryotes, width=250, height=200, units="mm",dpi=300)
 
 ### PERMANOVA 18S ###
 #### LOG-transformation
@@ -277,7 +277,7 @@ nmds_macroeukaryotes <- nmds_macroeukaryotes +  theme_bw() +
          plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_macroeukaryotes
-ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes.png", plot = nmds_macroeukaryotes, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes.png", plot = nmds_macroeukaryotes, width=250, height=200, units="mm",dpi=300)
 
 ### macroeukaryotes (inverts) without 2014
 m.meta_no_2014 <- m.meta %>% 
@@ -336,7 +336,7 @@ nmds_macroeukaryotes_no_2014 <- nmds_macroeukaryotes_no_2014 +  theme_bw() +
          plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_macroeukaryotes_no_2014
-ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes_no_2014.png", plot = nmds_macroeukaryotes_no_2014, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes_no_2014.png", plot = nmds_macroeukaryotes_no_2014, width=250, height=200, units="mm",dpi=300)
 
 ### PERMANOVA inverts ###
 #### LOG-transformation
@@ -420,5 +420,5 @@ nmds_macroeukaryotes_2016_2017 <- nmds_macroeukaryotes_2016_2017 +  theme_bw() +
          plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_macroeukaryotes_2016_2017
-ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes_2016_2017.png", plot = nmds_macroeukaryotes_2016_2017, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes_2016_2017.png", plot = nmds_macroeukaryotes_2016_2017, width=250, height=200, units="mm",dpi=300)
 
