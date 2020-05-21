@@ -7,6 +7,7 @@ library(ggplot2)
 library(reshape2)
 library(dplyr)
 library(readr)
+library(tidyverse)
 
 #########################################
 ############ 16S prokaryotes ############
@@ -81,6 +82,7 @@ bray_16S <- vegdist(log_16S ,m="bray")
 #### run PERMANOVA with region and year - marginal
 permanova_16S <-adonis2(bray_16S ~ region + year,
                                          data=microbes_16S_ASV, permutations=999, by = "margin")
+permanova_16S
 
 #### run PERMDISP
 microbes_16S_ASV$region
@@ -164,6 +166,7 @@ bray_18S <- vegdist(log_18S ,m="bray")
 #### run PERMANOVA with region and year - marginal
 permanova_18S <-adonis2(bray_18S ~ region + year,
                         data=microbes_18S_ASV, permutations=999, by = "margin")
+permanova_18S
 
 #### run PERMDISP
 microbes_18S_ASV$region
@@ -277,14 +280,43 @@ nmds_macroeukaryotes
 ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes.png", plot = nmds_macroeukaryotes, width=250, height=200, units="mm",dpi=300)
 
 ### macroeukaryotes (inverts) without 2014
-NMDS_inverts_no_2014 <- NMDS_inverts %>% 
+m.meta_no_2014 <- m.meta %>% 
   filter(!year == 2014)
+
+### Creating an object to store abundances only
+abundances_inverts_NMDS_no_2014 <- m.meta_no_2014 %>% 
+  dplyr::select(-(1:6))
+
+set.seed(2)
+NMDS.inverts.LOG_no_2014 <- metaMDS(log(abundances_inverts_NMDS_no_2014+1), distance = "bray", k=2)
+NMDS.inverts.LOG_no_2014 
+
+stressplot(NMDS.inverts.LOG_no_2014)
+plot(NMDS.inverts.LOG_no_2014)
+
+#build a data frame with NMDS coordinates and metadata
+MDS1 = NMDS.inverts.LOG_no_2014$points[,1]
+MDS2 = NMDS.inverts.LOG_no_2014$points[,2]
+NMDS_inverts_no_2014 = data.frame(MDS1 = MDS1, MDS2 = MDS2, year = m.meta_no_2014$year, region = m.meta_no_2014$region)
+NMDS_inverts_no_2014
+
+#renaming columns
+#setnames(data, old=c("old_name","another_old_name"), new=c("new_name", "another_new_name"))
+library(data.table)
+setnames(NMDS_inverts_no_2014, old=c("MDS1", "MDS2", "year", "region"), new=c("NMDS1","NMDS2", "year", "region"))
+NMDS_inverts_no_2014
+NMDS_inverts_no_2014$region
+
+# re-order the factor levels before the plot
+NMDS_inverts_no_2014$region <- factor(NMDS_inverts_no_2014$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
+
+NMDS_inverts_no_2014$year <- factor(NMDS_inverts_no_2014$year, levels=c("2015", "2016","2017"))
 
 nmds_macroeukaryotes_no_2014 <- ggplot(NMDS_inverts_no_2014, aes(x=NMDS1, y=NMDS2, shape = year, colour=region)) +
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Macroeukaryotes") + 
-  annotate("text", label = "stress = 0.19", x = 1.3, y = -1.5, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.15", x = 1.3, y = -1.5, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17))
 
@@ -308,26 +340,85 @@ ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes_no_2014.png", plot = nmds_
 
 ### PERMANOVA inverts ###
 #### LOG-transformation
-log_inverts <- log1p(abundances_inverts_NMDS)
+log_inverts_no_2014 <- log1p(abundances_inverts_NMDS_no_2014)
 ####  Distance matrix * this is using Bray-Curtis  ###
-bray_inverts <- vegdist(log_inverts ,m="bray")
+bray_inverts_no_2014 <- vegdist(log_inverts_no_2014 ,m="bray")
 
 #### run PERMANOVA with region and year - marginal
-permanova_inverts <-adonis2(bray_inverts ~ region + year,
-                        data=m.meta, permutations=999, by = "margin")
+permanova_inverts_no_2014 <-adonis2(bray_inverts_no_2014 ~ region + year,
+                        data=m.meta_no_2014, permutations=999, by = "margin")
+permanova_inverts_no_2014
 
-#### run PERMDISP
-m.meta$region
-m.meta$year
-attach(m.meta)
-permdisp_inverts <- betadisper(bray_inverts, region, type = c("median","centroid")) 
-plot(permdisp_inverts)
-boxplot(permdisp_inverts,
-        par(cex.lab=1.5))
-permutest(permdisp_inverts, pairwise = TRUE)
 
-permdisp_inverts_year <- betadisper(bray_inverts, year, type = c("median","centroid")) 
-plot(permdisp_inverts_year)
-boxplot(permdisp_inverts_year,
-        par(cex.lab=1.5))
-permutest(permdisp_inverts_year, pairwise = TRUE)
+### TEST Permanova Inverts only 2017 and 2018
+### macroeukaryotes (inverts) without 2014
+m.meta_2016_2017 <- m.meta %>% 
+  filter(!year == 2014, !year == 2015)
+
+### Creating an object to store abundances only
+abundances_inverts_NMDS_2016_2017 <- m.meta_2016_2017 %>% 
+  dplyr::select(-(1:6))
+
+### PERMANOVA inverts ###
+#### LOG-transformation
+log_inverts_2016_2017 <- log1p(abundances_inverts_NMDS_2016_2017)
+####  Distance matrix * this is using Bray-Curtis  ###
+bray_inverts_2016_2017 <- vegdist(log_inverts_2016_2017 ,m="bray")
+
+#### run PERMANOVA with region and year - marginal
+permanova_inverts_2016_2017 <-adonis2(bray_inverts_2016_2017 ~ region + year,
+                                    data=m.meta_2016_2017, permutations=999, by = "margin")
+permanova_inverts_2016_2017
+
+### GRAPH 2016 and 2017
+set.seed(2)
+NMDS.inverts.LOG_2016_2017 <- metaMDS(log(abundances_inverts_NMDS_2016_2017+1), distance = "bray", k=2)
+NMDS.inverts.LOG_2016_2017 
+
+stressplot(NMDS.inverts.LOG_2016_2017)
+plot(NMDS.inverts.LOG_2016_2017)
+
+#build a data frame with NMDS coordinates and metadata
+MDS1 = NMDS.inverts.LOG_2016_2017$points[,1]
+MDS2 = NMDS.inverts.LOG_2016_2017$points[,2]
+NMDS_inverts_2016_2017 = data.frame(MDS1 = MDS1, MDS2 = MDS2, year = m.meta_2016_2017$year, region = m.meta_2016_2017$region)
+NMDS_inverts_2016_2017
+
+#renaming columns
+#setnames(data, old=c("old_name","another_old_name"), new=c("new_name", "another_new_name"))
+library(data.table)
+setnames(NMDS_inverts_2016_2017, old=c("MDS1", "MDS2", "year", "region"), new=c("NMDS1","NMDS2", "year", "region"))
+NMDS_inverts_2016_2017
+NMDS_inverts_2016_2017$region
+
+# re-order the factor levels before the plot
+NMDS_inverts_2016_2017$region <- factor(NMDS_inverts_2016_2017$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
+
+NMDS_inverts_2016_2017$year <- factor(NMDS_inverts_2016_2017$year, levels=c("2016","2017"))
+
+nmds_macroeukaryotes_2016_2017 <- ggplot(NMDS_inverts_2016_2017, aes(x=NMDS1, y=NMDS2, shape = year, colour=region)) +
+  stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
+  geom_point(size = 5, alpha = 0.8) +
+  ggtitle("Macroeukaryotes") + 
+  annotate("text", label = "stress = 0.16", x = 1.3, y = -1.5, size = 4, colour = "black") +
+  scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
+  scale_shape_manual(values=c(8,17))
+
+nmds_macroeukaryotes_2016_2017 <- nmds_macroeukaryotes_2016_2017 +  theme_bw() + 
+  theme (axis.title.x = element_text(size=20, margin = margin(t = 10, r = 0, b = 0, l = 0)), #font size of x title
+         axis.title.y = element_text(size=20, margin = margin(t = 0, r = 10, b = 0, l = 0)), #font size of y title
+         axis.text = element_text(size = 16), #font size of numbers in axis
+         panel.grid.major = element_blank(), #remove major grid
+         panel.grid.minor = element_blank(), #remove minor grid
+         axis.line = element_line(colour = "black"), #draw line in the axis
+         panel.border = element_blank(), #remove lines outside the graph
+         legend.title=element_blank(), #remove legend title
+         legend.direction = "vertical", #direction
+         legend.justification = c(1, 1), legend.position = "right", #legend is top right
+         legend.key.size = unit(2.0, 'lines'), #spacing between legends
+         legend.text = element_text(size = 16), #font size of legend
+         plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
+
+nmds_macroeukaryotes_2016_2017
+ggsave("R_Code_and_Analysis/figs/NMDS_macroeukaryotes_2016_2017.png", plot = nmds_macroeukaryotes_2016_2017, width=250, height=200, units="mm",dpi=300)
+
