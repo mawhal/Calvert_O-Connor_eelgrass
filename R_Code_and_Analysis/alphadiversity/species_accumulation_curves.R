@@ -3,8 +3,7 @@
 ### Date created: May 20th, 2020 ###
 
 library(vegan)
-library(dplyr)
-library(ggplot2)
+library(tidyverse)
 
 #########################################
 ############ 16S prokaryotes ############
@@ -21,6 +20,10 @@ abundances_16S <- microbes_16S_ASV %>%
 # species accumulation curve for all years
 curve_16S = specaccum(abundances_16S, method = "random", 
                       permutations = 100)
+df.curve_16S <- data.frame(curve_16S$richness,curve_16S$sites,curve_16S$sd)
+names(df.curve_16S) <- substring(names(df.curve_16S),11) # keep labels in columns from 16 character on
+df.curve_16S$type <- "pooled"
+
 #subset each year
 abundances_16S_2015 <- microbes_16S_ASV %>% 
   dplyr::filter(year == "2015") %>% 
@@ -43,7 +46,7 @@ curve_16S_2018 = specaccum(abundances_16S_2018, method = "random")
 
 #plot all and each year together
 plot(curve_16S$sites, curve_16S$richness,
-                       xlab="Number of Sites",
+                       xlab="Number of samples",
                        ylab="Species Richness",
                        main="Prokaryotes")
 
@@ -74,14 +77,47 @@ curve_16S_all <- ggplot(df.curve_16S_all, aes(x=sites, y=richness))+
   facet_wrap(~type) +
   geom_point() +
   ggtitle("Prokaryotes") +
-  labs(y = "Species Richness", x = "Number of Sites") 
+  labs(y = "Species Richness", x = "Number of samples") 
 curve_16S_all
 
-ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_prokaryotes.png", curve_16S_all, width=250, height=200, units="mm",dpi=300)
+# ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_prokaryotes.png", curve_16S_all, width=4, height=4.5,dpi=300)
 
+# repeat with pooled samples
+# rbind everything together
+df.curve_16S_all <- rbind(df.curve_16S, df.curve_16S_2015,df.curve_16S_2016,df.curve_16S_2017, df.curve_16S_2018)
+
+# smaller df for labelling years
+labels_16S <- df.curve_16S_all %>% 
+  group_by( type ) %>% 
+  filter( sites==max(sites), type != "pooled" )
+
+curve_16S_all <- ggplot(df.curve_16S_all, aes(x=sites, y=richness))+
+  # facet_wrap(~type) +
+  geom_line(aes(group=type)) +
+  geom_text( data=labels_16S,aes(x=sites,y=richness,label=type), adj=0, 
+             nudge_y = c(0,0,100,-10), nudge_x = c(0,0,-25,0) ) +
+  # ggtitle("Prokaryotes") +
+  labs(y = "Prokaryote species richness", x = "Number of samples") 
+curve_16S_all
+
+# extrapolate
 poolaccum_16S <- poolaccum(abundances_16S)
 plot_poolaccum_16S <- plot(poolaccum_16S)
 plot_poolaccum_16S
+estimateR(abundances_16S)
+ 
+# mean and range of chao estimator
+meanchao <- apply( poolaccum_16S$chao, 1, mean)
+rangechao <-  t(apply( poolaccum_16S$chao, 1, quantile, c(0.025,0.9755)))
+chao <- as.data.frame(poolaccum_16S$chao)
+chao$sample = 1:nrow(chao)
+chao$mean <- meanchao
+chao$min <- rangechao[,1]
+chao$max <- rangechao[,2]
+
+ggplot( chao, aes(y=mean, x=sample) ) + geom_line()+
+  geom_line( aes(y=max) ) + 
+  geom_line( aes(y=min) ) 
 
 #############################################
 ############ 18S microeukaryotes ############
@@ -97,6 +133,10 @@ abundances_18S <- microbes_18S_ASV %>%
 
 curve_18S = specaccum(abundances_18S, method = "random", 
                       permutations = 100)
+df.curve_18S <- data.frame(curve_18S$richness,curve_18S$sites,curve_18S$sd)
+names(df.curve_18S) <- substring(names(df.curve_18S),11) # keep labels in columns from 16 character on
+df.curve_18S$type <- "pooled"
+
 #subset each year
 abundances_18S_2015 <- microbes_18S_ASV %>% 
   dplyr::filter(year == "2015") %>% 
@@ -119,7 +159,7 @@ curve_18S_2018 = specaccum(abundances_18S_2018, method = "random")
 
 #plot all and each year together
 plot(curve_18S$sites, curve_18S$richness,
-     xlab="Number of Sites",
+     xlab="Number of samples",
      ylab="Species Richness",
      main="Prokaryotes")
 
@@ -150,14 +190,35 @@ curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness))+
   facet_wrap(~type) +
   geom_point() +
   ggtitle("Microeukaryotes") +
-  labs(y = "Species Richness", x = "Number of Sites") 
+  labs(y = "Species Richness", x = "Number of samples") 
 curve_18S_all
 
-ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_microeukaryotes.png", curve_18S_all, width=250, height=200, units="mm",dpi=300)
+# ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_microeukaryotes.png", curve_18S_all, width=250, height=200, units="mm",dpi=300)
 
+
+## repeat with pooled samples
+# rbind everything together
+df.curve_18S_all <- rbind(df.curve_18S, df.curve_18S_2015,df.curve_18S_2016,df.curve_18S_2017, df.curve_18S_2018)
+
+# smaller df for labelling years
+labels_18S <- df.curve_18S_all %>% 
+  group_by( type ) %>% 
+  filter( sites==max(sites), type != "pooled" )
+
+curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness))+
+  # facet_wrap(~type) +
+  geom_line(aes(group=type)) +
+  geom_text( data=labels_18S,aes(x=sites,y=richness,label=type), adj=0, 
+             nudge_y = c(-8,0,0,1), nudge_x = c(0,0,0,0) ) +
+  labs(y = "Microeuk. species richness", x = "Number of samples") 
+curve_18S_all
+
+# extrapolate
 poolaccum_18S <- poolaccum(abundances_18S)
 plot_poolaccum_18S <- plot(poolaccum_18S)
 plot_poolaccum_18S
+
+
 
 #################################################
 ############ Inverts macroeukaryotes ############
@@ -213,6 +274,10 @@ abundances_inverts_finest <- m.meta_finest %>%
 
 curve_inverts = specaccum(abundances_inverts_finest, method = "random", 
                       permutations = 100)
+df.curve_inverts <- data.frame(curve_inverts$richness,curve_inverts$sites,curve_inverts$sd)
+names(df.curve_inverts) <- substring(names(df.curve_inverts),15) # keep labels in columns from 16 character on
+df.curve_inverts$type <- "pooled"
+
 #subset each year
 abundances_inverts_2014 <- m.meta_finest %>% 
   dplyr::filter(year == "2014") %>% 
@@ -235,7 +300,7 @@ curve_inverts_2017 = specaccum(abundances_inverts_2017, method = "random")
 
 #plot all and each year together
 plot(curve_inverts$sites, curve_inverts$richness,
-     xlab="Number of Sites",
+     xlab="Number of samples",
      ylab="Species Richness",
      main="Prokaryotes")
 
@@ -265,11 +330,45 @@ curve_inverts_all <- ggplot(df.curve_inverts_all, aes(x=sites, y=richness))+
   facet_wrap(~type) +
   geom_point() +
   ggtitle("Macroeukaryotes") +
-  labs(y = "Species Richness", x = "Number of Sites") 
+  labs(y = "Species Richness", x = "Number of samples") 
 curve_inverts_all
 
-ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_macroeukaryotes.png", curve_inverts_all, width=250, height=200, units="mm",dpi=300)
+# ggsave("R_Code_and_Analysis/alphadiversity/specaccum_curve_macroeukaryotes.png", curve_inverts_all, width=250, height=200, units="mm",dpi=300)
 
+## repeat with pooled samples
+# rbind everything together
+df.curve_inverts_all <- rbind(df.curve_inverts, df.curve_inverts_2014, df.curve_inverts_2015,df.curve_inverts_2016,df.curve_inverts_2017)
+
+# smaller df for labelling years
+labels_inverts <- df.curve_inverts_all %>% 
+  group_by( type ) %>% 
+  filter( sites==max(sites), type != "pooled" )
+
+curve_inverts_all <- ggplot(df.curve_inverts_all, aes(x=sites, y=richness))+
+  # facet_wrap(~type) +
+  geom_line(aes(group=type)) +
+  geom_text( data=labels_inverts,aes(x=sites,y=richness,label=type), adj=0, 
+             nudge_y = c(-3,3,5,-5), nudge_x = c(0,3,0,-5) ) +
+  labs(y = "Invertebrate species richness", x = "Number of samples") 
+curve_inverts_all
+
+# extrapolate
 poolaccum_inverts <- poolaccum(abundances_inverts_finest)
 plot_poolaccum_inverts <- plot(poolaccum_inverts)
 plot_poolaccum_inverts
+library(iNEXT)
+incidence_inverts_finest <- as.data.frame(abundances_inverts_finest)
+incidence_inverts_finest <- ifelse( incidence_inverts_finest==0,0,1)
+iNEXT(as.matrix(incidence_inverts_finest), datatype = "incidence_raw" )
+
+
+# plot all curves together
+cowplot::plot_grid( curve_16S_all,curve_18S_all,curve_inverts_all, ncol=3 )
+ggsave( "R_Code_and_Analysis/alphadiversity/accumulation_curves_all.png", 
+        width=6, height=2.5 )
+
+
+# all extrapolations
+poolaccum_16S
+poolaccum_18S
+apply(poolaccum_inverts$chao, 1, mean)
