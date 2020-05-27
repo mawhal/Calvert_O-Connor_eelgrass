@@ -40,7 +40,7 @@ alpha_16S_metrics <- alpha_16S %>%
 # melting alpha metrics into one column called variable (containing all three measure names) and another column called value containing all values for those measures 
 dat.16S = reshape2::melt(alpha_16S_metrics, id.var=c("year", "region"))
 dat.16S$year = factor(dat.16S$year, levels=c("2015","2016", "2017", "2018"))
-dat.16S$region <- factor(dat.16S$region, levels=c("choked", "pruth", "triquet","goose","mcmullin"))
+dat.16S$region <- factor(dat.16S$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
 
 #### year ####
 p_16S_year <- ggplot(dat.16S, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
@@ -128,7 +128,7 @@ alpha_18S_metrics <- alpha_18S %>%
 # melting alpha metrics into one column called variable (containing all three measure names) and another column called value containing all values for those measures 
 dat.18S = reshape2::melt(alpha_18S_metrics, id.var=c("year", "region"))
 dat.18S$year = factor(dat.18S$year, levels=c("2015","2016", "2017", "2018"))
-dat.18S$region <- factor(dat.18S$region, levels=c("choked", "pruth", "triquet","goose","mcmullin"))
+dat.18S$region <- factor(dat.18S$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
 levels(dat.18S$year)
 #### year ####
 p_18S_year <- ggplot(dat.18S, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
