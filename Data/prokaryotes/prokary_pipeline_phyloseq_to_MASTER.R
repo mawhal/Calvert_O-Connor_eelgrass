@@ -116,12 +116,16 @@ master_table <- master_table %>%
   dplyr::mutate(site=recode(site,
                             "choked_south_pigu" = "choked_inner",
                             "choked_flat_island" = "choked_inner",
+                            "mcmullin_north" = "mcmullins_north",
+                            "mcmullin_south" = "mcmullins_south",
                             "goose_southwest" = "goose_south_west",
                             "goose_southeast" = "goose_south_east",
                             "pruth_bay_south" = "pruth_bay",
                             "pruth_baysouth" = "pruth_bay"))
 
-levels(master_table$site)
+master_table <- master_table %>% 
+  dplyr::mutate(region=recode(region,
+                            "mcmullin" = "mcmullins"))
 
 # For mastel final table, get only leaf_old 
 master_table_final <- master_table %>% 
@@ -194,12 +198,16 @@ master_table_genus <- master_table_genus %>%
   dplyr::mutate(site=recode(site,
                             "choked_south_pigu" = "choked_inner",
                             "choked_flat_island" = "choked_inner",
+                            "mcmullin_north" = "mcmullins_north",
+                            "mcmullin_south" = "mcmullins_south",
                             "goose_southwest" = "goose_south_west",
                             "goose_southeast" = "goose_south_east",
                             "pruth_bay_south" = "pruth_bay",
                             "pruth_baysouth" = "pruth_bay"))
 
-levels(master_table_genus$site)
+master_table_genus <- master_table_genus %>% 
+  dplyr::mutate(region=recode(region,
+                              "mcmullin" = "mcmullins"))
 
 # For mastel final table, get only leaf_old 
 master_table_final_genus <- master_table_genus %>% 
@@ -271,12 +279,16 @@ master_table_family <- master_table_family %>%
   dplyr::mutate(site=recode(site,
                             "choked_south_pigu" = "choked_inner",
                             "choked_flat_island" = "choked_inner",
+                            "mcmullin_north" = "mcmullins_north",
+                            "mcmullin_south" = "mcmullins_south",
                             "goose_southwest" = "goose_south_west",
                             "goose_southeast" = "goose_south_east",
                             "pruth_bay_south" = "pruth_bay",
                             "pruth_baysouth" = "pruth_bay"))
 
-levels(master_table_family$site)
+master_table_family <- master_table_family %>% 
+  dplyr::mutate(region=recode(region,
+                              "mcmullin" = "mcmullins"))
 
 # For mastel final table, get only leaf_old 
 master_table_final_family <- master_table_family %>% 
