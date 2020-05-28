@@ -43,7 +43,7 @@ NMDS_16S
 NMDS_16S$region
 
 # re-order the factor levels before the plot
-NMDS_16S$region <- factor(NMDS_16S$region, levels=c("choked", "pruth", "triquet","goose","mcmullin"))
+NMDS_16S$region <- factor(NMDS_16S$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
 
 NMDS_16S$year <- factor(NMDS_16S$year, levels=c("2015", "2016", "2017","2018"))
 
@@ -127,7 +127,7 @@ NMDS_18S
 NMDS_18S$region
 
 # re-order the factor levels before the plot
-NMDS_18S$region <- factor(NMDS_18S$region, levels=c("choked", "pruth", "triquet","goose","mcmullin"))
+NMDS_18S$region <- factor(NMDS_18S$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
 
 NMDS_18S$year <- factor(NMDS_18S$year, levels=c("2015", "2016", "2017","2018"))
 
