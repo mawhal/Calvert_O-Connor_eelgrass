@@ -1,10 +1,11 @@
 ### Prokaryotes pipeline phyloseq ###
 ### Author: Bianca Trevizan Segovia ###
 ### Date created: November 18, 2019 ###
-### Date last modified: March 04, 2020 ###
+### Date last modified: July 07, 2020 ###
 
 ### This code is now updated to remove the contaminants found in the 2016 dataset ###
 ### Data from 2015, 2017 and 2018 is rarefied to 3,000 reads/sample, and 2016 is not rarefied due to contamination
+### Latest update refers to changes in the pipeline in taxa filtering steps to avoid removal of other taxa in that rank (i.e. | is.na(Rank5)) and change in the ordering of filtering
 
 library(phyloseq)
 library(tidyverse)
@@ -16,51 +17,57 @@ library(ape)
 all_years_16S_unfiltered <- readRDS("Data/prokaryotes/seagrass_16s.full_dataset.unfiltered.phyloseq_format.RDS")
 
 #### QUALITY FILTERING TAXA DATA ####
-# 1. look at minimum, mean, and maximum sample counts, if desired
-smin <- 
-  min(sample_sums(all_years_16S_unfiltered))
-smean <- 
-  mean(sample_sums(all_years_16S_unfiltered))
-smax <- 
-  max(sample_sums(all_years_16S_unfiltered))
 
-# 2. Remove samples with less than N reads. (N = 1000 in example) wholw dataset
-all_years_16S_filtered <- prune_samples(sample_sums(all_years_16S_unfiltered) >= 1000, all_years_16S_unfiltered)
+# 1. Remove mitochondrial and chloroplast ASVs
+all_years_16S_filtered <- all_years_16S_unfiltered %>%
+  subset_taxa(Rank5 != "Mitochondria" | is.na(Rank5)) %>%
+  subset_taxa(Rank3 != "Chloroplastida" | is.na(Rank3)) %>% 
+  subset_taxa(Rank4 != "Chloroplast" | is.na(Rank4)) %>%
+  subset_taxa(Rank5 != "Chloroplast"| is.na(Rank5))  %>% 
+  subset_taxa(Rank1 != "Unassigned"| is.na(Rank1))
 
-# 3. Remove OTUs with less than N total reads. (N = 250 in example) whole dataset
-all_years_16S_filtered <- prune_taxa(taxa_sums(all_years_16S_filtered) >= 250, all_years_16S_filtered) 
-
-# 4. Remove mitochondrial and chloroplast ASVs
+# 2. Remove contaminants (those were on the 2016 data)
 all_years_16S_filtered <- all_years_16S_filtered %>%
-  subset_taxa(Rank5 != "Mitochondria") %>%
-  subset_taxa(Rank3 != "Chloroplastida") %>% 
-  subset_taxa(Rank4 != "Chloroplast") %>%
-  subset_taxa(Rank5 != "Chloroplast") %>% 
-  subset_taxa(Rank1 != "Unassigned") 
+  subset_taxa(Rank7 != "Pseudomonas_sp._ANT7125"| is.na(Rank7)) %>% 
+  subset_taxa(Rank7 != "Alcaligenes_faecalis"| is.na(Rank7)) %>% 
+  subset_taxa(Rank7 != "Pseudomonas_sp._ZJY-246"| is.na(Rank7))
 
-# 5. Remove contaminants (those were on the 2016 data)
-all_years_16S_filtered <- all_years_16S_filtered %>%
-  subset_taxa(Rank7 != "Pseudomonas_sp._ANT7125") %>% 
-  subset_taxa(Rank7 != "Alcaligenes_faecalis") %>% 
-  subset_taxa(Rank7 != "Pseudomonas_sp._ZJY-246")
-
-# 6. Remove ASVs with less than ~ 2-5 reads in a given sample - PER SAMPLE FILTERING
+# FILTERING per sample
+# 3. Remove ASVs with less than ~ 2-5 reads in a given sample
 otu <- as.data.frame(otu_table(all_years_16S_filtered))
 otu_table(all_years_16S_filtered)[otu <= 3] <- 0 #free of noise, I set to 3 asvs/sample
 otu2 <- as.data.frame(otu_table(all_years_16S_filtered)) #free of noise
 
+# FILTERING overall
+# 4. Remove OTUs with less than N total reads. (N = 250 in example) whole dataset
+all_years_16S_filtered <- prune_taxa(taxa_sums(all_years_16S_filtered) >= 250, all_years_16S_filtered) 
+
+# 5. Remove samples with less than N reads. (N = 1000 in example) wholw dataset
+all_years_16S_filtered <- prune_samples(sample_sums(all_years_16S_filtered) >= 1000, all_years_16S_filtered)
+
 all_years_16S_filtered
 
+# 6. look at minimum, mean, and maximum sample counts, if desired
+smin <- 
+  min(sample_sums(all_years_16S_filtered))
+meanreads <- 
+  mean(sample_sums(all_years_16S_filtered))
+smax <- 
+  max(sample_sums(all_years_16S_filtered))
+totalreads <- 
+  sum(sample_sums(all_years_16S_filtered))
+
+get_sample(all_years_16S_filtered)
+sample_sums(all_years_16S_filtered)
+
 ###  include metadata (year column and sample_type_growth), and add it to phyloseq object
-date_year_column <- read.csv("Data/prokaryotes/date_year_column_16S_ALL_YEARS_FILTERED.csv")
-nrow(date_year_column)
+year_growth_column <- read.csv("Data/prokaryotes/year_growth_column_16S_ALL_YEARS_FILTERED.csv")
+nrow(year_growth_column)
 
-sample_data(all_years_16S_filtered)$year<- date_year_column$year 
+sample_data(all_years_16S_filtered)$year<- year_growth_column$year 
 
-sample_type_growth <- read.csv("Data/prokaryotes/sample_type_growth_column_ALL_YEARS_FILTERED.csv")
-nrow(sample_type_growth)
 
-sample_data(all_years_16S_filtered)$sample_type_growth <- sample_type_growth$sample_type_growth 
+sample_data(all_years_16S_filtered)$growth <- year_growth_column$growth
 
 # subset samples from 2015, 2017 and 2018 to rarefy only those to 3,000 * 2016 had lower sequencing depth and will be rarefied to a lower level
 all_years_16S_filtered_no_2016 <- all_years_16S_filtered %>% subset_samples(!year=="2016") 

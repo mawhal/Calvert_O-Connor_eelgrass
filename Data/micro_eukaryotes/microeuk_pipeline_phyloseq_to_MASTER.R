@@ -1,9 +1,10 @@
 ### Microeukaryotes pipeline phyloseq ###
 ### Author: Bianca Trevizan Segovia ###
 ### Date created: October 03, 2019 ###
-### Date last modified: May 07, 2020 ###
+### Date last modified: July 07, 2020 ###
 
 ### Data from 2015, 2016, 2017 and 2018 is rarefied to 1,000 reads/sample
+### Latest update refers to changes in the pipeline in taxa filtering steps to avoid removal of other taxa in that rank (i.e. | is.na(Rank5)) and change in the ordering of filtering
 
 library(phyloseq)
 library(tidyverse)
@@ -16,102 +17,108 @@ library(ape)
 all_years_18S_unfiltered <- readRDS("/Users/bia/PostDoc/projects/Calvert_O-Connor_eelgrass/Data/micro_eukaryotes/18S_allyears_unfiltered.RDS")
 
 #### QUALITY FILTERING TAXA DATA ####
-# 1. look at minimum, mean, and maximum sample counts, if desired
-smin <- 
-  min(sample_sums(all_years_18S_unfiltered))
-smean <- 
-  mean(sample_sums(all_years_18S_unfiltered))
-smax <- 
-  max(sample_sums(all_years_18S_unfiltered))
 
-# 2. Remove samples with less than N reads. (N = 1000 in example) whole dataset
-all_years_18S_filtered <- prune_samples(sample_sums(all_years_18S_unfiltered) >= 1000, all_years_18S_unfiltered)
+# 1. Remove unassigned taxa and zostera OTUs #these are from the host plant, we want only microbial community
+all_years_18S_filtered <- all_years_18S_unfiltered %>%
+  subset_taxa(Rank1 != "Unassigned"| is.na(Rank1))  %>% 
+  subset_taxa(Rank6 != "Zostera"| is.na(Rank6)) 
 
-# 3. Remove OTUs with less than N total reads. (N = 250 in example) whole dataset
-all_years_18S_filtered <- prune_taxa(taxa_sums(all_years_18S_filtered) >= 250, all_years_18S_filtered) 
-
-# 4. Remove unassigned taxa and zostera OTUs #these are from the host plant, we want only microbial community
-all_years_18S_filtered <- all_years_18S_filtered %>%
-  subset_taxa(Rank1 != "Unassigned") %>% 
-  subset_taxa(Rank6 != "Zostera")
-
-# 5. Remove seaweeds and plants
+# 2. Remove seaweeds and plants
 all_years_18S_filtered  <- all_years_18S_filtered %>%
-  subset_taxa(Rank3 != "Rhodophyceae") %>% 
-  subset_taxa(Rank5 != "Ulvophyceae") %>% 
-  subset_taxa(Rank5 != "Ulvales") %>% 
-  subset_taxa(Rank5 != "Embryophyta") %>% 
-  subset_taxa(Rank5 != "Phaeophyceae") %>%
-  subset_taxa(Rank5 != "Desmarestiales") %>%
-  subset_taxa(Rank4 != "Charophyta") 
+  subset_taxa(Rank3 != "Rhodophyceae"| is.na(Rank3))  %>% 
+  subset_taxa(Rank5 != "Ulvophyceae"| is.na(Rank5))  %>% 
+  subset_taxa(Rank5 != "Ulvales"| is.na(Rank5))  %>% 
+  subset_taxa(Rank5 != "Embryophyta"| is.na(Rank5))  %>% 
+  subset_taxa(Rank5 != "Phaeophyceae"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Desmarestiales"| is.na(Rank5))  %>%
+  subset_taxa(Rank4 != "Charophyta"| is.na(Rank4))  
 
-# 6. Remove large-bodied Metazoans
+# 3. Remove large-bodied Metazoans
 all_years_18S_filtered  <- all_years_18S_filtered  %>%
-  subset_taxa(Rank4 != "Annelida") %>%
-  subset_taxa(Rank4 != "Brachiopoda") %>%
-  subset_taxa(Rank4 != "Bryozoa") %>%
-  subset_taxa(Rank4 != "Cnidaria") %>%
-  subset_taxa(Rank4 != "Cyclocoela") %>%
-  subset_taxa(Rank4 != "Echinodermata") %>%
-  subset_taxa(Rank6 != "Mammalia") %>%
-  subset_taxa(Rank4 != "Mollusca") %>%
-  subset_taxa(Rank4 != "Nematoda") %>%
-  subset_taxa(Rank4 != "Nemertea") %>%
-  subset_taxa(Rank4 != "Platyhelminthes") %>%
-  subset_taxa(Rank4 != "Porifera") %>%
-  subset_taxa(Rank4 != "Tunicata") %>%
-  subset_taxa(Rank4 != "Typhlocoela")
+  subset_taxa(Rank4 != "Annelida"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Brachiopoda"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Bryozoa"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Cnidaria"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Cyclocoela"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Echinodermata"| is.na(Rank4))   %>%
+  subset_taxa(Rank6 != "Mammalia"| is.na(Rank6))   %>%
+  subset_taxa(Rank4 != "Mollusca"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Nematoda"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Nemertea"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Platyhelminthes"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Porifera"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Tunicata"| is.na(Rank4))   %>%
+  subset_taxa(Rank4 != "Typhlocoela"| is.na(Rank4))  
 
-# 6.1 Remove large-bodied Metazoans inside Arthropoda
+# 4. Remove large-bodied Metazoans inside Arthropoda
 all_years_18S_filtered <- all_years_18S_filtered  %>%
-  subset_taxa(Rank5 != "Insecta") %>%
-  subset_taxa(Rank5 != "Arachnida") %>%
-  subset_taxa(Rank5 != "Ostracoda") %>%
-  subset_taxa(Rank5 != "Malacostraca") %>%
-  subset_taxa(Rank5 != "Hydroidolina")  %>%
-  subset_taxa(Rank5 != "Podocopa")  %>%
-  subset_taxa(Rank5 != "Chromadorea")  %>%
-  subset_taxa(Rank5 != "Palpata")  %>%
-  subset_taxa(Rank5 != "Hydroidolina")  %>%
-  subset_taxa(Rank5 != "Heteroconchia")  %>%
-  subset_taxa(Rank5 != "Rhabditophora")  %>%
-  subset_taxa(Rank5 != "Hexacorallia")  %>%
-  subset_taxa(Rank5 != "Gymnolaemata")  %>%
-  subset_taxa(Rank5 != "Chromadorea")  %>%
-  subset_taxa(Rank5 != "Eumalacostraca")  %>%
-  subset_taxa(Rank5 != "Gastropoda")  %>%
-  subset_taxa(Rank5 != "Demospongiae")  %>%
-  subset_taxa(Rank5 != "Brachiopoda")  %>%
-  subset_taxa(Rank5 != "Scolecida")  %>%
-  subset_taxa(Rank5 != "Copelata")  %>%
-  subset_taxa(Rank5 != "Seriata")  %>%
-  subset_taxa(Rank5 != "Tetrapoda")  %>%
-  subset_taxa(Rank5 != "Seriata")  %>%
-  subset_taxa(Rank5 != "Pteriomorphia")  %>%
-  subset_taxa(Rank5 != "Ascidiacea")  %>%
-  subset_taxa(Rank5 != "Gastrotricha")  %>%
-  subset_taxa(Rank5 != "Dorylaimia")  %>%
-  subset_taxa(Rank5 != "Pteriomorphia")  %>%
-  subset_taxa(Rank5 != "Enopla") %>%
-  subset_taxa(Rank5 != "Enoplia") %>%
-  subset_taxa(Rank5 != "Enoplea") %>%
-  subset_taxa(Rank5 != "Rhabdocoela") %>%
-  subset_taxa(Rank5 != "Anopla") %>%
-  subset_taxa(Rank5 != "Tentaculata") %>%
-  subset_taxa(Rank5 != "Echinodermata") %>%
-  subset_taxa(Rank5 != "Polyplacophora") %>%
-  subset_taxa(Rank5 != "Tentaculata") %>%
-  subset_taxa(Rank5 != "Scyphozoa") %>%
-  subset_taxa(Rank5 != "Sipuncula") %>%
-  subset_taxa(Rank5 != "Thecostraca") %>%
-  subset_taxa(Rank6 != "Sessilia") %>%
-  subset_taxa(Rank5 != "Ectocarpales") #removing it inside Maxillopoda
+  subset_taxa(Rank5 != "Insecta"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Arachnida"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Ostracoda"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Malacostraca"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Hydroidolina"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Podocopa"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Chromadorea"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Palpata"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Hydroidolina"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Heteroconchia"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Rhabditophora"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Hexacorallia"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Gymnolaemata"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Chromadorea"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Eumalacostraca"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Gastropoda"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Demospongiae"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Brachiopoda"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Scolecida"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Copelata"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Seriata"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Tetrapoda"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Seriata"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Pteriomorphia"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Ascidiacea"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Gastrotricha"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Dorylaimia"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Pteriomorphia"| is.na(Rank5))   %>%
+  subset_taxa(Rank5 != "Enopla"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Enoplia"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Enoplea"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Rhabdocoela"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Anopla"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Tentaculata"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Echinodermata"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Polyplacophora"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Tentaculata"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Scyphozoa"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Sipuncula"| is.na(Rank5))  %>%
+  subset_taxa(Rank5 != "Thecostraca"| is.na(Rank5))  %>%
+  subset_taxa(Rank6 != "Sessilia"| is.na(Rank6))  %>%
+  subset_taxa(Rank5 != "Ectocarpales"| is.na(Rank5))  #removing it inside Maxillopoda
 
 #View(as.data.frame(tax_table(seagrass_set_unfiltered )))
 
-# 7. Remove ASVs with less than ~ 2-5 reads in a given sample - PER SAMPLE FILTERING
+# FILTERING per sample
+# 5. Remove ASVs with less than ~ 2-5 reads in a given sample - PER SAMPLE FILTERING
 otu <- as.data.frame(otu_table(all_years_18S_filtered)) #get ASV table
 otu_table(all_years_18S_filtered)[otu <= 3] <- 0 # for entries where the raw abundance of an ASV in a sample is less than 3 reads, set the raw read count to 0 - free of noise
+
+# FILTERING overall
+# 6. Remove OTUs with less than N total reads. (N = 250 in example) whole dataset
+all_years_18S_filtered <- prune_taxa(taxa_sums(all_years_18S_filtered) >= 250, all_years_18S_filtered) 
+
+# 7. Remove samples with less than N reads. (N = 1000 in example) whole dataset
+all_years_18S_filtered <- prune_samples(sample_sums(all_years_18S_filtered) >= 1000, all_years_18S_filtered)
+
+# 8. look at minimum, mean, and maximum sample counts, if desired
+smin <- 
+  min(sample_sums(all_years_18S_filtered))
+meanreads <- 
+  mean(sample_sums(all_years_18S_filtered))
+smax <- 
+  max(sample_sums(all_years_18S_filtered))
+totalreads <- 
+  sum(sample_sums(all_years_18S_filtered))
+
 
 all_years_18S_filtered
 
@@ -335,3 +342,4 @@ master_table_family_final <- master_table_family_final %>%
 #View(as.data.frame(master_table_family ))
 # This MASTER table contains samples from choked which we don't have info on quadrat_id on, but we can use those in all analysis that don't require environmental data
 write.csv(master_table_family_final, file="Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv", quote=F, row.names=F) 
+
