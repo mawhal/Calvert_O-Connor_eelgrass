@@ -51,7 +51,7 @@ nmds_prokaryotes <- ggplot(NMDS_16S, aes(x=NMDS1, y=NMDS2, shape = year, colour=
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Prokaryotes sequencing data") + 
-  annotate("text", label = "stress = 0.18", x = 1.1, y = -1.2, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.19", x = 1.1, y = -1.2, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17,18))
 
@@ -135,7 +135,7 @@ nmds_microeukaryotes <- ggplot(NMDS_18S, aes(x=NMDS1, y=NMDS2, shape = year, col
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Microeukaryotes sequencing data") + 
-  annotate("text", label = "stress = 0.18", x = 1.3, y = -2.1, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.15", x = 1.3, y = -2.1, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17,18))
 
