@@ -1,9 +1,11 @@
 year,site,site_quadrat_id,labels
+2015,choked_inner,choked_inner_NA,chkd__NA
+2015,choked_inner,choked_inner_1,chkd_n_1
+2015,choked_inner,choked_inner_3,chkd_n_3
+2015,choked_inner,choked_inner_NA,chkd__NA.1
+2015,choked_inner,choked_inner_NA,chkd__NA.2
 2015,choked_sandspit,choked_sandspit_6,chkd_s_6
-2015,choked_inner,choked_inner_0,chkd_n_0
-2015,choked_inner,choked_inner_na,chkd_nn_
-2015,choked_inner,choked_inner_na,chkd_nn_.1
-2015,choked_inner,choked_inner_amb_3,chkd___3
+2015,choked_sandspit,choked_sandspit_5,chkd_s_5
 2015,goose_south_east,goose_south_east_4,gs_sth_s_4
 2015,goose_south_east,goose_south_east_6,gs_sth_s_6
 2015,goose_south_east,goose_south_east_5,gs_sth_s_5

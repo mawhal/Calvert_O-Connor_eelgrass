@@ -10,7 +10,7 @@ library(tidyverse)
 library(vegan)
 
 
-allsamples <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level.csv")
+allsamples <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv")
 
 allsamples <- allsamples[order(allsamples$year, allsamples$site),]
 
@@ -56,11 +56,11 @@ mat_microbes_16S_2015 <- as.matrix(dist_microbes_16S_2015)
 site_id <- microbes_16S_2015$labels
 rownames(mat_microbes_16S_2015) <- site_id
 colnames(mat_microbes_16S_2015) <- site_id
-write_csv( data.frame(mat_microbes_16S_2015), "R_Code_and_Analysis/mantel/genus_16S_2015_braycurtis.csv" )
+write_csv( data.frame(mat_microbes_16S_2015), "R_Code_and_Analysis/mantel/ASV_16S_2015_braycurtis.csv" )
 
 # save metadata
 meta_16S_2015 <- microbes_16S_2015 %>% select(year,site,site_quadrat_id,labels)
-write_csv( meta_16S_2015, "R_Code_and_Analysis/mantel/genus_16S_2015_metadata.csv" )
+write_csv( meta_16S_2015, "R_Code_and_Analysis/mantel/ASV_16S_2015_metadata.csv" )
 
 
 
@@ -114,11 +114,11 @@ mat_microbes_16S_2016 <- as.matrix(dist_microbes_16S_2016)
 site_id <- microbes_16S_2016$labels
 rownames(mat_microbes_16S_2016) <- site_id
 colnames(mat_microbes_16S_2016) <- site_id
-write_csv( data.frame(mat_microbes_16S_2016), "R_Code_and_Analysis/mantel/genus_16S_2016_braycurtis.csv" )
+write_csv( data.frame(mat_microbes_16S_2016), "R_Code_and_Analysis/mantel/ASV_16S_2016_braycurtis.csv" )
 
 # save metadata
 meta_16S_2016 <- microbes_16S_2016 %>% select(year,site,site_quadrat_id,labels)
-write_csv( meta_16S_2016, "R_Code_and_Analysis/mantel/genus_16S_2016_metadata.csv" )
+write_csv( meta_16S_2016, "R_Code_and_Analysis/mantel/ASV_16S_2016_metadata.csv" )
 
 ###################################
 ############### 2017 ##############
@@ -160,11 +160,11 @@ mat_microbes_16S_2017 <- as.matrix(dist_microbes_16S_2017)
 site_id <- microbes_16S_2017$labels
 rownames(mat_microbes_16S_2017) <- site_id
 colnames(mat_microbes_16S_2017) <- site_id
-write_csv( data.frame(mat_microbes_16S_2017), "R_Code_and_Analysis/mantel/genus_16S_2017_braycurtis.csv" )
+write_csv( data.frame(mat_microbes_16S_2017), "R_Code_and_Analysis/mantel/ASV_16S_2017_braycurtis.csv" )
 
 # save metadata
 meta_16S_2017 <- microbes_16S_2017 %>% select(year,site,site_quadrat_id,labels)
-write_csv( meta_16S_2017, "R_Code_and_Analysis/mantel/genus_16S_2017_metadata.csv" )
+write_csv( meta_16S_2017, "R_Code_and_Analysis/mantel/ASV_16S_2017_metadata.csv" )
 
 ###################################
 ############### 2018 ##############
@@ -209,8 +209,8 @@ mat_microbes_16S_2018 <- as.matrix(dist_microbes_16S_2018)
 site_id <- microbes_16S_2018$labels
 rownames(mat_microbes_16S_2018) <- site_id
 colnames(mat_microbes_16S_2018) <- site_id
-write_csv( data.frame(mat_microbes_16S_2018), "R_Code_and_Analysis/mantel/genus_16S_2018_braycurtis.csv" )
+write_csv( data.frame(mat_microbes_16S_2018), "R_Code_and_Analysis/mantel/ASV_16S_2018_braycurtis.csv" )
 
 # save metadata
 meta_16S_2018 <- microbes_16S_2018 %>% select(year,site,site_quadrat_id,labels)
-write_csv( meta_16S_2018, "R_Code_and_Analysis/mantel/genus_16S_2018_metadata.csv" )
+write_csv( meta_16S_2018, "R_Code_and_Analysis/mantel/ASV_16S_2018_metadata.csv" )

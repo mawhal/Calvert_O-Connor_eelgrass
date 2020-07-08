@@ -3,35 +3,16 @@
 ### Date created: January 13, 2020 ###
 ### Date modified: February 24, 2020 ### new file 16S 2016 not rarafied
 ### modified by Whalen on 18 May 2020: save metadata along with Bray-Curtis distance matrix
+### modified by Bia on 07 July 2020: update to corrected data tables
 
 # library(dplyr)
 library(tidyverse)
 library(vegan)
 
 
-allsamples <- read_csv("R_Code_and_Analysis/mantel/family_level_16S_MASTER_REMOVED_CONT_NOT_RAREFIED.csv")
+allsamples <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_family_level.csv")
 
 allsamples <- allsamples[order(allsamples$year, allsamples$site),]
-
-### filter only meso quadrat surveys
-meso_quadrat <- c("meso_quadrat")
-zostera_meso_quadrat <- allsamples %>% 
-  dplyr::filter(survey_type %in% meso_quadrat)
-
-### filter only zostera leaf_old samples
-leaf_old <- c("leaf_old")
-zostera_old <- zostera_meso_quadrat %>% 
-  dplyr::filter(sample_type %in% leaf_old)
-zostera_old$sample_type
-
-zostera_old  <- zostera_old  %>% 
-  dplyr::mutate(site=recode(site,
-                            "choked_south_pigu" = "choked_inner",
-                            "goose_southeast" = "goose_south_east",
-                            "goose_southwest" = "goose_south_west",
-                            "mcmullin_north" = "mcmullins_north",
-                            "mcmullin_south" = "mcmullins_south",
-                            "pruth_bay_south" = "pruth_bay"))
 
 ###################################
 ############### 2015 ##############
@@ -39,7 +20,7 @@ zostera_old  <- zostera_old  %>%
 
 ### filter only 2015 samples
 only_2015 <- c("2015")
-zostera_old_2015 <- zostera_old %>% 
+zostera_old_2015 <- allsamples %>% 
   dplyr::filter(year %in% only_2015)
 zostera_old_2015$year
 
@@ -61,7 +42,7 @@ microbes_16S_2015 <- microbes_16S_2015 %>%
 names(microbes_16S_2015)
 #abundance only
 microbes_16S_2015_abund <- microbes_16S_2015 %>%
-  dplyr::select(c(16:ncol(microbes_16S_2015)))
+  dplyr::select(c(17:ncol(microbes_16S_2015)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2015 <- vegdist(microbes_16S_2015_abund, method = "bray")
@@ -90,7 +71,7 @@ write_csv( meta_16S_2015, "R_Code_and_Analysis/mantel/family_16S_2015_metadata.c
 
 ### filter only 2016 samples
 only_2016 <- c("2016")
-zostera_old_2016 <- zostera_old %>% 
+zostera_old_2016 <- allsamples %>% 
   dplyr::filter(year %in% only_2016)
 zostera_old_2016$year
 
@@ -120,7 +101,7 @@ microbes_16S_2016 <- microbes_16S_2016 %>%
 names(microbes_16S_2016)
 #abundance only
 microbes_16S_2016_abund <- microbes_16S_2016 %>%
-  dplyr::select(c(16:ncol(microbes_16S_2016)))
+  dplyr::select(c(17:ncol(microbes_16S_2016)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2016 <- vegdist(microbes_16S_2016_abund, method = "bray")
@@ -144,7 +125,7 @@ write_csv( meta_16S_2016, "R_Code_and_Analysis/mantel/family_16S_2016_metadata.c
 
 ### filter only 2017 samples
 only_2017 <- c("2017")
-zostera_old_2017 <- zostera_old %>% 
+zostera_old_2017 <- allsamples %>% 
   dplyr::filter(year %in% only_2017)
 zostera_old_2017$year
 
@@ -166,7 +147,7 @@ microbes_16S_2017 <- microbes_16S_2017 %>%
 names(microbes_16S_2017)
 #abundance only
 microbes_16S_2017_abund <- microbes_16S_2017 %>%
-  dplyr::select(c(16:ncol(microbes_16S_2017)))
+  dplyr::select(c(17:ncol(microbes_16S_2017)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2017 <- vegdist(microbes_16S_2017_abund, method = "bray")
@@ -190,7 +171,7 @@ write_csv( meta_16S_2017, "R_Code_and_Analysis/mantel/family_16S_2017_metadata.c
 
 ### filter only 2018 samples
 only_2018 <- c("2018")
-zostera_old_2018 <- zostera_old %>% 
+zostera_old_2018 <- allsamples %>% 
   dplyr::filter(year %in% only_2018)
 zostera_old_2018$year
 
@@ -215,7 +196,7 @@ microbes_16S_2018 <- microbes_16S_2018 %>%
 names(microbes_16S_2018)
 #abundance only
 microbes_16S_2018_abund <- microbes_16S_2018 %>%
-  dplyr::select(c(16:ncol(microbes_16S_2018)))
+  dplyr::select(c(17:ncol(microbes_16S_2018)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2018 <- vegdist(microbes_16S_2018_abund, method = "bray")

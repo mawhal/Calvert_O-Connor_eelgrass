@@ -3,34 +3,16 @@
 ### Date created: January 14, 2020 ###
 ### Date modified: February 14, 2020 ###
 ### modified by Whalen on 18 May 2020: save metadata along with Bray-Curtis distance matrix
+### modified by Bia on 07 July 2020: update to corrected data tables
 
 library(dplyr)
 library(vegan)
 library(usedist)
 
 
-allsamples_18S <- read_csv("R_Code_and_Analysis/mantel/family_level_18S_MASTER.csv")
+allsamples_18S <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level.csv")
 
 allsamples_18S <- allsamples_18S[order(allsamples_18S$year, allsamples_18S$site),]
-
-### filter only meso quadrat surveys
-meso_quadrat <- c("meso_quadrat")
-zostera_meso_quadrat <- allsamples_18S %>% 
-  dplyr::filter(survey_type %in% meso_quadrat)
-
-### filter only zostera leaf_old samples
-leaf_old <- c("leaf_old")
-zostera_old <- zostera_meso_quadrat %>% 
-  dplyr::filter(sample_type %in% leaf_old)
-
-zostera_old  <- zostera_old  %>% 
-  dplyr::mutate(site=recode(site,
-                            "choked_south_pigu" = "choked_inner",
-                            "goose_southeast" = "goose_south_east",
-                            "goose_southwest" = "goose_south_west",
-                            "mcmullin_north" = "mcmullins_north",
-                            "mcmullin_south" = "mcmullins_south",
-                            "pruth_bay_south" = "pruth_bay"))
 
 ###################################
 ############### 2015 ##############
@@ -38,7 +20,7 @@ zostera_old  <- zostera_old  %>%
 
 ### filter only 2015 samples
 only_2015 <- c("2015")
-zostera_old_2015 <- zostera_old %>% 
+zostera_old_2015 <- allsamples_18S %>% 
   dplyr::filter(year %in% only_2015)
 zostera_old_2015$year
 
@@ -84,7 +66,7 @@ write_csv( meta_18S_2015, "R_Code_and_Analysis/mantel/family_18S_2015_metadata.c
 
 ### filter only 2016 samples
 only_2016 <- c("2016")
-zostera_old_2016 <- zostera_old %>% 
+zostera_old_2016 <- allsamples_18S %>% 
   dplyr::filter(year %in% only_2016)
 zostera_old_2016$year
 
@@ -131,7 +113,7 @@ write_csv( meta_18S_2016, "R_Code_and_Analysis/mantel/family_18S_2016_metadata.c
 
 ### filter only 2017 samples
 only_2017 <- c("2017")
-zostera_old_2017 <- zostera_old %>% 
+zostera_old_2017 <- allsamples_18S %>% 
   dplyr::filter(year %in% only_2017)
 zostera_old_2017$year
 
@@ -181,7 +163,7 @@ write_csv( meta_18S_2017, "R_Code_and_Analysis/mantel/family_18S_2017_metadata.c
 
 ### filter only 2018 samples
 only_2018 <- c("2018")
-zostera_old_2018 <- zostera_old %>% 
+zostera_old_2018 <- allsamples_18S %>% 
   dplyr::filter(year %in% only_2018)
 zostera_old_2018$year
 
