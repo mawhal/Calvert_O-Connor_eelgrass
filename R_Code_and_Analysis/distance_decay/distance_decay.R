@@ -3,6 +3,7 @@
 ##This script  makes distance matrices between sites and plots Bray-Curtis grazer dissimilarity between each pair of sites against dstance between each pair of sites for 2014-207
 ##For some reason i did each year totally separately. No idea why
 ## updated by Whalen on 15 May 2020. Keeping analysis separated by date for now
+## updated by Bia on 07 July 2020 to add ASV level microbes, update for corrected microbial tables and add title
 
 library(vegan)
 library(tidyverse)
@@ -309,7 +310,7 @@ BC14 <- Hakai.2014.distance %>%
 
 windows(12,3)
 cowplot::plot_grid( BC14, BC15, BC16, BC17, ncol=4)
-ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_macroeuk_",level,".svg"), width = 12, height = 3  )
+ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_macroeuk_",level,".png"), width = 12, height = 3  )
 
 
 
@@ -318,6 +319,283 @@ ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_macroeuk_",level,".sv
 #### MICROBES
 
 #### Prokaryotes - 16S
+
+## ASV LEVEL
+# pick a year
+year <- 2015
+
+#load 16S microbial distance matrix ASV
+bc_16S15_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_braycurtis.csv") )
+# bc_16S15_ASV <- bc_16S15_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_16S15_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_metadata.csv") )
+
+
+
+###Now make the distance matrices long
+bc_16S15_ASV$Sites1 <- colnames(bc_16S15_ASV)
+dist16S15.collapse <- bc_16S15_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist16S15.sites <- left_join( dist16S15.collapse, select(bc_16S15_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist16S15.sites <- left_join( dist16S15.sites, select(bc_16S15_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist16S15.sites <- dist16S15.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist16S15.distance <- dist16S15.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2015.distance.16S <- left_join(dist16S15.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2015.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2015 prokaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2015.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2015 prokaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC15 <- Hakai.2015.distance.16S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2015 prokaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+# pick a year
+year <- 2016
+
+#load 16S microbial distance matrix ASV
+bc_16S16_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_braycurtis.csv") )
+# bc_16S16_ASV <- bc_16S16_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_16S16_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_metadata.csv") )
+
+
+###Now make the distance matrices long
+bc_16S16_ASV$Sites1 <- colnames(bc_16S16_ASV)
+dist16S16.collapse <- bc_16S16_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist16S16.sites <- left_join( dist16S16.collapse, select(bc_16S16_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist16S16.sites <- left_join( dist16S16.sites, select(bc_16S16_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist16S16.sites <- dist16S16.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist16S16.distance <- dist16S16.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2016.distance.16S <- left_join(dist16S16.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2016.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2016 prokaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2016.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2016 prokaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC16 <- Hakai.2016.distance.16S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2016 prokaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+# pick a year
+year <- 2017
+
+#load 16S microbial distance matrix ASV
+bc_16S17_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_braycurtis.csv") )
+# bc_16S17_ASV <- bc_16S17_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_16S17_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_metadata.csv") )
+
+
+
+###Now make the distance matrices long
+bc_16S17_ASV$Sites1 <- colnames(bc_16S17_ASV)
+dist16S17.collapse <- bc_16S17_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist16S17.sites <- left_join( dist16S17.collapse, select(bc_16S17_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist16S17.sites <- left_join( dist16S17.sites, select(bc_16S17_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist16S17.sites <- dist16S17.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist16S17.distance <- dist16S17.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2017.distance.16S <- left_join(dist16S17.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2017.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2017 prokaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2017.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2017 prokaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC17 <- Hakai.2017.distance.16S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2017 prokaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+# pick a year
+year <- 2018
+
+#load 16S microbial distance matrix ASV
+bc_16S18_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_braycurtis.csv") )
+# bc_16S18_ASV <- bc_16S18_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_16S18_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_16S_",year,"_metadata.csv") )
+
+
+
+
+###Now make the distance matrices long
+bc_16S18_ASV$Sites1 <- colnames(bc_16S18_ASV)
+dist16S18.collapse <- bc_16S18_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist16S18.sites <- left_join( dist16S18.collapse, select(bc_16S18_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist16S18.sites <- left_join( dist16S18.sites, select(bc_16S18_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist16S18.sites <- dist16S18.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist16S18.distance <- dist16S18.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2018.distance.16S <- left_join(dist16S18.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2018.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2018 prokaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2018.distance.16S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2018 prokaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC18 <- Hakai.2018.distance.16S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2018 prokaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+windows(12,3)
+title <-  ggdraw() + draw_label("ASV level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_ASV.png"), width = 12, height = 5  )
+
+
+
+
+
+
 ## GENUS LEVEL
 # pick a year
 year <- 2015
@@ -583,9 +861,10 @@ BC18 <- Hakai.2018.distance.16S %>%
   geom_smooth(method = lm)
 
 
-windows(12,3)
-cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_genus.svg"), width = 12, height = 3  )
+title <-  ggdraw() + draw_label("genus level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_genus.png"), width = 12, height = 5  )
 
 
 
@@ -862,13 +1141,289 @@ BC18 <- Hakai.2018.distance.16S %>%
   geom_smooth(method = lm)
 
 
-windows(12,3)
-cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_family.svg"), width = 12, height = 3  )
+title <-  ggdraw() + draw_label("family level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_family.png"), width = 12, height = 5  )
 
 
 
 ### microeukaryotes - 18S
+
+## ASV LEVEL
+# pick a year
+year <- 2015
+
+#load 18S microbial distance matrix ASV
+bc_18S15_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_braycurtis.csv") )
+# bc_18S15_ASV <- bc_18S15_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_18S15_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_metadata.csv") )
+
+
+
+###Now make the distance matrices long
+bc_18S15_ASV$Sites1 <- colnames(bc_18S15_ASV)
+dist18S15.collapse <- bc_18S15_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist18S15.sites <- left_join( dist18S15.collapse, select(bc_18S15_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist18S15.sites <- left_join( dist18S15.sites, select(bc_18S15_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist18S15.sites <- dist18S15.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist18S15.distance <- dist18S15.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2015.distance.18S <- left_join(dist18S15.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2015.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2015 microeukaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2015.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2015 microeukaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC15 <- Hakai.2015.distance.18S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2015 microeukaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+# pick a year
+year <- 2016
+
+#load 18S microbial distance matrix ASV
+bc_18S16_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_braycurtis.csv") )
+# bc_18S16_ASV <- bc_18S16_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_18S16_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_metadata.csv") )
+
+
+
+###Now make the distance matrices long
+bc_18S16_ASV$Sites1 <- colnames(bc_18S16_ASV)
+dist18S16.collapse <- bc_18S16_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist18S16.sites <- left_join( dist18S16.collapse, select(bc_18S16_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist18S16.sites <- left_join( dist18S16.sites, select(bc_18S16_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist18S16.sites <- dist18S16.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist18S16.distance <- dist18S16.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2016.distance.18S <- left_join(dist18S16.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2016.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2016 microeukaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2016.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2016 microeukaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC16 <- Hakai.2016.distance.18S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2016 microeukaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+# pick a year
+year <- 2017
+
+#load 18S microbial distance matrix ASV
+bc_18S17_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_braycurtis.csv") )
+# bc_18S17_ASV <- bc_18S17_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_18S17_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_metadata.csv") )
+
+
+###Now make the distance matrices long
+bc_18S17_ASV$Sites1 <- colnames(bc_18S17_ASV)
+dist18S17.collapse <- bc_18S17_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist18S17.sites <- left_join( dist18S17.collapse, select(bc_18S17_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist18S17.sites <- left_join( dist18S17.sites, select(bc_18S17_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist18S17.sites <- dist18S17.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist18S17.distance <- dist18S17.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2017.distance.18S <- left_join(dist18S17.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2017.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2017 microeukaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2017.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2017 microeukaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC17 <- Hakai.2017.distance.18S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2017 microeukaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+# pick a year
+year <- 2018
+
+#load 18S microbial distance matrix ASV
+bc_18S18_ASV <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_braycurtis.csv") )
+# bc_18S18_ASV <- bc_18S18_ASV %>% 
+#   dplyr::rename("sample" = "X1")
+bc_18S18_meta <- read_csv(paste0("R_Code_and_Analysis/mantel/ASV_18S_",year,"_metadata.csv") )
+
+
+
+###Now make the distance matrices long
+bc_18S18_ASV$Sites1 <- colnames(bc_18S18_ASV)
+dist18S18.collapse <- bc_18S18_ASV %>% 
+  gather(Sites2, Community_Distance, -Sites1)
+
+
+# add sites from metadata
+dist18S18.sites <- left_join( dist18S18.collapse, select(bc_18S18_meta, site, site_quadrat_id, labels), by=c("Sites1" = "labels") )
+dist18S18.sites <- left_join( dist18S18.sites, select(bc_18S18_meta, site, site_quadrat_id, labels), by=c("Sites2" = "labels") )
+dist18S18.sites <- dist18S18.sites %>% select( Sites1=site.x, Sites2=site.y, Community_Distance )
+
+dist18S18.distance <- dist18S18.sites %>%
+  # separate(Sites1, c("Site_1", "Sample_1"), sep = "-", remove = TRUE)%>%
+  # separate(Sites2, c("Site_2", "Sample_2"), sep = "-", remove = TRUE)%>%
+  unite("Site.Pair", Sites1, Sites2, sep = "-", remove = FALSE)
+
+
+### Unite into one data frame
+Hakai.2018.distance.18S <- left_join(dist18S18.distance,Hakai.geographic.distance, by = "Site.Pair") %>% 
+  filter( !is.na(Community_Distance) )
+
+# ### plots
+# Graph1 <- Hakai.2018.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites1),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2018 microeukaryotes")+
+#   geom_smooth(method = lm)
+# Graph2 <- Hakai.2018.distance.18S %>%
+#   drop_na(Geog_Distance) %>%
+#   drop_na(Community_Distance)%>%
+#   ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+#   theme_classic()+
+#   geom_point(aes(colour = Sites2),alpha=0.25)+
+#   xlab("Geographic distance (km)")+
+#   ylab("B-C dissimilarity 2018 microeukaryotes")+
+#   geom_smooth(method = lm)
+# plot_grid(Graph1, Graph2, nrow = 2)
+
+
+BC18 <- Hakai.2018.distance.18S %>%
+  drop_na(Geog_Distance) %>%
+  drop_na(Community_Distance)%>%
+  ggplot(aes(x = Geog_Distance, y = Community_Distance))+
+  theme_classic()+
+  geom_point(alpha=0.25)+
+  xlab("Geographic distance (km)")+
+  ylab("B-C dissimilarity\n2018 microeukaryotes")+
+  ylim( c(0,1) ) + xlim( c(0,41) ) +
+  geom_smooth(method = lm)
+
+
+windows(12,3)
+title <-  ggdraw() + draw_label("ASV level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeuk_ASV.png"), width = 12, height = 5  )
+
+
+
+
+
 ## GENUS LEVEL
 # pick a year
 year <- 2015
@@ -1134,12 +1689,10 @@ BC18 <- Hakai.2018.distance.18S %>%
 
 
 windows(12,3)
-cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeuk_genus.svg"), width = 12, height = 3  )
-
-
-
-
+title <-  ggdraw() + draw_label("genus level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeuk_genus.png"), width = 12, height = 5  )
 
 
 
@@ -1408,5 +1961,7 @@ BC18 <- Hakai.2018.distance.18S %>%
 
 
 windows(12,3)
-cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeukaryote_family.svg"), width = 12, height = 3  )
+title <-  ggdraw() + draw_label("family level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeuk_family.png"), width = 12, height = 5  )
