@@ -309,7 +309,7 @@ BC14 <- Hakai.2014.distance %>%
   geom_smooth(method = lm)
 
 windows(12,3)
-cowplot::plot_grid( BC14, BC15, BC16, BC17, ncol=4)
+macro <- cowplot::plot_grid( BC14, BC15, BC16, BC17, ncol=4)
 ggsave( paste0("R_Code_and_Analysis/distance_decay/BCdecay_macroeuk_",level,".png"), width = 12, height = 3  )
 
 
@@ -587,13 +587,9 @@ BC18 <- Hakai.2018.distance.16S %>%
 
 windows(12,3)
 title <-  ggdraw() + draw_label("ASV level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
-plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ASV_16S_raw <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+ASV_16S <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
 ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_ASV.png"), width = 12, height = 5  )
-
-
-
-
 
 
 ## GENUS LEVEL
@@ -862,15 +858,9 @@ BC18 <- Hakai.2018.distance.16S %>%
 
 
 title <-  ggdraw() + draw_label("genus level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
-plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+genus_16S_raw  <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+genus_16S <- plot_grid(title, genus_16S_raw,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
 ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_genus.png"), width = 12, height = 5  )
-
-
-
-
-
-
 
 
 
@@ -1142,8 +1132,8 @@ BC18 <- Hakai.2018.distance.16S %>%
 
 
 title <-  ggdraw() + draw_label("family level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
-plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+family_16S_raw <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+family_16S <- plot_grid(title, family_16S_raw,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
 ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_prokaryote_family.png"), width = 12, height = 5  )
 
 
@@ -1416,8 +1406,8 @@ BC18 <- Hakai.2018.distance.18S %>%
 
 windows(12,3)
 title <-  ggdraw() + draw_label("ASV level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
-plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+ASV_18S_raw <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+ASV_18S <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
 ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeuk_ASV.png"), width = 12, height = 5  )
 
 
@@ -1690,8 +1680,8 @@ BC18 <- Hakai.2018.distance.18S %>%
 
 windows(12,3)
 title <-  ggdraw() + draw_label("genus level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
-plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+genus_18S_raw  <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+genus_18S <- plot_grid(title, genus_18S_raw,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
 ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeuk_genus.png"), width = 12, height = 5  )
 
 
@@ -1962,6 +1952,31 @@ BC18 <- Hakai.2018.distance.18S %>%
 
 windows(12,3)
 title <-  ggdraw() + draw_label("family level",fontface = 'bold', size = 14, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
-plots <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
-plot_title <- plot_grid(title, plots,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
+family_18S_raw <- cowplot::plot_grid( BC15, BC16, BC17, BC18, ncol=4)
+family_18S <- plot_grid(title, family_18S_raw,ncol = 1,rel_heights = c(0.05, 1)) # rel_heights values control vertical title margins
 ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_microeuk_family.png"), width = 12, height = 5  )
+
+
+######################################
+### saving all at the finest level ###
+######################################
+title_ASV <-  ggdraw() + draw_label("Finest taxonomic level (ASV for microbes)",fontface = 'bold', size = 18, x = 0.35, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+finest_ASV <- cowplot::plot_grid (ASV_16S_raw, ASV_18S_raw,macro, ncol=1)
+finest_ASV_title <- plot_grid(title_ASV, finest_ASV, ncol = 1,rel_heights = c(0.05, 1))
+finest_ASV_title
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_all_finest_ASV.png"), width = 12, height = 10  )
+
+title_genus <-  ggdraw() + draw_label("Finest taxonomic level (genus for microbes)",fontface = 'bold', size = 18, x = 0.35, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+finest_genus <- cowplot::plot_grid (ASV_16S_raw, ASV_18S_raw,macro, ncol=1)
+finest_genus_title <- plot_grid(title_genus, finest_genus, ncol = 1,rel_heights = c(0.05, 1))
+finest_genus_title
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_all_finest_genus.png"), width = 12, height = 10  )
+
+########################################
+### saving all at the coarsest level ###
+########################################
+title_family <-  ggdraw() + draw_label("Family level",fontface = 'bold', size = 18, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
+family_genus <- cowplot::plot_grid (family_16S_raw, family_18S_raw,macro, ncol=1)
+family_genus_title <- plot_grid(title_family, family_genus, ncol = 1,rel_heights = c(0.05, 1))
+family_genus_title
+ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_all_family.png"), width = 12, height = 10  )
