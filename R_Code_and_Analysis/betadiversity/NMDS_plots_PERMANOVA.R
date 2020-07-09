@@ -267,7 +267,7 @@ nmds_macroeukaryotes <- ggplot(NMDS_inverts, aes(x=NMDS1, y=NMDS2, shape = year,
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Macroeukaryotes") + 
-  annotate("text", label = "stress = 0.19", x = 1.3, y = -1.5, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.19", x = 1.0, y = -1.5, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(0,19,8,17))
 
@@ -338,7 +338,7 @@ nmds_macroeukaryotes_no_2014 <- ggplot(NMDS_inverts_no_2014, aes(x=NMDS1, y=NMDS
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Macroeukaryotes") + 
-  annotate("text", label = "stress = 0.15", x = 1.3, y = -1.5, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.15", x = 1.0, y = -1.5, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17))
 
@@ -422,7 +422,7 @@ nmds_macroeukaryotes_2016_2017 <- ggplot(NMDS_inverts_2016_2017, aes(x=NMDS1, y=
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Macroeukaryotes") + 
-  annotate("text", label = "stress = 0.16", x = 1.3, y = -1.5, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.16", x = 0.5, y = -1.5, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(8,17))
 
@@ -444,3 +444,6 @@ nmds_macroeukaryotes_2016_2017 <- nmds_macroeukaryotes_2016_2017 +  theme_bw() +
 nmds_macroeukaryotes_2016_2017
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes_2016_2017.png", plot = nmds_macroeukaryotes_2016_2017, width=250, height=200, units="mm",dpi=300)
 
+plots <- cowplot::plot_grid( nmds_prokaryotes, nmds_microeukaryotes, nmds_macroeukaryotes, nmds_macroeukaryotes_no_2014, nmds_macroeukaryotes_2016_2017, ncol=3)
+plots
+ggsave(paste0("R_Code_and_Analysis/betadiversity/NMDS_all.png"), width = 25, height = 12  )
