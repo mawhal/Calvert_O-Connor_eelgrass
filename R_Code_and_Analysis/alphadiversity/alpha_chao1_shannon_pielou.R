@@ -429,34 +429,36 @@ p_inverts_family_region
 ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_family_regions.png", plot = p_inverts_family_region, width=250, height=200, units="mm",dpi=300)
 
 # arrange the three plots in a single row
-p_16S_year_no_leg <- p_16S_year + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=1),"cm"))
-p_18S_year_no_leg <-p_18S_year + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
-p_inverts_finest_year_no_leg <- p_inverts_finest_year + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
+p_16S_year_no_leg <- p_16S_year + theme(legend.position="bottom", plot.margin=unit(c(t=1,r=1,b=0,l=1),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "alpha diversity measures") + ggtitle("Prokaryotes")
+p_18S_year_no_leg <-p_18S_year + theme(legend.position="bottom", plot.margin=unit(c(t=1,r=1,b=0,l=1),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Microeukaryotes")
+p_inverts_finest_year_no_leg <- p_inverts_finest_year + theme(legend.position="bottom", plot.margin=unit(c(t=1,r=1,b=0,l=1),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Macroeukaryotes")
+
 plots_year <- cowplot::plot_grid( p_16S_year_no_leg, p_18S_year_no_leg, p_inverts_finest_year_no_leg, ncol=3)
 # extract the legend from one of the plots
-legend <- get_legend(
-  p_16S_year + 
-    guides(color = guide_legend(nrow = 1)) +
-    theme(legend.position = "bottom"))
-# add the legend to the row we made earlier. Give it one-third of 
-# the width of one plot (via rel_widths).
-year <- plot_grid(plots_year, legend, ncol = 1, rel_heights = c(1, .1))
+# legend <- get_legend(
+#   p_16S_year + 
+#     guides(color = guide_legend(nrow = 1)) +
+#     theme(legend.position = "bottom"))
+# # add the legend to the row we made earlier. Give it one-third of 
+# # the width of one plot (via rel_widths).
+year <- plot_grid(plots_year, ncol = 1, rel_heights = c(1, .1))
 year
 
 # arrange the three plots in a single row
-p_16S_region_no_leg <- p_16S_region + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=1),"cm"))
-p_18S_region_no_leg <-p_18S_region + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
-p_inverts_finest_region_no_leg <- p_inverts_finest_region + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
+p_16S_region_no_leg <- p_16S_region + theme(legend.position="bottom", plot.margin=unit(c(t=0,r=1,b=0,l=1),"cm")) + labs(y = "alpha diversity measures")
+p_18S_region_no_leg <-p_18S_region + theme(legend.position="bottom", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm")) + labs(y = "")
+p_inverts_finest_region_no_leg <- p_inverts_finest_region + theme(legend.position="bottom", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm")) + labs(y = "")
 plots_region <- cowplot::plot_grid( p_16S_region_no_leg, p_18S_region_no_leg, p_inverts_finest_region_no_leg, ncol=3)
-# extract the legend from one of the plots
-legend <- get_legend(
-  p_16S_region + 
-    guides(color = guide_legend(nrow = 1)) +
-    theme(legend.position = "bottom"))
+# # extract the legend from one of the plots
+# legend <- get_legend(
+#   p_16S_region + 
+#     guides(color = guide_legend(nrow = 1)) +
+#     theme(legend.position = "bottom"))
 # add the legend to the row we made earlier. Give it one-third of 
 # the width of one plot (via rel_widths).
-region <- plot_grid(plots_region, legend, ncol = 1, rel_heights = c(1, .1))
+region <- plot_grid(plots_region, ncol = 1, rel_heights = c(1, .1))
 region
 
 year_region <- plot_grid(year, region, ncol=1)
-ggsave(paste0("R_Code_and_Analysis/alphadiversity/alpha_diversity_all.png"), width = 18, height = 15  )
+year_region
+ggsave(paste0("R_Code_and_Analysis/alphadiversity/alpha_diversity_all.png"), width = 22, height = 16  )
