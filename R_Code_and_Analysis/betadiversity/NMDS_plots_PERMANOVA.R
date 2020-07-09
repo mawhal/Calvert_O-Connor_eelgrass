@@ -83,15 +83,20 @@ bray_16S <- vegdist(log_16S ,m="bray")
 permanova_16S <-adonis2(bray_16S ~ region + year,
                                          data=microbes_16S_ASV, permutations=999, by = "margin")
 permanova_16S
+write.csv(permanova_16S, "R_Code_and_Analysis/betadiversity/permanova_16S.csv")
 
 #### run PERMDISP
-microbes_16S_ASV$region
-attach(microbes_16S_ASV)
-permdisp_16S <- betadisper(bray_16S, region, type = c("median","centroid")) 
-plot(permdisp_16S)
-boxplot(permdisp_16S,
-        par(cex.lab=1.5))
-permutest(permdisp_16S, pairwise = TRUE)
+as.factor(microbes_16S_ASV$region)
+permdisp_16S_region <- betadisper(bray_16S, region, type = c("median","centroid")) 
+plot(permdisp_16S_region)
+boxplot(permdisp_16S_region)
+permutest(permdisp_16S_region, pairwise = TRUE)
+
+as.factor(microbes_16S_ASV$year)
+permdisp_16S_year <- betadisper(bray_16S, year, type = c("median","centroid")) 
+plot(permdisp_16S_year)
+boxplot(permdisp_16S_year)
+permutest(permdisp_16S_year, pairwise = TRUE)
 
 #############################################
 ############ 18S microeukaryotes ############
@@ -167,15 +172,20 @@ bray_18S <- vegdist(log_18S ,m="bray")
 permanova_18S <-adonis2(bray_18S ~ region + year,
                         data=microbes_18S_ASV, permutations=999, by = "margin")
 permanova_18S
+write.csv(permanova_18S, "R_Code_and_Analysis/betadiversity/permanova_18S.csv")
 
 #### run PERMDISP
-microbes_18S_ASV$region
-attach(microbes_18S_ASV)
-permdisp_18S <- betadisper(bray_18S, region, type = c("median","centroid")) 
-plot(permdisp_18S)
-boxplot(permdisp_18S,
-        par(cex.lab=1.5))
-permutest(permdisp_18S, pairwise = TRUE)
+as.factor(microbes_18S_ASV$region)
+permdisp_18S_region <- betadisper(bray_18S, region, type = c("median","centroid")) 
+plot(permdisp_18S_region)
+boxplot(permdisp_18S_region)
+permutest(permdisp_18S_region, pairwise = TRUE)
+
+as.factor(microbes_18S_ASV$year)
+permdisp_18S_year <- betadisper(bray_18S, year, type = c("median","centroid")) 
+plot(permdisp_18S_year)
+boxplot(permdisp_18S_year)
+permutest(permdisp_18S_year, pairwise = TRUE)
 
 #################################################
 ############ Inverts Macroeukaryotes ############
@@ -348,7 +358,7 @@ bray_inverts_no_2014 <- vegdist(log_inverts_no_2014 ,m="bray")
 permanova_inverts_no_2014 <-adonis2(bray_inverts_no_2014 ~ region + year,
                         data=m.meta_no_2014, permutations=999, by = "margin")
 permanova_inverts_no_2014
-
+write.csv(permanova_inverts_no_2014, "R_Code_and_Analysis/betadiversity/permanova_inverts_no_2014.csv")
 
 ### TEST Permanova Inverts only 2017 and 2018
 ### macroeukaryotes (inverts) without 2014
@@ -369,7 +379,7 @@ bray_inverts_2016_2017 <- vegdist(log_inverts_2016_2017 ,m="bray")
 permanova_inverts_2016_2017 <-adonis2(bray_inverts_2016_2017 ~ region + year,
                                     data=m.meta_2016_2017, permutations=999, by = "margin")
 permanova_inverts_2016_2017
-
+write.csv(permanova_inverts_2016_2017, "R_Code_and_Analysis/betadiversity/permanova_inverts_2016_2017.csv")
 ### GRAPH 2016 and 2017
 set.seed(2)
 NMDS.inverts.LOG_2016_2017 <- metaMDS(log(abundances_inverts_NMDS_2016_2017+1), distance = "bray", k=2)
