@@ -428,4 +428,35 @@ p_inverts_family_region
 
 ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_family_regions.png", plot = p_inverts_family_region, width=250, height=200, units="mm",dpi=300)
 
+# arrange the three plots in a single row
+p_16S_year_no_leg <- p_16S_year + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=1),"cm"))
+p_18S_year_no_leg <-p_18S_year + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
+p_inverts_finest_year_no_leg <- p_inverts_finest_year + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
+plots_year <- cowplot::plot_grid( p_16S_year_no_leg, p_18S_year_no_leg, p_inverts_finest_year_no_leg, ncol=3)
+# extract the legend from one of the plots
+legend <- get_legend(
+  p_16S_year + 
+    guides(color = guide_legend(nrow = 1)) +
+    theme(legend.position = "bottom"))
+# add the legend to the row we made earlier. Give it one-third of 
+# the width of one plot (via rel_widths).
+year <- plot_grid(plots_year, legend, ncol = 1, rel_heights = c(1, .1))
+year
 
+# arrange the three plots in a single row
+p_16S_region_no_leg <- p_16S_region + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=1),"cm"))
+p_18S_region_no_leg <-p_18S_region + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
+p_inverts_finest_region_no_leg <- p_inverts_finest_region + theme(legend.position="none", plot.margin=unit(c(t=0,r=1,b=0,l=0),"cm"))
+plots_region <- cowplot::plot_grid( p_16S_region_no_leg, p_18S_region_no_leg, p_inverts_finest_region_no_leg, ncol=3)
+# extract the legend from one of the plots
+legend <- get_legend(
+  p_16S_region + 
+    guides(color = guide_legend(nrow = 1)) +
+    theme(legend.position = "bottom"))
+# add the legend to the row we made earlier. Give it one-third of 
+# the width of one plot (via rel_widths).
+region <- plot_grid(plots_region, legend, ncol = 1, rel_heights = c(1, .1))
+region
+
+year_region <- plot_grid(year, region, ncol=1)
+ggsave(paste0("R_Code_and_Analysis/alphadiversity/alpha_diversity_all.png"), width = 18, height = 15  )
