@@ -46,7 +46,7 @@ Hakai.geographic.distance <- Hakai.geog %>%
 
 #### MACROEUKARYOTES
 # pick a taxonomic level
-level <- "coarse"
+level <- "finest"
 # folder location
 path <- "R_Code_and_Analysis/betadiversity/Bray-Curtis/"
 
@@ -1976,7 +1976,7 @@ ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_all_finest_genus.png")
 ### saving all at the coarsest level ###
 ########################################
 title_family <-  ggdraw() + draw_label("Family level",fontface = 'bold', size = 18, x = 0.5, hjust = 0) # add margin on the left of the drawing canvas, so title is aligned with left edge of first plot
-family_genus <- cowplot::plot_grid (family_16S_raw, family_18S_raw,macro, ncol=1)
-family_genus_title <- plot_grid(title_family, family_genus, ncol = 1,rel_heights = c(0.05, 1))
-family_genus_title
+family <- cowplot::plot_grid (family_16S_raw, family_18S_raw,macro, ncol=1)
+family_title <- plot_grid(title_family, family, ncol = 1,rel_heights = c(0.05, 1))
+family_title
 ggsave(paste0("R_Code_and_Analysis/distance_decay/BCdecay_all_family.png"), width = 12, height = 10  )
