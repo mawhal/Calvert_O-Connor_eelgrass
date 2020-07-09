@@ -289,6 +289,18 @@ nmds_macroeukaryotes <- nmds_macroeukaryotes +  theme_bw() +
 nmds_macroeukaryotes
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes.png", plot = nmds_macroeukaryotes, width=250, height=200, units="mm",dpi=300)
 
+### PERMANOVA inverts ###
+#### LOG-transformation
+log_inverts <- log1p(abundances_inverts_NMDS)
+####  Distance matrix * this is using Bray-Curtis  ###
+bray_inverts <- vegdist(log_inverts ,m="bray")
+
+#### run PERMANOVA with region and year - marginal
+permanova_inverts <-adonis2(bray_inverts ~ region + year,
+                                      data=m.meta, permutations=999, by = "margin")
+permanova_inverts
+write.csv(permanova_inverts, "R_Code_and_Analysis/betadiversity/permanova_inverts.csv")
+
 ### macroeukaryotes (inverts) without 2014
 m.meta_no_2014 <- m.meta %>% 
   filter(!year == 2014)
