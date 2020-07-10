@@ -171,6 +171,7 @@ master_table <- master_table %>%
 master_table <- master_table %>%
   dplyr::mutate(site = recode(site,
                               "choked_south_pigu" = "choked_inner",
+                              "choked_flat_island" = "choked_inner",
                               "goose_southwest" = "goose_south_west",
                               "mcmullin_north" = "mcmullins_north",
                               "mcmullin_south" = "mcmullins_south",
@@ -242,6 +243,7 @@ master_table_genus <- master_table_genus %>%
 master_table_genus <- master_table_genus %>%
   dplyr::mutate(site = recode(site,
                               "choked_south_pigu" = "choked_inner",
+                              "choked_flat_island" = "choked_inner",
                               "mcmullin_north" = "mcmullins_north",
                               "mcmullin_south" = "mcmullins_south",
                               "goose_southwest" = "goose_south_west",
@@ -313,6 +315,7 @@ master_table_family <- master_table_family %>%
 master_table_family <- master_table_family %>%
   dplyr::mutate(site = recode(site,
                               "choked_south_pigu" = "choked_inner",
+                              "choked_flat_island" = "choked_inner",
                               "mcmullin_north" = "mcmullins_north",
                               "mcmullin_south" = "mcmullins_south",
                               "goose_southwest" = "goose_south_west",
