@@ -50,7 +50,7 @@ NMDS_16S$year <- factor(NMDS_16S$year, levels=c("2015", "2016", "2017","2018"))
 nmds_prokaryotes <- ggplot(NMDS_16S, aes(x=NMDS1, y=NMDS2, shape = year, colour=region)) +
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
-  ggtitle("Prokaryotes sequencing data") + 
+  ggtitle("Prokaryotes") + 
   annotate("text", label = "stress = 0.19", x = 1.1, y = -1.2, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17,18))
@@ -68,7 +68,7 @@ nmds_prokaryotes <- nmds_prokaryotes +  theme_bw() +
          legend.justification = c(1, 1), legend.position = "right", #legend is top right
          legend.key.size = unit(2.0, 'lines'), #spacing between legends
          legend.text = element_text(size = 16), #font size of legend
-         plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
+         plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_prokaryotes
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_prokaryotes.png", plot = nmds_prokaryotes, width=250, height=200, units="mm",dpi=300)
@@ -139,7 +139,7 @@ NMDS_18S$year <- factor(NMDS_18S$year, levels=c("2015", "2016", "2017","2018"))
 nmds_microeukaryotes <- ggplot(NMDS_18S, aes(x=NMDS1, y=NMDS2, shape = year, colour=region)) +
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
-  ggtitle("Microeukaryotes sequencing data") + 
+  ggtitle("Microeukaryotes") + 
   annotate("text", label = "stress = 0.15", x = 1.3, y = -2.1, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17,18))
@@ -157,7 +157,7 @@ nmds_microeukaryotes <- nmds_microeukaryotes +  theme_bw() +
          legend.justification = c(1, 1), legend.position = "right", #legend is top right
          legend.key.size = unit(2.0, 'lines'), #spacing between legends
          legend.text = element_text(size = 16), #font size of legend
-         plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
+         plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_microeukaryotes
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_microeukaryotes.png", plot = nmds_microeukaryotes, width=250, height=200, units="mm",dpi=300)
@@ -284,7 +284,7 @@ nmds_macroeukaryotes <- nmds_macroeukaryotes +  theme_bw() +
          legend.justification = c(1, 1), legend.position = "right", #legend is top right
          legend.key.size = unit(2.0, 'lines'), #spacing between legends
          legend.text = element_text(size = 16), #font size of legend
-         plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
+         plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_macroeukaryotes
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes.png", plot = nmds_macroeukaryotes, width=250, height=200, units="mm",dpi=300)
@@ -355,7 +355,7 @@ nmds_macroeukaryotes_no_2014 <- nmds_macroeukaryotes_no_2014 +  theme_bw() +
          legend.justification = c(1, 1), legend.position = "right", #legend is top right
          legend.key.size = unit(2.0, 'lines'), #spacing between legends
          legend.text = element_text(size = 16), #font size of legend
-         plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
+         plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_macroeukaryotes_no_2014
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes_no_2014.png", plot = nmds_macroeukaryotes_no_2014, width=250, height=200, units="mm",dpi=300)
@@ -439,11 +439,16 @@ nmds_macroeukaryotes_2016_2017 <- nmds_macroeukaryotes_2016_2017 +  theme_bw() +
          legend.justification = c(1, 1), legend.position = "right", #legend is top right
          legend.key.size = unit(2.0, 'lines'), #spacing between legends
          legend.text = element_text(size = 16), #font size of legend
-         plot.title = element_text(hjust = 0.5, size = 20, face = "bold")) #center plot title and set font size
+         plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_macroeukaryotes_2016_2017
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes_2016_2017.png", plot = nmds_macroeukaryotes_2016_2017, width=250, height=200, units="mm",dpi=300)
 
-plots <- cowplot::plot_grid( nmds_prokaryotes, nmds_microeukaryotes, nmds_macroeukaryotes, nmds_macroeukaryotes_no_2014, nmds_macroeukaryotes_2016_2017, ncol=3)
-plots
+
+plots_top <-cowplot::plot_grid( nmds_prokaryotes, nmds_microeukaryotes, nmds_macroeukaryotes, ncol=3, labels = c("A", "B", "C"), label_x =.05, hjust = 1, label_size=20)
+
+plots_bottom <- cowplot::plot_grid(NULL,nmds_macroeukaryotes_no_2014, nmds_macroeukaryotes_2016_2017,NULL, ncol=4, nrow=1,labels = c("", "D", "E", ""), label_x =.05, hjust = 1, label_size=20, rel_widths=c(0.1,0.21,0.21, 0.1))
+
+cowplot::plot_grid(plots_top, plots_bottom, ncol=1)
+
 ggsave(paste0("R_Code_and_Analysis/betadiversity/NMDS_all.png"), width = 25, height = 12  )
