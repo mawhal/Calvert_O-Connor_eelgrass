@@ -110,7 +110,7 @@ curve_16S_all <- ggplot(df.curve_16S_all, aes(x=sites, y=richness, colour=type))
     panel.grid.minor = element_blank(), #remove minor grid
     axis.line = element_line(colour = "black"), #draw line in the axis)
     legend.position ="none",
-    plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0)),
+    plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0)),
     panel.border = element_blank()) #remove lines outside the graph
 curve_16S_all
 
@@ -236,7 +236,7 @@ curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness, colour=type))
     panel.grid.minor = element_blank(), #remove minor grid
     axis.line = element_line(colour = "black"), #draw line in the axis)
     legend.position ="none",
-    plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0)),
+    plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0)),
     panel.border = element_blank()) #remove lines outside the graph
 curve_18S_all
 
@@ -388,7 +388,7 @@ curve_inverts_all <- ggplot(df.curve_inverts_all, aes(x=sites, y=richness, colou
     panel.grid.minor = element_blank(), #remove minor grid
     axis.line = element_line(colour = "black"), #draw line in the axis)
     legend.position ="none",
-    plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0)),
+    plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0)),
     panel.border = element_blank()) #remove lines outside the graph
 curve_inverts_all
 
