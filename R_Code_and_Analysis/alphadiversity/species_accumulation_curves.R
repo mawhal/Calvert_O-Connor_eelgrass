@@ -91,13 +91,27 @@ labels_16S <- df.curve_16S_all %>%
   group_by( type ) %>% 
   filter( sites==max(sites), type != "pooled" )
 
-curve_16S_all <- ggplot(df.curve_16S_all, aes(x=sites, y=richness))+
+curve_16S_all <- ggplot(df.curve_16S_all, aes(x=sites, y=richness, colour=type))+
   # facet_wrap(~type) +
-  geom_line(aes(group=type)) +
+  geom_line(aes(group=type), size=1.5) +
+  scale_colour_brewer(palette = "Dark2") +
+  
   geom_text( data=labels_16S,aes(x=sites,y=richness,label=type), adj=0, 
-             nudge_y = c(0,0,100,-10), nudge_x = c(0,0,-25,0) ) +
+             nudge_y = c(0,0,40,0), nudge_x = c(2,2,1,2) ) +
   # ggtitle("Prokaryotes") +
-  labs(y = "Prokaryote species richness", x = "Number of samples") 
+  labs(y = "Species richness", x = "Number of samples", title = "Prokaryotes") +
+  theme_bw() +
+  theme(
+    axis.title.y = element_text(size = 22, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+    axis.title.x = element_text(size = 20),
+    axis.text.y = element_text(size = 18),
+    axis.text.x = element_text(size = 18),
+    panel.grid.major = element_blank(), #remove major grid
+    panel.grid.minor = element_blank(), #remove minor grid
+    axis.line = element_line(colour = "black"), #draw line in the axis)
+    legend.position ="none",
+    plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0)),
+    panel.border = element_blank()) #remove lines outside the graph
 curve_16S_all
 
 # extrapolate
@@ -186,7 +200,7 @@ df.curve_18S_2018$type <- "2018"
 # rbind everything together
 df.curve_18S_all <- rbind(df.curve_18S_2015,df.curve_18S_2016,df.curve_18S_2017, df.curve_18S_2018)
 
-curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness))+
+curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness, colour=type))+
   facet_wrap(~type) +
   geom_point() +
   ggtitle("Microeukaryotes") +
@@ -205,12 +219,25 @@ labels_18S <- df.curve_18S_all %>%
   group_by( type ) %>% 
   filter( sites==max(sites), type != "pooled" )
 
-curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness))+
+curve_18S_all <- ggplot(df.curve_18S_all, aes(x=sites, y=richness, colour=type))+
   # facet_wrap(~type) +
-  geom_line(aes(group=type)) +
+  geom_line(aes(group=type), size=1.5) +
+  scale_colour_brewer(palette = "Dark2") +
   geom_text( data=labels_18S,aes(x=sites,y=richness,label=type), adj=0, 
-             nudge_y = c(-8,0,0,1), nudge_x = c(0,0,0,0) ) +
-  labs(y = "Microeuk. species richness", x = "Number of samples") 
+             nudge_y = c(5,5,5,5), nudge_x = c(2,2,2,2) ) +
+  labs(y = "", x = "Number of samples", title= "Microeukaryotes")  +
+  theme_bw() +
+  theme(
+    axis.title.y = element_text(size = 22, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+    axis.title.x = element_text(size = 20),
+    axis.text.y = element_text(size = 18),
+    axis.text.x = element_text(size = 18),
+    panel.grid.major = element_blank(), #remove major grid
+    panel.grid.minor = element_blank(), #remove minor grid
+    axis.line = element_line(colour = "black"), #draw line in the axis)
+    legend.position ="none",
+    plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0)),
+    panel.border = element_blank()) #remove lines outside the graph
 curve_18S_all
 
 # extrapolate
@@ -344,12 +371,25 @@ labels_inverts <- df.curve_inverts_all %>%
   group_by( type ) %>% 
   filter( sites==max(sites), type != "pooled" )
 
-curve_inverts_all <- ggplot(df.curve_inverts_all, aes(x=sites, y=richness))+
+curve_inverts_all <- ggplot(df.curve_inverts_all, aes(x=sites, y=richness, colour=type))+
   # facet_wrap(~type) +
-  geom_line(aes(group=type)) +
+  geom_line(aes(group=type),size=1.5) +
+  scale_colour_manual(values=c("#E6AB02", "#1B9E77", "#D95F02", "#7570B3", "#66A61E")) +
   geom_text( data=labels_inverts,aes(x=sites,y=richness,label=type), adj=0, 
-             nudge_y = c(-3,3,5,-5), nudge_x = c(0,3,0,-5) ) +
-  labs(y = "Invertebrate species richness", x = "Number of samples") 
+             nudge_y = c(0,0,1,2), nudge_x = c(2,2,2,-7) ) +
+  labs(y = "", x = "Number of samples", title = "Macroeukaryotes") +
+  theme_bw() +
+  theme(
+    axis.title.y = element_text(size = 22, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+    axis.title.x = element_text(size = 20),
+    axis.text.y = element_text(size = 18),
+    axis.text.x = element_text(size = 18),
+    panel.grid.major = element_blank(), #remove major grid
+    panel.grid.minor = element_blank(), #remove minor grid
+    axis.line = element_line(colour = "black"), #draw line in the axis)
+    legend.position ="none",
+    plot.title = element_text(size=20, face = "bold", hjust = 0.5, margin = margin(t = 0, r =0, b = 20, l = 0)),
+    panel.border = element_blank()) #remove lines outside the graph
 curve_inverts_all
 
 # extrapolate
@@ -363,9 +403,9 @@ iNEXT(as.matrix(incidence_inverts_finest), datatype = "incidence_raw" )
 
 
 # plot all curves together
-cowplot::plot_grid( curve_16S_all,curve_18S_all,curve_inverts_all, ncol=3 )
+cowplot::plot_grid(curve_16S_all,curve_18S_all,curve_inverts_all, labels = "AUTO", ncol = 3, label_x =.05, hjust = 1, label_size=20)
 ggsave( "R_Code_and_Analysis/alphadiversity/accumulation_curves_all.png", 
-        width=6, height=2.5 )
+        width=30, height=10 )
 
 
 # all extrapolations

@@ -129,7 +129,7 @@ LCBD18 <- data.frame( wide_18S[,1:3], LCBD18 )
 #windows(3.5,4)
 LCBD_18S <- ggplot( data=LCBD18, aes( x=factor(year), y=factor(site), size=LCBD, fill=p.adj )) +
   geom_point(shape=21,alpha=1 ) +
-  ylab( "Site" ) + xlab( "Year" ) + ggtitle("Prokaryotes") + theme_bw( )
+  ylab( "Site" ) + xlab( "Year" ) + ggtitle("Microeukaryotes") + theme_bw( )
 LCBD_18S
 # ggsave("R_Code_and_Analysis/betadiversity/LCBD_18S.png", plot = LCBD_18S, width=250, height=200, units="mm",dpi=300)
 
