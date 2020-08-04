@@ -18,7 +18,7 @@ abundances_16S <- microbes_16S_ASV %>%
   dplyr::select(-(1:15))
 
 # species accumulation curve for all years
-curve_16S = specaccum(abundances_16S, method = "random", 
+curve_16S = specaccum(abundances_16S, method = "random", gamma = "chao1",
                       permutations = 100)
 df.curve_16S <- data.frame(curve_16S$richness,curve_16S$sites,curve_16S$sd)
 names(df.curve_16S) <- substring(names(df.curve_16S),11) # keep labels in columns from 16 character on
@@ -39,10 +39,10 @@ abundances_16S_2018 <- microbes_16S_ASV %>%
   dplyr::select(-(1:15))
 
 # species accumulation curve for each year
-curve_16S_2015 = specaccum(abundances_16S_2015, method = "random")
-curve_16S_2016 = specaccum(abundances_16S_2016, method = "random")
-curve_16S_2017 = specaccum(abundances_16S_2017, method = "random")
-curve_16S_2018 = specaccum(abundances_16S_2018, method = "random")
+curve_16S_2015 = specaccum(abundances_16S_2015, method = "random", gamma = "chao1")
+curve_16S_2016 = specaccum(abundances_16S_2016, method = "random", gamma = "chao1")
+curve_16S_2017 = specaccum(abundances_16S_2017, method = "random", gamma = "chao1")
+curve_16S_2018 = specaccum(abundances_16S_2018, method = "random", gamma = "chao1")
 
 #plot all and each year together
 plot(curve_16S$sites, curve_16S$richness,
@@ -91,11 +91,22 @@ labels_16S <- df.curve_16S_all %>%
   group_by( type ) %>% 
   filter( sites==max(sites), type != "pooled" )
 
+# library(rcompanion)
+# groupwiseMean(richness ~ type, 
+#               data   = df.curve_16S_all, 
+#               conf   = 0.95, 
+#               digits = 3)
+
+df.curve_16S_all$ymin <- df.curve_16S_all$richness - 1.96*df.curve_16S_all$sd/sqrt(1)
+
+df.curve_16S_all$ymax <- df.curve_16S_all$richness + 1.96*df.curve_16S_all$sd/sqrt(1)
+
 curve_16S_all <- ggplot(df.curve_16S_all, aes(x=sites, y=richness, colour=type))+
   # facet_wrap(~type) +
   geom_line(aes(group=type), size=1.5) +
+  geom_ribbon(aes( ymin=ymin, ymax=ymax, fill=type), alpha = 0.3)+
   scale_colour_brewer(palette = "Dark2") +
-  
+  scale_fill_brewer(palette = "Dark2")+
   geom_text( data=labels_16S,aes(x=sites,y=richness,label=type), adj=0, 
              nudge_y = c(0,0,40,0), nudge_x = c(2,2,1,2) ) +
   # ggtitle("Prokaryotes") +
@@ -145,7 +156,7 @@ names(microbes_18S_ASV)[1:18]
 abundances_18S <- microbes_18S_ASV %>% 
   dplyr::select(-(1:15))
 
-curve_18S = specaccum(abundances_18S, method = "random", 
+curve_18S = specaccum(abundances_18S, method = "random", gamma = "chao1",
                       permutations = 100)
 df.curve_18S <- data.frame(curve_18S$richness,curve_18S$sites,curve_18S$sd)
 names(df.curve_18S) <- substring(names(df.curve_18S),11) # keep labels in columns from 16 character on
@@ -166,10 +177,10 @@ abundances_18S_2018 <- microbes_18S_ASV %>%
   dplyr::select(-(1:15))
 
 # species accumulation curve for each year
-curve_18S_2015 = specaccum(abundances_18S_2015, method = "random")
-curve_18S_2016 = specaccum(abundances_18S_2016, method = "random")
-curve_18S_2017 = specaccum(abundances_18S_2017, method = "random")
-curve_18S_2018 = specaccum(abundances_18S_2018, method = "random")
+curve_18S_2015 = specaccum(abundances_18S_2015, method = "random", gamma = "chao1")
+curve_18S_2016 = specaccum(abundances_18S_2016, method = "random", gamma = "chao1")
+curve_18S_2017 = specaccum(abundances_18S_2017, method = "random", gamma = "chao1")
+curve_18S_2018 = specaccum(abundances_18S_2018, method = "random", gamma = "chao1")
 
 #plot all and each year together
 plot(curve_18S$sites, curve_18S$richness,
@@ -288,18 +299,16 @@ m.mean_finest <- m.sum_finest %>%
 
 # make a community dataset
 m.meta_finest <- m.sum_finest %>% 
-  spread( taxon, abundance, fill=0 ) 
+  pivot_wider( names_from = taxon, values_from = abundance, values_fill=0 ) # had to replace spread by pivot_wider (new tidyr) ### not working anymore
 
-names(m.meta_finest)[1:16]
+names(m.meta_finest)
 
 m.meta_finest <- m.meta_finest %>% 
-  ungroup( year, group, region, site, taxon )
+  ungroup( year, group, region, site )
 
-### Creating an object to store abundances only
-abundances_inverts_finest <- m.meta_finest %>% 
-  dplyr::select(-(1:6))
+abundances_inverts_finest <- m.meta_finest[,7:ncol(m.meta_finest)]
 
-curve_inverts = specaccum(abundances_inverts_finest, method = "random", 
+curve_inverts = specaccum(abundances_inverts_finest, method = "random", gamma = "chao1",
                       permutations = 100)
 df.curve_inverts <- data.frame(curve_inverts$richness,curve_inverts$sites,curve_inverts$sd)
 names(df.curve_inverts) <- substring(names(df.curve_inverts),15) # keep labels in columns from 16 character on
@@ -307,23 +316,26 @@ df.curve_inverts$type <- "pooled"
 
 #subset each year
 abundances_inverts_2014 <- m.meta_finest %>% 
-  dplyr::filter(year == "2014") %>% 
-  dplyr::select(-(1:15))
+  dplyr::filter(year == "2014")
+abundances_inverts_2014 <- abundances_inverts_2014[,15:ncol(abundances_inverts_2014)]
+
 abundances_inverts_2015 <- m.meta_finest %>% 
-  dplyr::filter(year == "2015") %>% 
-  dplyr::select(-(1:15))
+  dplyr::filter(year == "2015")
+abundances_inverts_2015 <- abundances_inverts_2015[,15:ncol(abundances_inverts_2015)]
+
 abundances_inverts_2016 <- m.meta_finest %>% 
-  dplyr::filter(year == "2016") %>% 
-  dplyr::select(-(1:15))
+  dplyr::filter(year == "2016")
+abundances_inverts_2016 <- abundances_inverts_2016[,15:ncol(abundances_inverts_2016)]
+
 abundances_inverts_2017 <- m.meta_finest %>% 
-  dplyr::filter(year == "2017") %>% 
-  dplyr::select(-(1:15))
+  dplyr::filter(year == "2017")
+abundances_inverts_2017 <- abundances_inverts_2017[,15:ncol(abundances_inverts_2017)]
 
 # species accumulation curve for each year
-curve_inverts_2014 = specaccum(abundances_inverts_2014, method = "random")
-curve_inverts_2015 = specaccum(abundances_inverts_2015, method = "random")
-curve_inverts_2016 = specaccum(abundances_inverts_2016, method = "random")
-curve_inverts_2017 = specaccum(abundances_inverts_2017, method = "random")
+curve_inverts_2014 = specaccum(abundances_inverts_2014, method = "random", gamma = "chao1")
+curve_inverts_2015 = specaccum(abundances_inverts_2015, method = "random", gamma = "chao1")
+curve_inverts_2016 = specaccum(abundances_inverts_2016, method = "random", gamma = "chao1")
+curve_inverts_2017 = specaccum(abundances_inverts_2017, method = "random", gamma = "chao1")
 
 #plot all and each year together
 plot(curve_inverts$sites, curve_inverts$richness,
