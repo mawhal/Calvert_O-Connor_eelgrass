@@ -94,7 +94,7 @@ library(iNEXT)
 
 # phyloseq object to be used
 all_years_16S_filtered_meso_Zos
-
+View(as.data.frame(otu_table(all_years_16S_filtered_meso_Zos)))
 ### the following steps are necessary before running the function because it needs the otu table in the phyloseq object to have taxa as rows
 
 # check if taxa are rows in the phyloseq object
@@ -108,7 +108,7 @@ taxa_are_rows(all_years_16S_filtered_meso_Zos)
 x <- metagMisc::prepare_inext(
   as.data.frame(otu_table(all_years_16S_filtered_meso_Zos)),
   correct_singletons = T)
-
+View(as.data.frame(otu_table(all_years_16S_filtered_meso_Zos)))
 # check if read counts are correct (samples should show "numeric" in the second column)
 SC <- plyr::llply(.data = x, .fun = function(z){ try( iNEXT:::Chat.Ind(z, sum(z)) ) })
 plyr::ldply(.data = SC, .fun = class)
@@ -237,18 +237,18 @@ average_otu_tables_200$cover_based_iterations <- "twohundred"
 average_otu_tables_200 <- average_otu_tables_200 %>%
   dplyr::select(cover_based_iterations, everything())
 
-average_otu_tables_200_remove_LFC <- read.csv("Data/prokaryotes/prok_average_otu_tables_200_remove_LFC.csv", header=T)
-average_otu_tables_200_remove_LFC$cover_based_iterations <- "twohundred_remove_LFC"
-average_otu_tables_200_remove_LFC <- average_otu_tables_200_remove_LFC %>%
-  dplyr::select(cover_based_iterations, everything())
+# average_otu_tables_200_remove_LFC <- read.csv("Data/prokaryotes/prok_average_otu_tables_200_remove_LFC.csv", header=T)
+# average_otu_tables_200_remove_LFC$cover_based_iterations <- "twohundred_remove_LFC"
+# average_otu_tables_200_remove_LFC <- average_otu_tables_200_remove_LFC %>%
+#   dplyr::select(cover_based_iterations, everything())
 
-average_otu_tables_1000 <- read.csv("/Users/parfreylab/Desktop/lab_member_files/bia/Calvert_O-Connor_eelgrass/Data/prokaryotes/prok_average_otu_tables_1000.csv", header=T)
+average_otu_tables_1000 <- read.csv("Data/prokaryotes/prok_average_otu_tables_1000.csv", header=T)
 average_otu_tables_1000$cover_based_iterations <- "onethousand"
 average_otu_tables_1000 <- average_otu_tables_1000 %>%
-  select(cover_based_iterations, everything())
+  dplyr::select(cover_based_iterations, everything())
 
 # # join all in a single data frame to make boxplot for alpha diversity
-otu_tables_iterations <- bind_rows(average_otu_tables_5, average_otu_tables_50,average_otu_tables_100, average_otu_tables_200, average_otu_tables_200_remove_LFC)
+otu_tables_iterations <- bind_rows(average_otu_tables_5, average_otu_tables_50,average_otu_tables_100, average_otu_tables_200, average_otu_tables_1000)
 
 ### add metadata according to #SampleID labels
 metadata <- read.csv(file="Data/prokaryotes/EDITED_16S_final_metadata.csv",header=T )
@@ -279,7 +279,7 @@ alpha_16S_metrics <- alpha_16S %>%
 
 alpha_16S_metrics$year = factor(alpha_16S_metrics$year, levels=c("2015","2016", "2017", "2018"))
 alpha_16S_metrics$region <- factor(alpha_16S_metrics$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
-alpha_16S_metrics$cover_based_iterations <- factor(alpha_16S_metrics$cover_based_iterations, levels=c("five", "fifty", "onehundred","twohundred", "twohundred_remove_LFC"))
+alpha_16S_metrics$cover_based_iterations <- factor(alpha_16S_metrics$cover_based_iterations, levels=c("five", "fifty", "onehundred","twohundred", "onethousand"))
 
 boxplot_cover_based_iterations <- ggplot(alpha_16S_metrics, aes(x = cover_based_iterations, y = shannon, fill = year)) + #fill allows to set different colors 
   geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
@@ -290,7 +290,7 @@ ggsave("R_Code_and_Analysis/alphadiversity/test_cover_based_iterations_16S_COVER
 # Calculate beta diversity
 ###LOG-transformation *** log1p = log(1+x)
 spe.log <- log1p(abundances_16S)
-attach(master_table_iter)
+#attach(master_table_iter)
 spe.dist<-vegdist(spe.log,method='bray')
 spe.dist
 beta.spe.host <-betadisper(spe.dist, cover_based_iterations, type = c("median","centroid")) ##always attach so it will remember the "host_type" column
@@ -375,3 +375,8 @@ master_table_200_remove_LFC_iter <- master_table_iter_final %>%
   filter(cover_based_iterations == "twohundred_remove_LFC")
 master_table_200_remove_LFC_iter <- master_table_200_remove_LFC_iter %>% mutate_at(vars(starts_with("ASV")), funs(round(., 0)))
 write.csv(master_table_200_remove_LFC_iter, "Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level_200_remove_LFC_COVERAGE_RAREF.csv", row.names=F)
+
+master_table_1000_iter <- master_table_iter_final %>% 
+  filter(cover_based_iterations == "onethousand")
+master_table_1000_iter <- master_table_1000_iter %>% mutate_at(vars(starts_with("ASV")), funs(round(., 0)))
+write.csv(master_table_1000_iter, "Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level_1000_COVERAGE_RAREF.csv", row.names=F)
