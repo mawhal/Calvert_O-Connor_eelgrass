@@ -95,11 +95,12 @@ chao_richness_16S_all_years
 # Observed Estimator Est_s.e. 95% Lower 95% Upper
 # N     1501   1879.15   50.851  1791.879  1992.605
 
-estimate_richness_16S <- iNEXT(input_all, q= c(0), datatype="abundance", size=NULL, endpoint=NULL, knots=40, se=TRUE, conf=0.95, nboot=200) # q=0 estimates richness
+# endpoint NULL = double the reference sample size.
+estimate_richness_16S <- iNEXT(input_all, q= c(0), datatype="abundance", size=NULL, endpoint=NULL, knots=40, se=TRUE, conf=0.95, nboot=500) # q=0 estimates richness
 
 coverage_based_16S <- ggiNEXT(estimate_richness_16S, type=3)
-coverage_based_16S
-coverage_based_16S <- coverage_based_16S + ggtitle("")
+coverage_based_16S <- coverage_based_16S + ggtitle("Prokaryotes")
+coverage_based_16S <- coverage_based_16S + ggtitle("Prokaryotes")
 ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_CB_16S.png", plot = coverage_based_16S, width=250, height=200, units="mm",dpi=300)
 
 sample_size_based_16S <- ggiNEXT(estimate_richness_16S, type=1)
@@ -183,10 +184,11 @@ chao_richness_18S_all_years
 # Observed Estimator Est_s.e. 95% Lower 95% Upper
 # N      225     317.6   26.758   278.157   386.311
 
-estimate_richness_18S <- iNEXT(input_all, q= c(0), datatype="abundance", size=NULL, endpoint=NULL, knots=40, se=TRUE, conf=0.95, nboot=200) # q=0 estimates richness
+# endpoint NULL = double the reference sample size.
+estimate_richness_18S <- iNEXT(input_all, q= c(0), datatype="abundance", size=NULL, endpoint=NULL, knots=40, se=TRUE, conf=0.95, nboot=500) # q=0 estimates richness
 
 coverage_based_18S <- ggiNEXT(estimate_richness_18S, type=3)
-coverage_based_18S
+coverage_based_18S <- coverage_based_18S + ggtitle("Microeukaryotes")
 ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_CB_18S.png", plot = coverage_based_18S, width=250, height=200, units="mm",dpi=300)
 
 sample_size_based_18S <- ggiNEXT(estimate_richness_18S, type=1)
@@ -264,10 +266,11 @@ chao_richness_inverts_all_years
 # Observed Estimator Est_s.e. 95% Lower 95% Upper
 # N       58    77.589   14.352    63.421   128.791
 
-estimate_richness_inverts <- iNEXT(input_all, q= c(0), datatype="abundance", size=NULL, endpoint=NULL, knots=40, se=TRUE, conf=0.95, nboot=200) # q=0 estimates richness
+# endpoint NULL = double the reference sample size.
+estimate_richness_inverts <- iNEXT(input_all, q= c(0), datatype="abundance", size=NULL, endpoint=NULL, knots=40, se=TRUE, conf=0.95, nboot=500) # q=0 estimates richness
 
 coverage_based_inverts <- ggiNEXT(estimate_richness_inverts, type=3)
-coverage_based_inverts
+coverage_based_inverts <- coverage_based_inverts + ggtitle("Macroeukaryotes")
 ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_CB_inverts.png", plot = coverage_based_inverts, width=250, height=200, units="mm",dpi=300)
 
 sample_size_based_inverts <- ggiNEXT(estimate_richness_inverts, type=1)
@@ -278,9 +281,16 @@ ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_
 ####### Final figure #######
 ############################
 
-gamma_diversity <- ggarrange(sample_size_based_16S,
+gamma_diversity_SSB <- ggarrange(sample_size_based_16S,
                              sample_size_based_18S,
                              sample_size_based_inverts,
                         labels = c("A", "B", "C"), ncol = 3, nrow = 1)
 ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/gamma_all_CB_normalized_SSB_curves.png", 
-       plot = gamma_diversity , width=600, height=200, units="mm",dpi=300)
+       plot = gamma_diversity_SSB , width=600, height=200, units="mm",dpi=300)
+
+gamma_diversity_CB <- ggarrange(coverage_based_16S,
+                                coverage_based_18S,
+                             coverage_based_inverts,
+                             labels = c("D", "E", "F"), ncol = 3, nrow = 1)
+ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/gamma_all_CB_normalized_CB_curves.png", 
+       plot = gamma_diversity_CB , width=600, height=200, units="mm",dpi=300)
