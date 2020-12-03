@@ -101,11 +101,11 @@ estimate_richness_16S <- iNEXT(input_all, q= c(0), datatype="abundance", size=NU
 coverage_based_16S <- ggiNEXT(estimate_richness_16S, type=3)
 coverage_based_16S <- coverage_based_16S + ggtitle("Prokaryotes")
 coverage_based_16S <- coverage_based_16S + ggtitle("Prokaryotes")
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_CB_16S.png", plot = coverage_based_16S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/gammadiversity/cov_based_raref_1000_CB_16S.png", plot = coverage_based_16S, width=250, height=200, units="mm",dpi=300)
 
 sample_size_based_16S <- ggiNEXT(estimate_richness_16S, type=1)
 sample_size_based_16S <- sample_size_based_16S + ggtitle("Prokaryotes")
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_SSB_16S.png", plot = sample_size_based_16S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/gammadiversity/cov_based_raref_1000_SSB_16S.png", plot = sample_size_based_16S, width=250, height=200, units="mm",dpi=300)
 
 #########################################
 ########## 18S microeukaryotes ##########
@@ -189,11 +189,11 @@ estimate_richness_18S <- iNEXT(input_all, q= c(0), datatype="abundance", size=NU
 
 coverage_based_18S <- ggiNEXT(estimate_richness_18S, type=3)
 coverage_based_18S <- coverage_based_18S + ggtitle("Microeukaryotes")
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_CB_18S.png", plot = coverage_based_18S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/gammadiversity/cov_based_raref_1000_CB_18S.png", plot = coverage_based_18S, width=250, height=200, units="mm",dpi=300)
 
 sample_size_based_18S <- ggiNEXT(estimate_richness_18S, type=1)
 sample_size_based_18S <- sample_size_based_18S + ggtitle("Microeukaryotes")
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_SSB_18S.png", plot = sample_size_based_18S, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/gammadiversity/cov_based_raref_1000_SSB_18S.png", plot = sample_size_based_18S, width=250, height=200, units="mm",dpi=300)
 
 #########################################
 ############ Macroeukaryotes ############
@@ -271,11 +271,11 @@ estimate_richness_inverts <- iNEXT(input_all, q= c(0), datatype="abundance", siz
 
 coverage_based_inverts <- ggiNEXT(estimate_richness_inverts, type=3)
 coverage_based_inverts <- coverage_based_inverts + ggtitle("Macroeukaryotes")
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_CB_inverts.png", plot = coverage_based_inverts, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/gammadiversity/cov_based_raref_1000_CB_inverts.png", plot = coverage_based_inverts, width=250, height=200, units="mm",dpi=300)
 
 sample_size_based_inverts <- ggiNEXT(estimate_richness_inverts, type=1)
 sample_size_based_inverts <- sample_size_based_inverts + ggtitle("Macroeukaryotes")
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/cov_based_raref_1000_SSB_inverts.png", plot = sample_size_based_inverts, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/gammadiversity/cov_based_raref_1000_SSB_inverts.png", plot = sample_size_based_inverts, width=250, height=200, units="mm",dpi=300)
 
 ############################
 ####### Final figure #######
@@ -285,12 +285,12 @@ gamma_diversity_SSB <- ggarrange(sample_size_based_16S,
                              sample_size_based_18S,
                              sample_size_based_inverts,
                         labels = c("A", "B", "C"), ncol = 3, nrow = 1)
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/gamma_all_CB_normalized_SSB_curves.png", 
+ggsave("R_Code_and_Analysis/gammadiversity/gamma_all_CB_normalized_SSB_curves.png", 
        plot = gamma_diversity_SSB , width=600, height=200, units="mm",dpi=300)
 
 gamma_diversity_CB <- ggarrange(coverage_based_16S,
                                 coverage_based_18S,
                              coverage_based_inverts,
                              labels = c("D", "E", "F"), ncol = 3, nrow = 1)
-ggsave("R_Code_and_Analysis/gammadiversity/coverage_based_raref_tests/gamma_all_CB_normalized_CB_curves.png", 
+ggsave("R_Code_and_Analysis/gammadiversity/gamma_all_CB_normalized_CB_curves.png", 
        plot = gamma_diversity_CB , width=600, height=200, units="mm",dpi=300)
