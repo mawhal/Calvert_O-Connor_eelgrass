@@ -1,25 +1,32 @@
-### NMDS plots ###
+### NMDS using coverage based rarefaction (Chao & Jost, 2012) corrected for singletons (Chiu & Chao 2016) ###
 ### Author: Bianca Trevizan Segovia ###
-### Date created: November 26, 2019 ###
+### Date created: September 1st, 2020 ###
 
+##### BETA DIVERSITY #####
 library(vegan)
+library(dplyr)
 library(ggplot2)
 library(reshape2)
-library(dplyr)
 library(readr)
 library(tidyverse)
+library(RColorBrewer)
+library(cowplot)
 
 #########################################
 ############ 16S prokaryotes ############
 #########################################
 
-### Read table metadata and abundances
-microbes_16S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv", header=T)
-names(microbes_16S_ASV)[1:16]
+#########################################
+### WITH COVERAGE-BASED RAREFIED DATA ###
+#########################################
 
+### Read table metadata and abundances
+microbes_16S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level_200_COVERAGE_RAREF.csv", header=T)
+
+names(microbes_16S_ASV)[1:17]
 ### Creating an object to store abundances only
 abundances_16S_NMDS <- microbes_16S_ASV %>% 
-  dplyr::select(-(1:15))
+  dplyr::select(-(1:16))
 
 ### Get MDS stats
 set.seed(2)
@@ -51,7 +58,7 @@ nmds_prokaryotes <- ggplot(NMDS_16S, aes(x=NMDS1, y=NMDS2, shape = year, colour=
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Prokaryotes") + 
-  annotate("text", label = "stress = 0.19", x = 1.1, y = -1.2, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.19", x = 1.1, y = -1.6, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17,18))
 
@@ -71,19 +78,14 @@ nmds_prokaryotes <- nmds_prokaryotes +  theme_bw() +
          plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_prokaryotes
-ggsave("R_Code_and_Analysis/betadiversity/NMDS_prokaryotes.png", plot = nmds_prokaryotes, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_prokaryotes_200_COVER_BAS_RAR.png", plot = nmds_prokaryotes, width=250, height=200, units="mm",dpi=300)
 
-### PERMANOVA 16S ###
-#### LOG-transformation
-log_16S <- log1p(abundances_16S_NMDS)
-####  Distance matrix * this is using Bray-Curtis  ###
-bray_16S <- vegdist(log_16S ,m="bray")
 
 #### run PERMANOVA with region and year - marginal
 permanova_16S <-adonis2(bray_16S ~ region + year,
-                                         data=microbes_16S_ASV, permutations=999, by = "margin")
+                        data=microbes_16S_ASV, permutations=999, by = "margin")
 permanova_16S
-write.csv(permanova_16S, "R_Code_and_Analysis/betadiversity/permanova_16S.csv")
+write.csv(permanova_16S, "R_Code_and_Analysis/betadiversity/permanova_16S_COVER_BAS_RAR.csv")
 
 #### run PERMDISP
 as.factor(microbes_16S_ASV$region)
@@ -98,14 +100,18 @@ plot(permdisp_16S_year)
 boxplot(permdisp_16S_year)
 permutest(permdisp_16S_year, pairwise = TRUE)
 
-#############################################
+#########################################
 ############ 18S microeukaryotes ############
-#############################################
+#########################################
+
+#########################################
+### WITH COVERAGE-BASED RAREFIED DATA ###
+#########################################
 
 ### Read table metadata and abundances
-microbes_18S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_ASV_level.csv", header=T)
-names(microbes_18S_ASV)[1:16]
+microbes_18S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_ASV_level_200_COVERAGE_RAREF.csv", header=T)
 
+names(microbes_18S_ASV)[1:17]
 ### Creating an object to store abundances only
 abundances_18S_NMDS <- microbes_18S_ASV %>% 
   dplyr::select(-(1:9))
@@ -140,7 +146,7 @@ nmds_microeukaryotes <- ggplot(NMDS_18S, aes(x=NMDS1, y=NMDS2, shape = year, col
   stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
   geom_point(size = 5, alpha = 0.8) +
   ggtitle("Microeukaryotes") + 
-  annotate("text", label = "stress = 0.15", x = 1.3, y = -2.1, size = 4, colour = "black") +
+  annotate("text", label = "stress = 0.16", x = 1.1, y = -1.2, size = 4, colour = "black") +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
   scale_shape_manual(values=c(19,8,17,18))
 
@@ -160,7 +166,9 @@ nmds_microeukaryotes <- nmds_microeukaryotes +  theme_bw() +
          plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
 
 nmds_microeukaryotes
-ggsave("R_Code_and_Analysis/betadiversity/NMDS_microeukaryotes.png", plot = nmds_microeukaryotes, width=250, height=200, units="mm",dpi=300)
+
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_microeukaryotes_COVER_BAS_RAR.png", plot = nmds_microeukaryotes, width=250, height=200, units="mm",dpi=300)
+
 
 ### PERMANOVA 18S ###
 #### LOG-transformation
@@ -172,7 +180,7 @@ bray_18S <- vegdist(log_18S ,m="bray")
 permanova_18S <-adonis2(bray_18S ~ region + year,
                         data=microbes_18S_ASV, permutations=999, by = "margin")
 permanova_18S
-write.csv(permanova_18S, "R_Code_and_Analysis/betadiversity/permanova_18S.csv")
+write.csv(permanova_18S, "R_Code_and_Analysis/betadiversity/permanova_18S_COVER_BAS_RAR.csv")
 
 #### run PERMDISP
 as.factor(microbes_18S_ASV$region)
@@ -191,6 +199,7 @@ permutest(permdisp_18S_year, pairwise = TRUE)
 ############ Inverts Macroeukaryotes ############
 #################################################
 
+##### Family level ####
 ### Read table metadata and abundances
 m <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv")
 # replace spaces with periods for consistency and merging names
@@ -207,39 +216,39 @@ m$ID <- with(m, paste(site,sample,sep = "_"))
 # change year to character
 m$group <- paste0( "year",m$year )
 
-# filter taxa and sites
-mfilt <- m %>%
+# filter taxa and sites # taxon 4 = family
+mfilt_family <- m %>%
   select( year, group, region, site, sample, ID, taxon = taxon4, remove, size ) %>% 
   filter( is.na(remove), !is.na(taxon))
 
 # summarize taxon counts per sample
-m.sum <- mfilt %>% 
+m.sum_family <- mfilt_family %>% 
   # unite( "ID", year,site,sample, remove=FALSE ) %>% 
   group_by( year, group, region, site, sample, ID, taxon ) %>% 
   summarize( abundance=length(size) )
 
 # summarinze mean abundance per site
-m.mean <- m.sum %>% 
+m.mean_family <- m.sum_family %>% 
   # unite( "ID", year,site,sample, remove=FALSE ) %>% 
   group_by( year, group, region, site, taxon ) %>% 
   summarize( abundance=mean(abundance)) 
 
 # make a community dataset
-m.meta <- m.sum %>% 
+m.meta_family <- m.sum_family %>% 
   spread( taxon, abundance, fill=0 ) 
 
-names(m.meta)[1:16]
+names(m.meta_family)[1:16]
 
-m.meta <- m.meta %>% 
-  ungroup( year, group, region, site, taxon )
+m.meta_family <- m.meta_family %>% 
+  ungroup( sample, ID,year, group, region, site )
 
 ### Creating an object to store abundances only
-abundances_inverts_NMDS <- m.meta %>% 
+abundances_inverts_family <- m.meta_family %>% 
   dplyr::select(-(1:6))
 
 ### Get MDS stats
 set.seed(2)
-NMDS.inverts.LOG <- metaMDS(log(abundances_inverts_NMDS+1), distance = "bray", k=2)  
+NMDS.inverts.LOG <- metaMDS(log(abundances_inverts_family+1), distance = "bray", k=2)  
 NMDS.inverts.LOG 
 
 stressplot(NMDS.inverts.LOG)
@@ -297,12 +306,13 @@ bray_inverts <- vegdist(log_inverts ,m="bray")
 
 #### run PERMANOVA with region and year - marginal
 permanova_inverts <-adonis2(bray_inverts ~ region + year,
-                                      data=m.meta, permutations=999, by = "margin")
+                            data=m.meta, permutations=999, by = "margin")
 permanova_inverts
 write.csv(permanova_inverts, "R_Code_and_Analysis/betadiversity/permanova_inverts.csv")
 
+
 ### macroeukaryotes (inverts) without 2014
-m.meta_no_2014 <- m.meta %>% 
+m.meta_no_2014 <- m.meta_family %>% 
   filter(!year == 2014)
 
 ### Creating an object to store abundances only
@@ -368,13 +378,13 @@ bray_inverts_no_2014 <- vegdist(log_inverts_no_2014 ,m="bray")
 
 #### run PERMANOVA with region and year - marginal
 permanova_inverts_no_2014 <-adonis2(bray_inverts_no_2014 ~ region + year,
-                        data=m.meta_no_2014, permutations=999, by = "margin")
+                                    data=m.meta_no_2014, permutations=999, by = "margin")
 permanova_inverts_no_2014
 write.csv(permanova_inverts_no_2014, "R_Code_and_Analysis/betadiversity/permanova_inverts_no_2014.csv")
 
 ### TEST Permanova Inverts only 2017 and 2018
 ### macroeukaryotes (inverts) without 2014
-m.meta_2016_2017 <- m.meta %>% 
+m.meta_2016_2017 <- m.meta_family %>% 
   filter(!year == 2014, !year == 2015)
 
 ### Creating an object to store abundances only
@@ -389,7 +399,7 @@ bray_inverts_2016_2017 <- vegdist(log_inverts_2016_2017 ,m="bray")
 
 #### run PERMANOVA with region and year - marginal
 permanova_inverts_2016_2017 <-adonis2(bray_inverts_2016_2017 ~ region + year,
-                                    data=m.meta_2016_2017, permutations=999, by = "margin")
+                                      data=m.meta_2016_2017, permutations=999, by = "margin")
 permanova_inverts_2016_2017
 write.csv(permanova_inverts_2016_2017, "R_Code_and_Analysis/betadiversity/permanova_inverts_2016_2017.csv")
 ### GRAPH 2016 and 2017
@@ -451,4 +461,4 @@ plots_bottom <- cowplot::plot_grid(NULL,nmds_macroeukaryotes_no_2014, nmds_macro
 
 cowplot::plot_grid(plots_top, plots_bottom, ncol=1)
 
-ggsave(paste0("R_Code_and_Analysis/betadiversity/NMDS_all.png"), width = 25, height = 12  )
+ggsave(paste0("R_Code_and_Analysis/betadiversity/NMDS_all_microbes_COVER_BAS_RAR.png"), width = 25, height = 12  )
