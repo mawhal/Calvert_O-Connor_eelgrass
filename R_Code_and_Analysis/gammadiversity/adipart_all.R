@@ -15,13 +15,16 @@ m16_ASV <- read_csv("R_Code_and_Analysis/output_data/adipart_16S_ASV_level.csv")
 m16_ASV$type <- "prok"
 m18_ASV <- read_csv("R_Code_and_Analysis/output_data/adipart_18S_ASV_level.csv")
 m18_ASV$type <- "micro"
+macroeuk18_ASV <- read_csv("R_Code_and_Analysis/output_data/adipart_macroeuk18S_ASV_level.csv")
+macroeuk18_ASV$type <- "macroeuk18S"
   
 ## merge
 d <- full_join(full_join(m18_ASV,m16_ASV),invert_finest)
-d$level <- factor(d$level, levels=c("beta_region","beta_site","beta_sample","alpha"))
+d2 <- full_join(d,macroeuk18_ASV )
+d2$level <- factor(d2$level, levels=c("beta_region","beta_site","beta_sample","alpha"))
 
 ## plot
-g1 <- ggplot(d %>% filter(key == "observed" & type=="prok"),
+g1 <- ggplot(d2 %>% filter(key == "observed" & type=="prok"),
              aes(x=year - 0.15, y=value, fill=level)) +
   geom_bar(stat="identity", width=0.15, col='black',alpha=0.75) + 
   geom_text( aes(y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) +
@@ -29,16 +32,22 @@ g1 <- ggplot(d %>% filter(key == "observed" & type=="prok"),
   labs(x="Year", y="Proportion of gamma diversity", title = "Finest taxonomic level") +
   scale_fill_viridis_d()
   # scale_fill_manual( values=rev(c("black","gray25","gray75","whitesmoke")) )
-g1 + geom_bar(data=d %>% filter(key == "observed" & type=="micro"),
+g1 <- g1 + geom_bar(data=d2 %>% filter(key == "observed" & type=="micro"),
               aes(x=year + 0, fill=level),
               stat="identity", position="stack", width=0.15, alpha=0.75, col="black") + 
-  geom_text( data=d %>% filter(key == "observed" & type=="micro"), aes(x=year+0,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) +
-  geom_bar(data=d %>% filter(key == "observed" & type=="macro"),
+  geom_text( data=d2 %>% filter(key == "observed" & type=="micro"), aes(x=year+0,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) +
+  geom_bar(data=d2 %>% filter(key == "observed" & type=="macro"),
               aes(x=year + 0.15, fill=level),
               stat="identity", position="stack", width=0.15, alpha=0.75, col='black') +
-  geom_text( data=d %>% filter(key == "observed" & type=="macro"), aes(x=year+0.15,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) 
-ggsave( "R_Code_and_Analysis/gammadiversity/adipart_all_finest.svg", width=6, height=4)
-ggsave( "R_Code_and_Analysis/gammadiversity/adipart_all_finest.png", width=6, height=4)
+  geom_text( data=d2 %>% filter(key == "observed" & type=="macro"), aes(x=year+0.15,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 ) 
+
+g2 <- g1 +geom_bar(data=d2 %>% filter(key == "observed" & type=="macroeuk18S"),
+               aes(x=year + 0.30, fill=level),
+               stat="identity", position="stack", width=0.15, alpha=0.75, col='black') +
+  geom_text( data=d2 %>% filter(key == "observed" & type=="macroeuk18S"), aes(x=year+0.30,y=0.005,label=type), angle=90, hjust=0,size=3,fontface=3 )
+g2
+  
+ggsave( "R_Code_and_Analysis/gammadiversity/adipart_all_finest.png", plot=g2,width=6, height=4)
 
 
 #test with family level
