@@ -475,10 +475,83 @@ nmds_macroeukaryotes_2016_2017
 ggsave("R_Code_and_Analysis/betadiversity/NMDS_macroeukaryotes_2016_2017.png", plot = nmds_macroeukaryotes_2016_2017, width=250, height=200, units="mm",dpi=300)
 
 
-plots_top <-cowplot::plot_grid( nmds_prokaryotes, nmds_microeukaryotes, nmds_macroeukaryotes, ncol=3, labels = c("A", "B", "C"), label_x =.05, hjust = 1, label_size=20)
+#####################################
+############ Macroeuk18S ############
+#####################################
 
-plots_bottom <- cowplot::plot_grid(NULL,nmds_macroeukaryotes_no_2014, nmds_macroeukaryotes_2016_2017,NULL, ncol=4, nrow=1,labels = c("", "D", "E", ""), label_x =.05, hjust = 1, label_size=20, rel_widths=c(0.1,0.21,0.21, 0.1))
+### Read table metadata and abundances
+master_df_Macro18S <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_macroeuk18S_ASV_level_1000_COR_SING_COVERAGE_RAREF.csv", header=TRUE)
 
-cowplot::plot_grid(plots_top, plots_bottom, ncol=1)
+### Creating an object to store abundances only
+abundances_macroeuk18S_NMDS <- master_df_Macro18S %>%
+  dplyr::select(-(1:9))
 
-ggsave(paste0("R_Code_and_Analysis/betadiversity/NMDS_all.png"), width = 25, height = 12, dpi=100)
+### Get MDS stats
+set.seed(2)
+NMDS.18S.LOG <- metaMDS(log(abundances_macroeuk18S_NMDS+1), distance = "bray", k=2)
+NMDS.18S.LOG
+
+stressplot(NMDS.18S.LOG)
+plot(NMDS.18S.LOG)
+
+#build a data frame with NMDS coordinates and metadata
+MDS1 = NMDS.18S.LOG$points[,1]
+MDS2 = NMDS.18S.LOG$points[,2]
+NMDS_18S = data.frame(MDS1 = MDS1, MDS2 = MDS2, year = master_df_Macro18S$year, region = master_df_Macro18S$region, SampleID=master_df_Macro18S$SampleID)
+NMDS_18S
+
+#renaming columns
+#setnames(data, old=c("old_name","another_old_name"), new=c("new_name", "another_new_name"))
+library(data.table)
+setnames(NMDS_18S, old=c("MDS1", "MDS2", "year", "region"), new=c("NMDS1","NMDS2", "year", "region"))
+NMDS_18S
+NMDS_18S$region
+
+# re-order the factor levels before the plot
+NMDS_18S$region <- factor(NMDS_18S$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
+
+NMDS_18S$year <- factor(NMDS_18S$year, levels=c("2015", "2016", "2017","2018"))
+
+nmds_Macro18S <- ggplot(NMDS_18S, aes(x=NMDS1, y=NMDS2, shape = year, colour=region)) +
+  stat_ellipse(aes(colour =region, group = region), type = "t", linetype = 3, size = 1) +
+  geom_point(size = 5, alpha = 0.8) +
+  ggtitle("Macroeuk18S") +
+  #annotate("text", label = "stress = 0.15", x = 1.3, y = -2.1, size = 4, colour = "black") +
+  scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) +
+  scale_shape_manual(values=c(19,8,17,18))
+
+nmds_Macro18S <- nmds_Macro18S +  theme_bw() +
+  theme (axis.title.x = element_text(size=20, margin = margin(t = 10, r = 0, b = 0, l = 0)), #font size of x title
+         axis.title.y = element_text(size=20, margin = margin(t = 0, r = 10, b = 0, l = 0)), #font size of y title
+         axis.text = element_text(size = 16), #font size of numbers in axis
+         panel.grid.major = element_blank(), #remove major grid
+         panel.grid.minor = element_blank(), #remove minor grid
+         axis.line = element_line(colour = "black"), #draw line in the axis
+         panel.border = element_blank(), #remove lines outside the graph
+         legend.title=element_blank(), #remove legend title
+         legend.direction = "vertical", #direction
+         legend.justification = c(1, 1), legend.position = "right", #legend is top right
+         legend.key.size = unit(2.0, 'lines'), #spacing between legends
+         legend.text = element_text(size = 16), #font size of legend
+         plot.title = element_text(hjust = 0.1, size = 20, face = "bold")) #center plot title and set font size
+
+nmds_Macro18S
+
+# 
+# nmds_Macro18S <- nmds_Macro18S + ggrepel::geom_text_repel(data = NMDS_18S, aes(x=NMDS1, y=NMDS2, label = SampleID), cex = 3, direction = "both", segment.size = 0.25)
+# nmds_Macro18S
+
+ggsave("R_Code_and_Analysis/betadiversity/macroeuk18S_1000_COR_SING.png", plot = nmds_Macro18S, width=250, height=200, units="mm",dpi=100)
+
+############################
+####### Final figure #######
+############################
+
+plots_top <-cowplot::plot_grid( nmds_prokaryotes, nmds_microeukaryotes, ncol=2, labels = c("A", "B"), label_x =.05, hjust = 1, label_size=20)
+
+plots_bottom <- cowplot::plot_grid( nmds_macroeukaryotes_2016_2017, nmds_Macro18S, ncol=2, labels = c("C", "D"), label_x =.05, hjust = 1, label_size=20)
+
+plot_final <- cowplot::plot_grid(plots_top, plots_bottom, ncol=1)
+
+ggsave("R_Code_and_Analysis/betadiversity/NMDS_all.png", plot = plot_final, width = 15, height = 12, dpi=100)
+
