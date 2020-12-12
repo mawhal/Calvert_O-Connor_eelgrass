@@ -43,7 +43,7 @@ alpha_16S_metrics <- alpha_16S %>%
 
 # remove pielou for a more compact graph/result
 alpha_16S_metrics <- alpha_16S_metrics %>% 
-  select(-c(pielou))
+  select(-c(pielou, shannon))
 
 ###CREATE BOX_PLOT
 
@@ -140,7 +140,7 @@ alpha_18S_metrics <- alpha_18S %>%
 
 # remove pielou for a more compact graph/result
 alpha_18S_metrics <- alpha_18S_metrics %>% 
-  select(-c(pielou))
+  select(-c(pielou, shannon))
 
 ###CREATE BOX_PLOT
 
@@ -235,7 +235,7 @@ alpha_inverts_metrics_finest <- alpha_inverts_finest %>%
 
 # remove pielou for a more compact graph/result
 alpha_inverts_metrics_finest <- alpha_inverts_metrics_finest %>% 
-  select(-c(pielou))
+  select(-c(pielou, shannon))
 
 ###CREATE BOX_PLOT
 
@@ -303,49 +303,56 @@ p_inverts_finest_region
 
 ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_finest_1000_COVER_BAS_RAR_regions.png", plot = p_inverts_finest_region, width=250, height=200, units="mm",dpi=300)
 
-#### Family level ####
-inverts_family <- read.csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_inverts_family_1000_COVERAGE_RAREF.csv")
-names(inverts_family)[1:12]
+#####################################
+############ Macroeuk18S ############
+#####################################
+
+#########################################
+### WITH COVERAGE-BASED RAREFIED DATA ###
+#########################################
+
+### Read table metadata and abundances
+macroeuk18S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_macroeuk18S_ASV_level_1000_COR_SING_COVERAGE_RAREF.csv", header=TRUE)
+names(macroeuk18S_ASV)[1:17]
+
 ### Creating an object to store abundances only
-abundances_inverts_family <- inverts_family %>% 
-  dplyr::select(-(1:7))
+abundances_macroeuk18S <- macroeuk18S_ASV %>% 
+  dplyr::select(-(1:9))
 
 # Calculate alpha diversity metrics
-shannon <- diversity(abundances_inverts_family, index = "shannon")
-Richness <- specnumber(abundances_inverts_family) 
+shannon <- diversity(abundances_macroeuk18S, index = "shannon")
+Richness <- specnumber(abundances_macroeuk18S) 
 pielou <- shannon/log(Richness)
-chao1 <- estimateR(abundances_inverts_family)[2,] ### Chao1 (Estimated "real" Richness)
+chao1 <- estimateR(abundances_macroeuk18S)[2,] ### Chao1 (Estimated "real" Richness)
 
 ## creating data frame with alpha metrics and metadata
-alpha_inverts_family <- data.frame(shannon, pielou,chao1, inverts_family$region, inverts_family$year)
-names(alpha_inverts_family)
+alpha_macroeuk18S <- data.frame(shannon, pielou,chao1, macroeuk18S_ASV$region, macroeuk18S_ASV$year)
+names(alpha_macroeuk18S)
 ### renaming columns new name = old name
-alpha_inverts_metrics_family <- alpha_inverts_family %>%
-  dplyr::rename(region= inverts_family.region, year = inverts_family.year) 
+alpha_macroeuk18S_metrics <- alpha_macroeuk18S %>%
+  dplyr::rename(region = macroeuk18S_ASV.region, year = macroeuk18S_ASV.year) 
 
 # remove pielou for a more compact graph/result
-alpha_inverts_metrics_family <- alpha_inverts_metrics_family %>% 
-  select(-c(pielou))
+alpha_macroeuk18S_metrics <- alpha_macroeuk18S_metrics %>% 
+  select(-c(pielou, shannon))
 
 ###CREATE BOX_PLOT
 
 # melting alpha metrics into one column called variable (containing all three measure names) and another column called value containing all values for those measures 
-dat.inverts_family = reshape2::melt(alpha_inverts_metrics_family, id.var=c("year", "region"))
-dat.inverts_family$year = factor(dat.inverts_family$year, levels=c("2014","2015", "2016", "2017"))
-dat.inverts_family$region <- factor(dat.inverts_family$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
+dat.macroeuk18S = reshape2::melt(alpha_macroeuk18S_metrics, id.var=c("year", "region"))
+dat.macroeuk18S$year = factor(dat.macroeuk18S$year, levels=c("2015","2016", "2017", "2018"))
+dat.macroeuk18S$region <- factor(dat.macroeuk18S$region, levels=c("choked", "pruth", "triquet","goose","mcmullins"))
 
-# set same years as same colours as microbes
-#brewer.pal(n = 8, name = "Dark2") "#1B9E77" "#D95F02" "#7570B3"
 
 #### year ####
-p_inverts_family_year <- ggplot(dat.inverts_family, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
+p_macroeuk18S_year <- ggplot(dat.macroeuk18S, aes(x = year, y = value, fill = year)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
   geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
-  scale_fill_manual(values=c("#E6AB02", "#1B9E77", "#D95F02", "#7570B3"))
+  scale_fill_brewer(palette = "Dark2")
 
-p_inverts_family_year <- p_inverts_family_year + labs(y = "alpha diversity measures macroeukaryotes family") # y-axis label
+p_macroeuk18S_year <- p_macroeuk18S_year + labs(y = "alpha diversity measures microeukaryotes") # y-axis label
 
-p_inverts_family_year <- p_inverts_family_year + ggtitle("") + #add title (optional)
+p_macroeuk18S_year <- p_macroeuk18S_year + ggtitle("") + #add title (optional)
   theme_bw() +
   theme (legend.position="bottom",
          legend.title = element_blank(),
@@ -361,19 +368,20 @@ p_inverts_family_year <- p_inverts_family_year + ggtitle("") + #add title (optio
          strip.text.x = element_text(size = 18),   
          panel.border = element_blank()) #remove lines outside the graph
 
-p_inverts_family_year
+p_macroeuk18S_year
 
-ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_family_1000_COVER_BAS_RAR_years.png", plot = p_inverts_family_year, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_macroeuk18S_1000_COVER_BAS_RAR_years.png", plot = p_macroeuk18S_year, width=250, height=200, units="mm",dpi=300)
+
 
 #### region ####
-p_inverts_family_region <- ggplot(dat.inverts_family, aes(x = region, y = value, fill = region)) + #fill allows to set different colors
+p_macroeuk18S_region <- ggplot(dat.macroeuk18S, aes(x = region, y = value, fill = region)) + #fill allows to set different colors
   facet_wrap(. ~ variable, scale="free") +   
   geom_boxplot(outlier.shape = NA, outlier.alpha = 0.4, notch = F) + geom_jitter(alpha = 0.3, width = 0.2) +
   scale_colour_manual(values=c("slateblue1", "sienna1", "yellow3", "#2a9958", "hotpink2")) 
 
-p_inverts_family_region <- p_inverts_family_region + labs(y = "alpha diversity measures macroeukaryotes family") # y-axis label
+p_macroeuk18S_region <- p_macroeuk18S_region + labs(y = "alpha diversity measures microeukaryotes") # y-axis label
 
-p_inverts_family_region <- p_inverts_family_region + ggtitle("") + #add title (optional)
+p_macroeuk18S_region <- p_macroeuk18S_region + ggtitle("") + #add title (optional)
   theme_bw() +
   theme (legend.position="bottom",
          legend.title = element_blank(),
@@ -389,9 +397,10 @@ p_inverts_family_region <- p_inverts_family_region + ggtitle("") + #add title (o
          strip.text.x = element_text(size = 18),   
          panel.border = element_blank()) #remove lines outside the graph
 
-p_inverts_family_region
+p_macroeuk18S_region
 
-ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_inverts_family_1000_COVER_BAS_RAR_regions.png", plot = p_inverts_family_region, width=250, height=200, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_macroeuk18S_1000_COVER_BAS_RAR_regions.png", plot = p_macroeuk18S_region, width=250, height=200, units="mm",dpi=300)
+
 
 ############################
 ####### Final figure #######
@@ -402,10 +411,11 @@ p_16S_year_no_leg <- p_16S_year + theme(legend.position="bottom",
                                         plot.margin=unit(c(t=0.3,r=1,b=0.5,l=0.3),"cm"), 
                                         plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + 
   labs(y = "Alpha diversity measures") + ggtitle("Prokaryotes")
-p_18S_year_no_leg <-p_18S_year + theme(legend.position="bottom", plot.margin=unit(c(t=0.3,r=1,b=0.5,l=1),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Microeukaryotes")
+p_18S_year_no_leg <- p_18S_year + theme(legend.position="bottom", plot.margin=unit(c(t=0.3,r=1,b=0.5,l=1),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Microeukaryotes")
 p_inverts_finest_year_no_leg <- p_inverts_finest_year + theme(legend.position="bottom", plot.margin=unit(c(t=0.3,r=1,b=0.5,l=1),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Macroeukaryotes")
+p_macroeuk18S_year_no_leg <- p_macroeuk18S_year + theme(legend.position="bottom", plot.margin=unit(c(t=0.3,r=1,b=0.5,l=1),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Macroeuk18S")
 
-plots_year <- cowplot::plot_grid( p_16S_year_no_leg, p_18S_year_no_leg, p_inverts_finest_year_no_leg, ncol=3,  labels = c("A", "B", "C"), label_x =.05, hjust = 1, label_size=20)
+plots_year <- cowplot::plot_grid( p_16S_year_no_leg, p_18S_year_no_leg, p_inverts_finest_year_no_leg,p_macroeuk18S_year_no_leg, ncol=4,  labels = c("A", "B", "C", "D"), label_x =.05, hjust = 1, label_size=20)
 plots_year 
 # extract the legend from one of the plots
 # legend <- get_legend(
@@ -421,7 +431,9 @@ year
 p_16S_region_no_leg <- p_16S_region + theme(legend.position="bottom", plot.margin=unit(c(t=0,r=1,b=0,l=0.3),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "Alpha diversity measures") + ggtitle("Prokaryotes")
 p_18S_region_no_leg <-p_18S_region + theme(legend.position="bottom", plot.margin=unit(c(t=0,r=1,b=0,l=0.3),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Microeukaryotes")
 p_inverts_finest_region_no_leg <- p_inverts_finest_region + theme(legend.position="bottom", plot.margin=unit(c(t=0,r=1,b=0,l=0.3),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Macroeukaryotes")
-plots_region <- cowplot::plot_grid( p_16S_region_no_leg, p_18S_region_no_leg, p_inverts_finest_region_no_leg, ncol=3,  labels = c("D", "E", "F"), label_x =.05, hjust = 1, label_size=20)
+p_macroeuk18S_region_no_leg <- p_macroeuk18S_region + theme(legend.position="bottom", plot.margin=unit(c(t=0,r=1,b=0,l=0.3),"cm"), plot.title = element_text(size=20, face = "bold", hjust = 0.1, margin = margin(t = 0, r =0, b = 20, l = 0))) + labs(y = "") + ggtitle("Macroeuk18S")
+
+plots_region <- cowplot::plot_grid( p_16S_region_no_leg, p_18S_region_no_leg, p_inverts_finest_region_no_leg, p_macroeuk18S_region_no_leg, ncol=4,  labels = c("E", "F", "G", "H"), label_x =.05, hjust = 1, label_size=20)
 plots_region
 # # extract the legend from one of the plots
 # legend <- get_legend(
@@ -435,4 +447,4 @@ region
 
 year_region <- plot_grid(year, region, nrow=2)
 year_region
-ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_all_COVER_BAS_RAR_microbes.png", plot = year_region, width = 440, height = 270, units="mm", dpi=300)
+ggsave("R_Code_and_Analysis/alphadiversity/alpha_diversity_all_COVER_BAS_RAR.png", plot = year_region, width = 470, height = 270, units="mm", dpi=300)
