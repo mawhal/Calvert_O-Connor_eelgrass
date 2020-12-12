@@ -96,9 +96,10 @@ all_years_18S_filtered <- all_years_18S_filtered  %>%
   subset_taxa(Rank5 != "Sipuncula"| is.na(Rank5))  %>%
   subset_taxa(Rank5 != "Thecostraca"| is.na(Rank5))  %>%
   subset_taxa(Rank6 != "Sessilia"| is.na(Rank6))  %>%
-  subset_taxa(Rank5 != "Ectocarpales"| is.na(Rank5))  #removing it inside Maxillopoda
+  subset_taxa(Rank5 != "Ectocarpales"| is.na(Rank5)) %>% 
+  subset_taxa(Rank5 != "Copepoda"| is.na(Rank5))
 
-#View(as.data.frame(tax_table(seagrass_set_unfiltered )))
+View(as.data.frame(tax_table(all_years_18S_filtered )))
 
 # # FILTERING per sample
 # # 5. Remove ASVs with less than ~ 2-5 reads in a given sample - PER SAMPLE FILTERING
@@ -125,6 +126,26 @@ totalreads <-
 all_years_18S_filtered_meso <- all_years_18S_filtered %>% subset_samples(survey_type == "meso_quadrat") 
 
 all_years_18S_filtered_meso_Zos <- all_years_18S_filtered_meso %>% subset_samples(sample_type =="leaf_old") 
+
+all_years_18S_filtered_meso_Zos <- all_years_18S_filtered_meso_Zos %>% subset_samples(SampleID !="ZosCSPtrans3Amb3") 
+
+### replace year 2018 wrongly assigned 2017 for two samples
+### get OTU, taxonomy and metadata tables in a data frame format
+df_all_years_18S <- psmelt(all_years_18S_filtered_meso_Zos)
+
+### get metadata
+metadata_18S <- df_all_years_18S %>% 
+  select(c(Sample,  year, region, site, host_type, sample_type, survey_type, meso_quadrat_id)) %>% 
+  unique() %>% 
+  arrange(year)
+metadata_18S <- metadata_18S %>% mutate(row_number = row_number())
+metadata_18S.ID <- data.frame(metadata_18S[,-1], row.names=metadata_18S[,1])
+
+#relabel 2018 year that got wrongly assigned to 2017
+metadata_18S.ID[102, "year"] <- "2018"
+metadata_18S.ID[103, "year"] <- "2018"
+
+sample_data(all_years_18S_filtered_meso_Zos) <- metadata_18S.ID
 
 saveRDS(all_years_18S_filtered_meso_Zos, "Data/micro_eukaryotes/all_years_18S_filtered_meso_Zos_ASV.rds")
 
@@ -205,6 +226,9 @@ exclude <- c("ZosCSPtrans3Amb3")
 master_table_iter <- master_table_iter %>%
   dplyr::filter(!SampleID %in% exclude)
 
+master_table_iter[24, "year"] <- "2018"
+master_table_iter[78, "year"] <- "2018"
+
 ###recode to site names used by grazers
 master_table_iter <- master_table_iter %>%
   dplyr::mutate(site = recode(site,
@@ -227,6 +251,7 @@ master_table_iter_final$meso_quadrat_id <- replace(master_table_iter_final$meso_
 #create a unique site_quadrat_id column
 master_table_iter_final <- master_table_iter_final %>%
   unite(site_quadrat_id, site, meso_quadrat_id, sep = "_" , remove = FALSE) #remove F so it doesn't remove the columns
+
 
 write.csv(master_table_iter_final, "Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_ASV_level_1000_COVERAGE_RAREF.csv", row.names=F)
 
@@ -303,3 +328,81 @@ metadata_family_level_18S <- df_family_level_18S %>%
 master_family_level_18S <- left_join(metadata_family_level_18S, otu_family_level_18S, by = "Sample")
 
 write.csv(master_family_level_18S, "Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_family_level_1000_COVERAGE_RAREF.csv", row.names=F)
+
+######################################################################
+### normalized data using coverage based rarefaction GENUS LEVEL ###
+######################################################################
+### recreate phyloseq object from ASV level 1,000 iterations ###
+microeuk_ASV_level_1000_CB <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_ASV_level_1000_COVERAGE_RAREF.csv", header = TRUE)
+
+# Separate to metadata and species table
+# metadata
+microeuk.meta <- microeuk_ASV_level_1000_CB %>% dplyr::select(c(SampleID, year, region, site_quadrat_id, site, host_type, sample_type, survey_type, meso_quadrat_id))
+names(microeuk.meta)
+# taxa table
+microeuk.otus <- microeuk_ASV_level_1000_CB %>% dplyr::select(SampleID,starts_with("ASV"))
+
+# Make sure species data frame is numeric matrix and transpose so taxa are rows
+microeuk.otus_t <- setNames(as.data.frame(t(microeuk.otus[,-1])), microeuk.otus[,1])
+microeuk.otus_t_matrix <- data.matrix(microeuk.otus_t)
+
+# Desired format for species table
+##       Sample1 Sample2 Sample3 Sample4 Sample5 Sample6 Sample7 Sample8
+## OTU1       96      50      36      35      59      80      83      63
+## OTU2       52      67      39      39      37      57      20      15
+## OTU3       94      18      15      11      14      75       1      12
+## OTU4       27      88      98     100      59      27      30      30
+
+# Make sure metadata has ID as rownames
+microeuk.meta.ID <- data.frame(microeuk.meta[,-1], row.names=microeuk.meta[,1])
+
+#  create a taxonomy table if you want (could do in excel?) in the matrix format
+# tax.mat <- matrix(taxa.data)
+
+##       Domain Phylum Class Order genus Genus Species
+## OTU1  "x"    "d"    "q"   "v"   "l"    "k"   "i"    
+## OTU2  "a"    "d"    "x"   "a"   "k"    "o"   "r"    
+## OTU3  "h"    "a"    "h"   "c"   "d"    "j"   "k"    
+## OTU4  "t"    "f"    "j"   "e"   "n"    "y"   "o" 
+# You don't have to have those specific taxonomic ranks, you could have any number of columns and can be called anything
+
+all_years_18S_filtered_meso_Zos <- readRDS("Data/micro_eukaryotes/all_years_18S_filtered_meso_Zos_ASV.rds")
+microeuk.tax <- as.data.frame(unclass(tax_table(all_years_18S_filtered_meso_Zos)))
+microeuk.tax <- as.matrix(microeuk.tax)
+
+#### Save each object in "phyloseq" format to be combined in a phyloseq object ####
+OTU <- otu_table(microeuk.otus_t_matrix, taxa_are_rows = T)
+META <- sample_data(microeuk.meta.ID)
+TAX <- tax_table(microeuk.tax)
+
+### microeuk.phyloseq <- phyloseq(OTU, TAX, META)
+microeuk.phyloseq <- phyloseq(OTU, TAX, META)
+sample_names(OTU)
+sample_names(META)
+
+### collapse data at the genus level
+genus_level_18S <- microeuk.phyloseq  %>%
+  tax_glom(taxrank = "Rank6")
+
+### get OTU, taxonomy and metadata tables in a data frame format
+df_genus_level_18S <- psmelt(genus_level_18S)
+
+### get OTU table (currently in long format) to convert to wide format
+otu_genus_level_18S <- df_genus_level_18S %>% 
+  select(c(Sample, OTU, Abundance))
+
+otu_genus_level_18S <- otu_genus_level_18S %>% 
+  pivot_wider(names_from = "OTU", values_from = "Abundance")
+
+### get metadata
+metadata_genus_level_18S <- df_genus_level_18S %>% 
+  select(c(Sample,  year, region, site_quadrat_id, site, host_type, sample_type, survey_type, meso_quadrat_id)) %>% 
+  unique()
+
+master_genus_level_18S <- left_join(metadata_genus_level_18S, otu_genus_level_18S, by = "Sample")
+
+master_genus_level_18S <- master_genus_level_18S %>% 
+  dplyr::rename("SampleID" = "Sample")
+
+write.csv(master_genus_level_18S, "Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_genus_level_1000_COVERAGE_RAREF.csv", row.names=F)
+

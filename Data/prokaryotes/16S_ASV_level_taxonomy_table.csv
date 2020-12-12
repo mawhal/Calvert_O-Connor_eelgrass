@@ -981,6 +981,7 @@
 "ASV1083","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Croceitalea","Croceitalea_litorea","KF612585.1.1430"
 "ASV1084","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV1085","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Schleiferiaceae","Schleiferia","uncultured_bacterium","AB476273.1.1442"
+"ASV1086","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfosarcina","uncultured_marine_bacterium","FN396648.1.1432"
 "ASV1087","Bacteria","Proteobacteria","Gammaproteobacteria","AT-s2-59","uncultured_sediment_bacterium","uncultured_sediment_bacterium","uncultured_sediment_bacterium","FN553494.1.1515"
 "ASV1089","Bacteria","Firmicutes","Clostridia","Clostridiales",NA,NA,NA,NA
 "ASV1090","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Sva0081_sediment_group","uncultured_bacterium","JQ199040.1.1382"
@@ -1213,6 +1214,7 @@
 "ASV1329","Bacteria","Proteobacteria","Gammaproteobacteria","Cellvibrionales","Halieaceae","OM60(NOR5)_clade",NA,NA
 "ASV1330","Bacteria","Actinobacteria","Actinobacteria","PeM15","uncultured_Actinomycetales_bacterium","uncultured_Actinomycetales_bacterium","uncultured_Actinomycetales_bacterium","FJ744981.1.1355"
 "ASV1331","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Hyphomonadaceae","Litorimonas","Litorimonas_cladophorae","JX174422.1.1401"
+"ASV1332","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","Microtrichaceae","Sva0996_marine_group","uncultured_bacterium",NA
 "ASV1333","Bacteria","Aegiribacteria","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
 "ASV1334","Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales",NA,NA,NA,NA
 "ASV1335","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","Micavibrionaceae","uncultured","uncultured_bacterium","GU941020.1.1329"
@@ -1268,6 +1270,7 @@
 "ASV1387","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","DEV007","uncultured_bacterium","uncultured_bacterium",NA
 "ASV1388","Bacteria","Firmicutes","Clostridia","Clostridiales","Defluviitaleaceae","Defluviitaleaceae_UCG-011","uncultured_bacterium","JQ245550.1.1379"
 "ASV1389","Bacteria","Chloroflexi","Anaerolineae","Anaerolineales","Anaerolineaceae","uncultured",NA,NA
+"ASV1390","Archaea","Euryarchaeota","Thermoplasmata","Marine_Group_II","uncultured_marine_archaeon","uncultured_marine_archaeon","uncultured_marine_archaeon","JQ220730.1.915"
 "ASV1391","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","uncultured","uncultured_bacterium","AB476295.1.1444"
 "ASV1393","Bacteria","Spirochaetes","Spirochaetia","Spirochaetales","Spirochaetaceae","Spirochaeta_2","Spirochaeta_perfilievii","AY337318.1.1428"
 "ASV1394","Bacteria","Proteobacteria","Deltaproteobacteria","Oligoflexales","Oligoflexaceae","uncultured","uncultured_bacterium",NA
@@ -1285,8 +1288,10 @@
 "ASV1406","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Hyphomonadaceae","Robiginitomaculum","uncultured_bacterium","JQ287072.1.1440"
 "ASV1407","Bacteria","Proteobacteria","Gammaproteobacteria","Betaproteobacteriales","Burkholderiaceae",NA,NA,NA
 "ASV1408","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Psychroflexus",NA,NA
+"ASV1409","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium",NA
 "ASV1410","Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Moraxellaceae","Psychrobacter",NA,NA
 "ASV1411","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","uncultured","uncultured_bacterium","uncultured_bacterium",NA
+"ASV1412","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Marinifilaceae","Marinifilum","Marinifilum_sp._TWO-1","KF650763.1.1485"
 "ASV1413","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Cryomorphaceae","uncultured","uncultured_Flavobacterium_sp.",NA
 "ASV1414","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae",NA,NA,NA
 "ASV1415","Bacteria","Proteobacteria","Gammaproteobacteria","Thiotrichales","Thiotrichaceae","Thiothrix","uncultured_bacterium",NA
@@ -1303,6 +1308,7 @@
 "ASV1426","Bacteria","Proteobacteria","Gammaproteobacteria","Alteromonadales","Moritellaceae","Moritella",NA,NA
 "ASV1427","Bacteria","Planctomycetes","vadinHA49",NA,NA,NA,NA,NA
 "ASV1428","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Sva0081_sediment_group",NA,NA
+"ASV1429","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Altererythrobacter","mucus_bacterium_91","AY654830.1.1386"
 "ASV1430","Bacteria","Bacteroidetes","Bacteroidia","Sphingobacteriales","KD3-93","uncultured_bacterium","uncultured_bacterium",NA
 "ASV1431","Bacteria","Firmicutes","Clostridia","Clostridiales","Defluviitaleaceae","Defluviitaleaceae_UCG-011","Clostridia_bacterium_S710(2)-1","GU136590.1.1479"
 "ASV1432","Bacteria","Planctomycetes","Planctomycetacia","Pirellulales","Pirellulaceae","uncultured","uncultured_bacterium",NA
@@ -1567,6 +1573,7 @@
 "ASV1706","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","Bdellovibrio","uncultured_bacterium",NA
 "ASV1707","Bacteria","Planctomycetes","OM190",NA,NA,NA,NA,NA
 "ASV1708","Bacteria","Firmicutes","Clostridia","Clostridiales","Christensenellaceae","uncultured","uncultured_bacterium","FN824950.1.1265"
+"ASV1709","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Sphingorhabdus","Sphingopyxis_sp._RKVR35","JX407110.1.1485"
 "ASV1710","Bacteria","Bacteroidetes","Bacteroidia","Sphingobacteriales","NS11-12_marine_group","uncultured_bacterium","uncultured_bacterium",NA
 "ASV1711","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae","Rubritalea","uncultured_bacterium","JQ196089.1.1359"
 "ASV1712","Bacteria","Proteobacteria","Gammaproteobacteria","Oceanospirillales","Halomonadaceae","Halomonas","Halomonas_sp._BRI_31","JX123569.1.1233"
@@ -1651,6 +1658,7 @@
 "ASV1799","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae",NA,NA,NA
 "ASV1800","Bacteria","Proteobacteria","Gammaproteobacteria","Alteromonadales","Pseudoalteromonadaceae","Psychrosphaera","gamma_proteobacterium_14III/A01/015","AY612750.1.1475"
 "ASV1801","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","OM27_clade","uncultured_bacterium","JQ195014.1.1331"
+"ASV1802","Bacteria",NA,NA,NA,NA,NA,NA,NA
 "ASV1803","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae",NA,NA,NA
 "ASV1804","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Lutimonas",NA,NA
 "ASV1806","Bacteria","Proteobacteria","Gammaproteobacteria","Gammaproteobacteria_Incertae_Sedis","Unknown_Family","uncultured","uncultured_gamma_proteobacterium","AB294965.1.1480"
@@ -1788,6 +1796,7 @@
 "ASV1943","Bacteria","Spirochaetes","Spirochaetia","Spirochaetales","Spirochaetaceae","Spirochaeta_2","Spirochaeta_perfilievii","AY337318.1.1428"
 "ASV1944","Bacteria","Acidobacteria","Thermoanaerobaculia","Thermoanaerobaculales","Thermoanaerobaculaceae","Subgroup_23","uncultured_bacterium",NA
 "ASV1945","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Sva0081_sediment_group","uncultured_delta_proteobacterium","FM242336.1.1520"
+"ASV1946","Bacteria","Actinobacteria","Acidimicrobiia",NA,NA,NA,NA,NA
 "ASV1947","Bacteria","Proteobacteria","Alphaproteobacteria","uncultured","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","AB294315.1.1401"
 "ASV1948","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfobacterium","Algidimarina_propionica","AY851291.1.1483"
 "ASV1949","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae",NA,NA,NA
@@ -1912,6 +1921,7 @@
 "ASV2075","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales",NA,NA,NA,NA
 "ASV2076","Bacteria","Proteobacteria","Alphaproteobacteria","Rickettsiales","Rickettsiaceae",NA,NA,NA
 "ASV2077","Bacteria","Bacteroidetes","Bacteroidia","Cytophagales","Cyclobacteriaceae","Ekhidna","uncultured_bacterium","JQ347319.1.1200"
+"ASV2078","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfosarcina","uncultured_marine_bacterium","FN396648.1.1432"
 "ASV2079","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae","Haloferula","uncultured_Verrucomicrobiae_bacterium","FJ744763.1.1371"
 "ASV2080","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
 "ASV2081","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","Micavibrionaceae","uncultured","uncultured_bacterium","FJ952694.1.1447"
@@ -2087,6 +2097,7 @@
 "ASV2264","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales",NA,NA,NA,NA
 "ASV2265","Bacteria","Proteobacteria","Deltaproteobacteria",NA,NA,NA,NA,NA
 "ASV2266","Bacteria","Kiritimatiellaeota","Kiritimatiellae","Kiritimatiellales","Kiritimatiellaceae","R76-B128","uncultured_bacterium",NA
+"ASV2267","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Aliiroseovarius",NA,NA
 "ASV2268","Bacteria",NA,NA,NA,NA,NA,NA,NA
 "ASV2269","Bacteria","Bacteroidetes","Bacteroidia","Cytophagales","Cyclobacteriaceae","Fabibacter","Fabibacter_sp._ana_H.e._1","KT958837.1.1331"
 "ASV2270","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
@@ -2121,6 +2132,7 @@
 "ASV2303","Bacteria","Firmicutes","Clostridia","Clostridiales","Lachnospiraceae",NA,NA,NA
 "ASV2304","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","DEV007","uncultured_marine_bacterium","uncultured_marine_bacterium","FJ825946.1.1508"
 "ASV2305","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
+"ASV2306","Bacteria","Verrucomicrobia","Verrucomicrobiae","Opitutales","Puniceicoccaceae","MB11C04_marine_group","uncultured_bacterium","JQ195920.1.1363"
 "ASV2307","Bacteria","Epsilonbacteraeota","Campylobacteria","Campylobacterales",NA,NA,NA,NA
 "ASV2308","Bacteria","Epsilonbacteraeota","Campylobacteria","Campylobacterales","Sulfurovaceae","Sulfurovum","uncultured_Epsilonproteobacteria_bacterium",NA
 "ASV2309","Bacteria","Firmicutes","Clostridia","Clostridiales",NA,NA,NA,NA
@@ -2140,6 +2152,7 @@
 "ASV2325","Bacteria","Planctomycetes","Phycisphaerae","Phycisphaerales","Phycisphaeraceae","SM1A02","uncultured_planctomycete","AB491841.1.1474"
 "ASV2326","Bacteria","Proteobacteria","Gammaproteobacteria","UBA10353_marine_group","uncultured_sediment_bacterium","uncultured_sediment_bacterium","uncultured_sediment_bacterium","FN553481.1.1542"
 "ASV2327","Bacteria","Aegiribacteria","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ209362.1.1393"
+"ASV2328","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Caulobacteraceae","Brevundimonas","Brevundimonas_sp._Ha13","JX949226.1.1339"
 "ASV2329","Bacteria","Bacteroidetes","Bacteroidia",NA,NA,NA,NA,NA
 "ASV2330","Bacteria","Proteobacteria","Gammaproteobacteria","Chromatiales","Chromatiaceae","Halochromatium",NA,NA
 "ASV2331","Bacteria","Bacteroidetes","Ignavibacteria","Ignavibacteriales","Melioribacteraceae","IheB3-7","uncultured_bacterium","AB530235.1.1494"
@@ -2155,6 +2168,7 @@
 "ASV2341","Bacteria","Proteobacteria","Gammaproteobacteria","B2M28","uncultured_sediment_bacterium","uncultured_sediment_bacterium","uncultured_sediment_bacterium","FN553617.1.1498"
 "ASV2342","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales",NA,NA,NA,NA
 "ASV2343","Bacteria","Spirochaetes","Spirochaetia","Spirochaetales","Spirochaetaceae","Spirochaeta_2","uncultured_bacterium",NA
+"ASV2344","Bacteria","Proteobacteria","Gammaproteobacteria","Nitrosococcales","Methylophagaceae","uncultured",NA,NA
 "ASV2346","Bacteria","Bacteroidetes","Rhodothermia","Rhodothermales","Rhodothermaceae","uncultured","uncultured_bacterium","AB250561.1.1428"
 "ASV2347","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Marinilabiliaceae","uncultured","uncultured_marine_bacterium","FN396675.1.1403"
 "ASV2348","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","Bdellovibrio","uncultured_bacterium",NA
@@ -2169,6 +2183,7 @@
 "ASV2357","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","Microtrichaceae","Sva0996_marine_group","uncultured_bacterium","FJ905646.1.1391"
 "ASV2358","Archaea","Asgardaeota","Lokiarchaeia","uncultured_archaeon","uncultured_archaeon","uncultured_archaeon","uncultured_archaeon",NA
 "ASV2359","Bacteria","Planctomycetes","Planctomycetacia","Pirellulales","Pirellulaceae",NA,NA,NA
+"ASV2360","Bacteria","Proteobacteria","Alphaproteobacteria","Kordiimonadales","uncultured","uncultured_alpha_proteobacterium","uncultured_alpha_proteobacterium","AB188773.1.1466"
 "ASV2361","Bacteria","Proteobacteria","Gammaproteobacteria","Arenicellales","Arenicellaceae","Arenicella",NA,NA
 "ASV2362","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium",NA
 "ASV2363","Bacteria","Firmicutes","Clostridia","Clostridiales","Defluviitaleaceae","Defluviitaleaceae_UCG-011","uncultured_bacterium","JQ245550.1.1379"
@@ -2281,6 +2296,7 @@
 "ASV2480","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV2481","Bacteria","Verrucomicrobia","Verrucomicrobiae","Opitutales","Puniceicoccaceae","Lentimonas","Lentimonas_marisflavi","EF157839.1.1504"
 "ASV2482","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Parvularculaceae","Parvularcula",NA,NA
+"ASV2483","Bacteria","Proteobacteria","Gammaproteobacteria","UBA10353_marine_group","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FJ873333.1.1412"
 "ASV2484","Bacteria","Proteobacteria","Gammaproteobacteria","Betaproteobacteriales","Methylophilaceae","Methylotenera","uncultured_bacterium",NA
 "ASV2485","Bacteria","Bacteroidetes","Ignavibacteria","Kryptoniales","BSV26",NA,NA,NA
 "ASV2486","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","uncultured","uncultured_bacterium","uncultured_bacterium","JQ196003.1.1304"
@@ -2445,6 +2461,7 @@
 "ASV2652","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae","Persicirhabdus","uncultured_bacterium","JQ195816.1.1359"
 "ASV2653","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
 "ASV2654","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","NS9_marine_group","uncultured_bacterium","uncultured_bacterium",NA
+"ASV2655","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobulbaceae",NA,NA,NA
 "ASV2657","Bacteria","Proteobacteria","Gammaproteobacteria","Betaproteobacteriales","Burkholderiaceae",NA,NA,NA
 "ASV2658","Bacteria","Bacteroidetes","Bacteroidia",NA,NA,NA,NA,NA
 "ASV2659","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobulbaceae",NA,NA,NA
@@ -2458,6 +2475,7 @@
 "ASV2667","Bacteria","Actinobacteria","Acidimicrobiia","Actinomarinales","uncultured","uncultured_sediment_bacterium","uncultured_sediment_bacterium","FN553475.1.1491"
 "ASV2668","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Roseobacter_clade_NAC11-7_lineage","uncultured_bacterium",NA
 "ASV2669","Bacteria","Firmicutes","Clostridia","Clostridiales","Defluviitaleaceae","Defluviitaleaceae_UCG-011","uncultured_bacterium",NA
+"ASV2670","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","uncultured","uncultured_bacterium","FJ792182.1.1360"
 "ASV2671","Bacteria","Proteobacteria","Gammaproteobacteria","Legionellales","Legionellaceae","Legionella","uncultured_Legionellaceae_bacterium","FJ744791.1.1377"
 "ASV2673","Bacteria","Proteobacteria","Gammaproteobacteria","Methylococcales","Methylomonaceae","Methyloprofundus","uncultured_bacterium","AB476231.1.1445"
 "ASV2674","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bacteriovoracaceae","uncultured","uncultured_bacterium",NA
@@ -2489,6 +2507,7 @@
 "ASV2701","Bacteria","Proteobacteria","Gammaproteobacteria","Arenicellales","Arenicellaceae","Candidatus_Thiosymbion",NA,NA
 "ASV2702","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","Bdellovibrio","uncultured_bacterium","AB476172.1.1441"
 "ASV2703","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA
+"ASV2704","Bacteria","Proteobacteria","Gammaproteobacteria","Oceanospirillales","Nitrincolaceae","Marinobacterium","Marinobacterium_marisflavi","EF468717.1.1487"
 "ASV2705","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium","JQ196292.1.1351"
 "ASV2706","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
 "ASV2707","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ287280.1.1438"
@@ -2515,6 +2534,7 @@
 "ASV2728","Bacteria","Proteobacteria","Deltaproteobacteria","Myxococcales","Nannocystaceae","Nannocystis",NA,NA
 "ASV2729","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","Lewinella","uncultured_bacterium","JQ287087.1.1485"
 "ASV2730","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA
+"ASV2731","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV2732","Bacteria","Planctomycetes","Planctomycetacia","Planctomycetales","Rubinisphaeraceae","uncultured","uncultured_planctomycete","FN822112.1.1370"
 "ASV2733","Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Rhizobiaceae","Pseudahrensia","uncultured_bacterium","AB100000.1.1274"
 "ASV2734","Bacteria",NA,NA,NA,NA,NA,NA,NA
@@ -2692,6 +2712,7 @@
 "ASV2915","Bacteria","Proteobacteria","Gammaproteobacteria","Alteromonadales","Alteromonadaceae","Glaciecola",NA,NA
 "ASV2916","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","Microtrichaceae",NA,NA,NA
 "ASV2917","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_Sphingobacteriia_bacterium","FN433362.1.1487"
+"ASV2918","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae",NA,NA,NA
 "ASV2919","Bacteria","Bacteroidetes","Bacteroidia",NA,NA,NA,NA,NA
 "ASV2920","Bacteria","Planctomycetes","Phycisphaerae","Phycisphaerales","Phycisphaeraceae","SM1A02","uncultured_planctomycete",NA
 "ASV2921","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
@@ -2706,6 +2727,7 @@
 "ASV2931","Bacteria","Planctomycetes","OM190","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","AB530246.1.1523"
 "ASV2932","Bacteria","Patescibacteria","Parcubacteria","Candidatus_Campbellbacteria","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FN562888.1.1300"
 "ASV2933","Bacteria","Patescibacteria","Gracilibacteria","Absconditabacteriales_(SR1)","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ215562.1.1287"
+"ASV2934","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV2935","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales",NA,NA,NA,NA
 "ASV2936","Bacteria","Verrucomicrobia","Verrucomicrobiae","Opitutales","Puniceicoccaceae","Lentimonas","Lentimonas_marisflavi","EF157839.1.1504"
 "ASV2937","Bacteria","Proteobacteria","Gammaproteobacteria","Alteromonadales","Shewanellaceae","Shewanella",NA,NA
@@ -2762,6 +2784,7 @@
 "ASV2997","Bacteria","Proteobacteria","Gammaproteobacteria","Oceanospirillales","Oleiphilaceae","Oleiphilus","uncultured_gamma_proteobacterium","FM242233.1.1484"
 "ASV2998","Bacteria","Bacteroidetes","Bacteroidia",NA,NA,NA,NA,NA
 "ASV2999","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
+"ASV3000","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Bacteroidetes_BD2-2","uncultured_soil_bacterium","uncultured_soil_bacterium","FQ659538.1.1354"
 "ASV3001","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
 "ASV3002","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium",NA
 "ASV3003","Bacteria","Proteobacteria","Gammaproteobacteria","Cellvibrionales","Halieaceae","Halioglobus","uncultured_marine_bacterium","FN396694.1.1418"
@@ -2890,6 +2913,7 @@
 "ASV3136","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","Micavibrionaceae","uncultured","uncultured_bacterium","GU941020.1.1329"
 "ASV3137","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","AB476195.1.1395"
 "ASV3138","Bacteria","Latescibacteria","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
+"ASV3139","Bacteria","Proteobacteria","Alphaproteobacteria","SAR11_clade","Clade_II","uncultured_bacterium","uncultured_bacterium",NA
 "ASV3140","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Crocinitomicaceae","Fluviicola","uncultured_bacterium","JQ195940.1.1350"
 "ASV3141","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium",NA
 "ASV3142","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
@@ -2943,6 +2967,7 @@
 "ASV3194","Bacteria","Actinobacteria","Acidimicrobiia","Actinomarinales","uncultured","uncultured_actinobacterium","uncultured_actinobacterium","FN424389.1.1482"
 "ASV3195","Bacteria","Planctomycetes","Planctomycetacia","Pirellulales","Pirellulaceae",NA,NA,NA
 "ASV3196","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Bacteroidetes_BD2-2","uncultured_sediment_bacterium","uncultured_sediment_bacterium","FN554125.1.1481"
+"ASV3197","Archaea","Euryarchaeota","Thermoplasmata","Marine_Group_II","uncultured_marine_archaeon","uncultured_marine_archaeon","uncultured_marine_archaeon",NA
 "ASV3198","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Puniceibacterium",NA,NA
 "ASV3199","Bacteria","Bacteroidetes","Bacteroidia",NA,NA,NA,NA,NA
 "ASV3200","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Lutibacter","Lutibacter_crassostreae","KP662555.1.1444"
@@ -2989,6 +3014,7 @@
 "ASV3243","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae",NA,NA,NA
 "ASV3244","Bacteria","Patescibacteria","Gracilibacteria","Absconditabacteriales_(SR1)","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ215562.1.1287"
 "ASV3245","Bacteria","Planctomycetes","Planctomycetacia","Pirellulales","Pirellulaceae","uncultured","uncultured_bacterium",NA
+"ASV3246","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ287280.1.1438"
 "ASV3247","Bacteria","Proteobacteria","Gammaproteobacteria","BD7-8",NA,NA,NA,NA
 "ASV3248","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobulbaceae","Desulfocapsa","uncultured_bacterium",NA
 "ASV3249","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","Lewinella","uncultured_bacterium","JQ287087.1.1485"
@@ -3027,6 +3053,7 @@
 "ASV3284","Bacteria","Proteobacteria","Gammaproteobacteria","EPR3968-O8a-Bc78","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FJ900559.1.1484"
 "ASV3285","Bacteria","Patescibacteria","Parcubacteria","Candidatus_Campbellbacteria","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FN562888.1.1300"
 "ASV3286","Bacteria","Bacteroidetes","Bacteroidia",NA,NA,NA,NA,NA
+"ASV3287","Bacteria","Proteobacteria","Gammaproteobacteria","Oceanospirillales","Pseudohongiellaceae","Pseudohongiella","uncultured_bacterium","FJ801217.1.1501"
 "ASV3288","Bacteria","Proteobacteria","Gammaproteobacteria","Betaproteobacteriales","Nitrosomonadaceae",NA,NA,NA
 "ASV3289","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Cryomorphaceae","uncultured","uncultured_bacterium","JQ199426.1.1351"
 "ASV3290","Bacteria","Proteobacteria","Gammaproteobacteria","Cellvibrionales","Cellvibrionaceae","uncultured","uncultured_gamma_proteobacterium","FM958452.1.1424"
@@ -3044,6 +3071,7 @@
 "ASV3303","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Maribacter","Maribacter_vaceletii","JX050190.1.1332"
 "ASV3304","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Marinifilaceae","uncultured","uncultured_bacterium",NA
 "ASV3305","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
+"ASV3306","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
 "ASV3307","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV3308","Bacteria","Fibrobacteres","Fibrobacteria","Fibrobacterales","Fibrobacteraceae",NA,NA,NA
 "ASV3309","Bacteria",NA,NA,NA,NA,NA,NA,NA
@@ -3082,6 +3110,7 @@
 "ASV3343","Bacteria","Deinococcus-Thermus","Deinococci","Deinococcales","Trueperaceae","Truepera","uncultured_endolithic_bacterium","AB374369.1.1506"
 "ASV3344","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","OM27_clade","uncultured_bacterium","FJ905764.1.1375"
 "ASV3345","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA
+"ASV3346","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Maribacter","Pibocella_sp._UDC543","JQ895018.1.1429"
 "ASV3347","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA
 "ASV3348","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium",NA
 "ASV3349","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae","Persicirhabdus","uncultured_bacterium","JQ195816.1.1359"
@@ -3193,6 +3222,7 @@
 "ASV3461","Bacteria","Proteobacteria","Gammaproteobacteria","Arenicellales","Arenicellaceae","Arenicella","uncultured_bacterium","JQ196770.1.1357"
 "ASV3462","Bacteria","Chloroflexi","Anaerolineae","SBR1031","uncultured_Chloroflexi_bacterium","uncultured_Chloroflexi_bacterium","uncultured_Chloroflexi_bacterium","FJ902049.1.1231"
 "ASV3463","Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Rhizobiaceae",NA,NA,NA
+"ASV3465","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
 "ASV3466","Bacteria",NA,NA,NA,NA,NA,NA,NA
 "ASV3467","Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Xanthobacteraceae","Afipia",NA,NA
 "ASV3468","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_Cytophaga_sp.","AB015265.1.1485"
@@ -3201,6 +3231,7 @@
 "ASV3474","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","Microtrichaceae",NA,NA,NA
 "ASV3475","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidetes_VC2.1_Bac22","uncultured_sediment_bacterium","uncultured_sediment_bacterium","uncultured_sediment_bacterium","FN554119.1.1479"
 "ASV3476","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bacteriovoracaceae","Halobacteriovorax","uncultured_sediment_bacterium","FN553492.1.1516"
+"ASV3477","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae","Roseibacillus","uncultured_bacterium","FJ873322.1.1398"
 "ASV3478","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Cryomorphaceae","uncultured",NA,NA
 "ASV3479","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobulbaceae",NA,NA,NA
 "ASV3480","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
@@ -3225,6 +3256,7 @@
 "ASV3501","Bacteria","Bacteroidetes","Bacteroidia",NA,NA,NA,NA,NA
 "ASV3502","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FJ791888.1.1321"
 "ASV3503","Bacteria","Calditrichaeota","Calditrichia","Calditrichales","Calditrichaceae","uncultured_bacterium","uncultured_bacterium","AB250556.1.1385"
+"ASV3504","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Pseudoruegeria","Pseudoruegeria_limi","KF303136.1.1383"
 "ASV3505","Bacteria","Spirochaetes","Leptospirae","Leptospirales","Leptospiraceae","RBG-16-49-21","uncultured_bacterium",NA
 "ASV3506","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","uncultured","uncultured_bacterium","uncultured_bacterium","FJ792144.1.1315"
 "ASV3507","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","Portibacter","uncultured_bacterium","AB476232.1.1453"
@@ -3235,6 +3267,7 @@
 "ASV3512","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured",NA,NA
 "ASV3513","Bacteria","Proteobacteria","Gammaproteobacteria","Cellvibrionales","Halieaceae","OM60(NOR5)_clade","uncultured_marine_bacterium","FN396673.1.1408"
 "ASV3515","Bacteria","Gemmatimonadetes","BD2-11_terrestrial_group","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
+"ASV3516","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","DEV007","uncultured_bacterium","uncultured_bacterium","JQ337717.1.1402"
 "ASV3517","Bacteria","Acidobacteria","Subgroup_22","uncultured_delta_proteobacterium","uncultured_delta_proteobacterium","uncultured_delta_proteobacterium","uncultured_delta_proteobacterium","FM242328.1.1515"
 "ASV3518","Bacteria","Proteobacteria","Alphaproteobacteria","Tistrellales","Geminicoccaceae","Candidatus_Alysiosphaera","uncultured_alpha_proteobacterium","FM242433.1.1445"
 "ASV3519","Bacteria",NA,NA,NA,NA,NA,NA,NA
@@ -3339,6 +3372,7 @@
 "ASV3622","Bacteria","Chloroflexi","Anaerolineae","Caldilineales","Caldilineaceae","uncultured","uncultured_bacterium","JQ347312.1.1475"
 "ASV3623","Bacteria","Proteobacteria","Gammaproteobacteria","Alteromonadales","Alteromonadaceae","Glaciecola",NA,NA
 "ASV3624","Bacteria","Spirochaetes","Spirochaetia","Spirochaetales","Spirochaetaceae",NA,NA,NA
+"ASV3626","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfobacter","uncultured_bacterium","JQ212736.1.1379"
 "ASV3627","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Paludibacteraceae","Paludibacter",NA,NA
 "ASV3628","Bacteria","Proteobacteria",NA,NA,NA,NA,NA,NA
 "ASV3629","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
@@ -3414,6 +3448,7 @@
 "ASV3708","Bacteria","Proteobacteria","Gammaproteobacteria","Cellvibrionales","Spongiibacteraceae","Sinobacterium","Oceanospirillaceae_bacterium_B3","KF312891.1.1414"
 "ASV3710","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS5_marine_group","uncultured_bacterium","JQ194992.1.1361"
 "ASV3712","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ287427.1.1435"
+"ASV3713","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV3714","Bacteria","Acidobacteria","Acidobacteriia","Solibacterales","Solibacteraceae_(Subgroup_3)","PAUC26f","uncultured_bacterium","AB630903.1.1442"
 "ASV3716","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Chitinophagaceae","Taibaiella","uncultured_bacterium","AB476268.1.1448"
 "ASV3717","Bacteria","Proteobacteria",NA,NA,NA,NA,NA,NA
@@ -3505,6 +3540,7 @@
 "ASV3804","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
 "ASV3805","Bacteria","Proteobacteria","Gammaproteobacteria","Oceanospirillales","Nitrincolaceae","Marinobacterium","Marinobacterium_sp._IMCC1424","KF146347.1.1434"
 "ASV3806","Bacteria","Spirochaetes","Spirochaetia","Spirochaetales","Spirochaetaceae","Spirochaeta_2","Spirochaeta_perfilievii","AY337318.1.1428"
+"ASV3807","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Flavirhabdus","Lacinutrix_iliipiscaria","JX412960.1.1486"
 "ASV3808","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","NS7_marine_group","uncultured_bacterium","uncultured_bacterium","JQ197324.1.1353"
 "ASV3809","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfovibrionales","Desulfovibrionaceae","Desulfovibrio",NA,NA
 "ASV3810","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
@@ -3549,6 +3585,7 @@
 "ASV3852","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","uncultured","uncultured_bacterium","uncultured_bacterium","FJ792185.1.1318"
 "ASV3853","Bacteria","Cyanobacteria","Oxyphotobacteria","Phormidesmiales","Phormidesmiaceae","Acrophormium_PCC-7375","Leptolyngbya_sp._HBC2","EU249128.1.1444"
 "ASV3854","Bacteria","Bacteroidetes","Bacteroidia","Sphingobacteriales","NS11-12_marine_group","uncultured_bacterium","uncultured_bacterium","JQ199803.1.1354"
+"ASV3855","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Hyphomonadaceae","Robiginitomaculum","uncultured_bacterium",NA
 "ASV3856","Bacteria","Proteobacteria","Deltaproteobacteria","Sva0485","uncultured_delta_proteobacterium","uncultured_delta_proteobacterium","uncultured_delta_proteobacterium","AB188782.1.1498"
 "ASV3857","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","uncultured","uncultured_Actinomycetales_bacterium","uncultured_Actinomycetales_bacterium","FJ889256.1.1475"
 "ASV3859","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae","Haloferula","uncultured_Verrucomicrobiae_bacterium","FJ744763.1.1371"
@@ -3565,6 +3602,7 @@
 "ASV3871","Bacteria","Bacteroidetes","Bacteroidia","Sphingobacteriales","Lentimicrobiaceae",NA,NA,NA
 "ASV3872","Bacteria","Acidobacteria","Thermoanaerobaculia","Thermoanaerobaculales","Thermoanaerobaculaceae","Subgroup_23","uncultured_bacterium",NA
 "ASV3873","Bacteria","Proteobacteria","Alphaproteobacteria","Tistrellales","Geminicoccaceae","Candidatus_Alysiosphaera","uncultured_alpha_proteobacterium","FM242433.1.1445"
+"ASV3874","Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Rhizobiaceae","uncultured","uncultured_bacterium","AB476277.1.1408"
 "ASV3875","Bacteria","Modulibacteria","Moduliflexia","Moduliflexales","Moduliflexaceae","uncultured_bacterium","uncultured_bacterium",NA
 "ASV3876","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Aurantivirga","uncultured_Flavobacteriia_bacterium","FN433446.1.1384"
 "ASV3877","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales",NA,NA,NA,NA
@@ -3604,6 +3642,7 @@
 "ASV3913","Bacteria","Firmicutes","Clostridia","Clostridiales","Lachnospiraceae","uncultured","uncultured_bacterium",NA
 "ASV3914","Bacteria","Firmicutes","Clostridia","Clostridiales","Family_XII","Fusibacter","Fusibacter_sp._3D3","FR873490.1.1286"
 "ASV3915","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","Bdellovibrio","uncultured_bacterium",NA
+"ASV3916","Bacteria",NA,NA,NA,NA,NA,NA,NA
 "ASV3917","Bacteria","Proteobacteria","Alphaproteobacteria","Rickettsiales",NA,NA,NA,NA
 "ASV3918","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobulbaceae","Desulfotalea","uncultured_bacterium","JQ197790.1.1366"
 "ASV3919","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Tenacibaculum",NA,NA
@@ -3618,6 +3657,8 @@
 "ASV3929","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales",NA,NA,NA,NA
 "ASV3930","Bacteria","Epsilonbacteraeota","Campylobacteria","Campylobacterales","Arcobacteraceae","Arcobacter","uncultured_Arcobacter_sp.","AB262370.1.1440"
 "ASV3931","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Altererythrobacter","uncultured_bacterium","AB476259.1.1413"
+"ASV3932","Bacteria",NA,NA,NA,NA,NA,NA,NA
+"ASV3933","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Sphingorhabdus","Sphingopyxis_sp._RKVR35","JX407110.1.1485"
 "ASV3934","Bacteria","Proteobacteria","Deltaproteobacteria","Myxococcales","Haliangiaceae","Haliangium","Haliangium_ochraceum","EF108312.1.1555"
 "ASV3935","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","NS7_marine_group","uncultured_bacterium","uncultured_bacterium","JQ287452.1.1501"
 "ASV3936","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
@@ -3631,6 +3672,7 @@
 "ASV3944","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodospirillales","Rhodopirillaceae","Defluviicoccus","uncultured_alpha_proteobacterium","FM242425.1.1470"
 "ASV3945","Bacteria","Bacteroidetes","Bacteroidia","Sphingobacteriales","Lentimicrobiaceae",NA,NA,NA
 "ASV3946","Bacteria","Proteobacteria","Deltaproteobacteria","NB1-j","uncultured_delta_proteobacterium","uncultured_delta_proteobacterium","uncultured_delta_proteobacterium","AB015243.1.1515"
+"ASV3947","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Chitinophagaceae","Sediminibacterium",NA,NA
 "ASV3948","Bacteria","Patescibacteria","Parcubacteria","Candidatus_Campbellbacteria","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ209049.1.1327"
 "ASV3949","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Cryomorphaceae","uncultured",NA,NA
 "ASV3950","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","SB-5","uncultured_soil_bacterium","uncultured_soil_bacterium","FQ659511.1.1352"
@@ -3724,6 +3766,7 @@
 "ASV4041","Bacteria","Planctomycetes","Planctomycetacia","Pirellulales","Pirellulaceae","Blastopirellula","uncultured_bacterium","JQ198127.1.1339"
 "ASV4042","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae",NA,NA,NA
 "ASV4043","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","NS9_marine_group","uncultured_bacterium","uncultured_bacterium","JQ199439.1.1350"
+"ASV4044","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","Aureispira","Saprospira_sp._CNJ640","AY527410.1.1443"
 "ASV4045","Bacteria","Chloroflexi","Anaerolineae","Ardenticatenales","uncultured","uncultured_sediment_bacterium","uncultured_sediment_bacterium",NA
 "ASV4046","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
 "ASV4047","Bacteria","Bacteroidetes","Bacteroidia","Sphingobacteriales","Lentimicrobiaceae","uncultured_Bacteroidetes_bacterium","uncultured_Bacteroidetes_bacterium","FJ814757.1.1353"
@@ -3753,6 +3796,7 @@
 "ASV4072","Bacteria","Bacteroidetes","Bacteroidia","Cytophagales","Cyclobacteriaceae","uncultured","uncultured_bacterium","JQ347322.1.1482"
 "ASV4073","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bacteriovoracaceae","Peredibacter","uncultured_bacterium","JQ198653.1.1377"
 "ASV4074","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA
+"ASV4075","Bacteria","Proteobacteria","Gammaproteobacteria","Thiohalorhabdales","Thiohalorhabdaceae","Granulosicoccus","uncultured_proteobacterium","JQ218703.1.1493"
 "ASV4076","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","SEEP-SRB1","uncultured_bacterium",NA
 "ASV4077","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA
 "ASV4079","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfobacter","uncultured_bacterium",NA
@@ -3764,6 +3808,7 @@
 "ASV4086","Bacteria","Firmicutes","Clostridia","Clostridiales","Ruminococcaceae","uncultured","uncultured_bacterium","AB015268.1.1494"
 "ASV4087","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobulbaceae",NA,NA,NA
 "ASV4088","Bacteria","Proteobacteria","Gammaproteobacteria","Thiohalorhabdales","Thiohalorhabdaceae","uncultured","uncultured_gamma_proteobacterium","AB294950.1.1412"
+"ASV4089","Bacteria","Proteobacteria","Gammaproteobacteria","Thiotrichales","Thiotrichaceae","Cocleimonas","uncultured_bacterium","JQ200201.1.1364"
 "ASV4090","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfatitalea","uncultured_bacterium",NA
 "ASV4092","Bacteria","Planctomycetes","Planctomycetacia","Pirellulales","Pirellulaceae","Rubripirellula","uncultured_bacterium","FJ873319.1.1382"
 "ASV4093","Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Xanthobacteraceae","Bradyrhizobium",NA,NA
@@ -3772,6 +3817,7 @@
 "ASV4096","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Bacteroidetes_BD2-2","uncultured_marine_bacterium","uncultured_marine_bacterium","FN396618.1.1392"
 "ASV4097","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae",NA,NA,NA
 "ASV4098","Bacteria","Patescibacteria","Gracilibacteria","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
+"ASV4099","Bacteria","Proteobacteria",NA,NA,NA,NA,NA,NA
 "ASV4100","Bacteria","Proteobacteria","Gammaproteobacteria","Cellvibrionales","Cellvibrionaceae",NA,NA,NA
 "ASV4101","Bacteria","Bacteroidetes","Rhodothermia","Rhodothermales","Rhodothermaceae","uncultured",NA,NA
 "ASV4102","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae",NA,NA,NA
@@ -3851,18 +3897,23 @@
 "ASV4183","Bacteria","Actinobacteria","WCHB1-81","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FJ873262.1.1413"
 "ASV4184","Bacteria","Proteobacteria","Deltaproteobacteria","Myxococcales",NA,NA,NA,NA
 "ASV4185","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FJ792297.1.1315"
+"ASV4186","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA
 "ASV4187","Bacteria","Spirochaetes","Spirochaetia","Spirochaetales","Spirochaetaceae",NA,NA,NA
 "ASV4188","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","Bdellovibrio","uncultured_bacterium","AB476172.1.1441"
 "ASV4189","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV4190","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
 "ASV4191","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","DEV007","uncultured_bacterium","uncultured_bacterium",NA
 "ASV4192","Bacteria","Acidobacteria","Thermoanaerobaculia","Thermoanaerobaculales","Thermoanaerobaculaceae","Subgroup_23","uncultured_sediment_bacterium","FN553921.1.1516"
+"ASV4193","Bacteria","Planctomycetes","Planctomycetacia","Pirellulales","Pirellulaceae","Pir4_lineage","uncultured_planctomycete","AB491853.1.1528"
 "ASV4194","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ287280.1.1438"
 "ASV4195","Bacteria","Fibrobacteres","Fibrobacteria","Fibrobacterales","possible_family_01","uncultured_bacterium","uncultured_bacterium","AB486974.1.1371"
+"ASV4196","Bacteria","Chloroflexi","Anaerolineae","Caldilineales","Caldilineaceae","uncultured","uncultured_bacterium",NA
 "ASV4197","Bacteria","Proteobacteria","Gammaproteobacteria","Alteromonadales","Alteromonadaceae",NA,NA,NA
 "ASV4198","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Sphingomonas","Sphingomonas_sp._MOSEL-ES23","KF307658.1.1292"
 "ASV4199","Bacteria","Proteobacteria","Deltaproteobacteria","Myxococcales","Sandaracinaceae","uncultured","uncultured_bacterium","AB530225.1.1511"
 "ASV4200","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium",NA
+"ASV4201","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Flavobacterium",NA,NA
+"ASV4202","Bacteria","Chloroflexi","Anaerolineae","Anaerolineales","Anaerolineaceae",NA,NA,NA
 "ASV4203","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales",NA,NA,NA,NA
 "ASV4204","Bacteria","Proteobacteria","Gammaproteobacteria","Gammaproteobacteria_Incertae_Sedis","Unknown_Family",NA,NA,NA
 "ASV4205","Bacteria","Proteobacteria","Deltaproteobacteria","Bdellovibrionales","Bdellovibrionaceae","Bdellovibrio","uncultured_bacterium",NA
@@ -3871,56 +3922,13 @@
 "ASV4208","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Bacteroidetes_BD2-2","uncultured_marine_bacterium","uncultured_marine_bacterium",NA
 "ASV4209","Bacteria","Proteobacteria","Gammaproteobacteria","Betaproteobacteriales","Burkholderiaceae","Massilia","Burkholderia_sp._UFLA04-317","JQ771210.1.1376"
 "ASV4210","Bacteria",NA,NA,NA,NA,NA,NA,NA
+"ASV4211","Bacteria","Proteobacteria","Alphaproteobacteria","Micavibrionales","Micavibrionaceae","uncultured","uncultured_bacterium","GU941020.1.1329"
+"ASV4212","Bacteria","Verrucomicrobia","Verrucomicrobiae","Opitutales","Opitutaceae","Diplosphaera","uncultured_bacterium","JQ199501.1.1381"
 "ASV4214","Bacteria","Acidobacteria","Thermoanaerobaculia","Thermoanaerobaculales","Thermoanaerobaculaceae","Subgroup_23",NA,NA
 "ASV4215","Bacteria","Proteobacteria","Gammaproteobacteria","Cellvibrionales","Halieaceae","Parahaliea","uncultured_bacterium","JQ347354.1.1490"
+"ASV4216","Bacteria","Proteobacteria","Alphaproteobacteria","SAR11_clade","Clade_I","Clade_Ia",NA,NA
 "ASV4217","Bacteria","Spirochaetes","Leptospirae","Leptospirales","Leptospiraceae","RBG-16-49-21","uncultured_bacterium",NA
+"ASV4219","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium",NA
 "ASV4220","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","Ilumatobacteraceae","Ilumatobacter","uncultured_marine_bacterium","FN396713.1.1402"
 "ASV4221","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Hyphomonadaceae","Hyphomonas",NA,NA
 "ASV4222","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","Microtrichaceae","uncultured","uncultured_bacterium","FJ999602.1.1373"
-"ASV1086","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfosarcina","uncultured_marine_bacterium","FN396648.1.1432"
-"ASV1332","Bacteria","Actinobacteria","Acidimicrobiia","Microtrichales","Microtrichaceae","Sva0996_marine_group","uncultured_bacterium",NA
-"ASV1390","Archaea","Euryarchaeota","Thermoplasmata","Marine_Group_II","uncultured_marine_archaeon","uncultured_marine_archaeon","uncultured_marine_archaeon","JQ220730.1.915"
-"ASV1409","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","uncultured","uncultured_bacterium",NA
-"ASV1412","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Marinifilaceae","Marinifilum","Marinifilum_sp._TWO-1","KF650763.1.1485"
-"ASV1429","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Altererythrobacter","mucus_bacterium_91","AY654830.1.1386"
-"ASV1709","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Sphingorhabdus","Sphingopyxis_sp._RKVR35","JX407110.1.1485"
-"ASV1802","Bacteria",NA,NA,NA,NA,NA,NA,NA
-"ASV1946","Bacteria","Actinobacteria","Acidimicrobiia",NA,NA,NA,NA,NA
-"ASV2078","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfosarcina","uncultured_marine_bacterium","FN396648.1.1432"
-"ASV2267","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Aliiroseovarius",NA,NA
-"ASV2306","Bacteria","Verrucomicrobia","Verrucomicrobiae","Opitutales","Puniceicoccaceae","MB11C04_marine_group","uncultured_bacterium","JQ195920.1.1363"
-"ASV2328","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Caulobacteraceae","Brevundimonas","Brevundimonas_sp._Ha13","JX949226.1.1339"
-"ASV2344","Bacteria","Proteobacteria","Gammaproteobacteria","Nitrosococcales","Methylophagaceae","uncultured",NA,NA
-"ASV2360","Bacteria","Proteobacteria","Alphaproteobacteria","Kordiimonadales","uncultured","uncultured_alpha_proteobacterium","uncultured_alpha_proteobacterium","AB188773.1.1466"
-"ASV2483","Bacteria","Proteobacteria","Gammaproteobacteria","UBA10353_marine_group","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","FJ873333.1.1412"
-"ASV2655","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobulbaceae",NA,NA,NA
-"ASV2670","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","uncultured","uncultured_bacterium","FJ792182.1.1360"
-"ASV2704","Bacteria","Proteobacteria","Gammaproteobacteria","Oceanospirillales","Nitrincolaceae","Marinobacterium","Marinobacterium_marisflavi","EF468717.1.1487"
-"ASV2731","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
-"ASV2918","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae",NA,NA,NA
-"ASV2934","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
-"ASV3000","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Bacteroidetes_BD2-2","uncultured_soil_bacterium","uncultured_soil_bacterium","FQ659538.1.1354"
-"ASV3139","Bacteria","Proteobacteria","Alphaproteobacteria","SAR11_clade","Clade_II","uncultured_bacterium","uncultured_bacterium",NA
-"ASV3197","Archaea","Euryarchaeota","Thermoplasmata","Marine_Group_II","uncultured_marine_archaeon","uncultured_marine_archaeon","uncultured_marine_archaeon",NA
-"ASV3246","Bacteria","Patescibacteria","Gracilibacteria","JGI_0000069-P22","uncultured_bacterium","uncultured_bacterium","uncultured_bacterium","JQ287280.1.1438"
-"ASV3287","Bacteria","Proteobacteria","Gammaproteobacteria","Oceanospirillales","Pseudohongiellaceae","Pseudohongiella","uncultured_bacterium","FJ801217.1.1501"
-"ASV3306","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
-"ASV3346","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Maribacter","Pibocella_sp._UDC543","JQ895018.1.1429"
-"ASV3465","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA,NA
-"ASV3477","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","Rubritaleaceae","Roseibacillus","uncultured_bacterium","FJ873322.1.1398"
-"ASV3504","Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Pseudoruegeria","Pseudoruegeria_limi","KF303136.1.1383"
-"ASV3516","Bacteria","Verrucomicrobia","Verrucomicrobiae","Verrucomicrobiales","DEV007","uncultured_bacterium","uncultured_bacterium","JQ337717.1.1402"
-"ASV3626","Bacteria","Proteobacteria","Deltaproteobacteria","Desulfobacterales","Desulfobacteraceae","Desulfobacter","uncultured_bacterium","JQ212736.1.1379"
-"ASV3713","Bacteria","Proteobacteria","Gammaproteobacteria",NA,NA,NA,NA,NA
-"ASV3807","Bacteria","Bacteroidetes","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Flavirhabdus","Lacinutrix_iliipiscaria","JX412960.1.1486"
-"ASV3855","Bacteria","Proteobacteria","Alphaproteobacteria","Caulobacterales","Hyphomonadaceae","Robiginitomaculum","uncultured_bacterium",NA
-"ASV3874","Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Rhizobiaceae","uncultured","uncultured_bacterium","AB476277.1.1408"
-"ASV3916","Bacteria",NA,NA,NA,NA,NA,NA,NA
-"ASV3932","Bacteria",NA,NA,NA,NA,NA,NA,NA
-"ASV3933","Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Sphingorhabdus","Sphingopyxis_sp._RKVR35","JX407110.1.1485"
-"ASV3947","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Chitinophagaceae","Sediminibacterium",NA,NA
-"ASV4044","Bacteria","Bacteroidetes","Bacteroidia","Chitinophagales","Saprospiraceae","Aureispira","Saprospira_sp._CNJ640","AY527410.1.1443"
-"ASV4075","Bacteria","Proteobacteria","Gammaproteobacteria","Thiohalorhabdales","Thiohalorhabdaceae","Granulosicoccus","uncultured_proteobacterium","JQ218703.1.1493"
-"ASV4089","Bacteria","Proteobacteria","Gammaproteobacteria","Thiotrichales","Thiotrichaceae","Cocleimonas","uncultured_bacterium","JQ200201.1.1364"
-"ASV4099","Bacteria","Proteobacteria",NA,NA,NA,NA,NA,NA
-"ASV4186","Bacteria","Proteobacteria","Alphaproteobacteria",NA,NA,NA,NA,NA

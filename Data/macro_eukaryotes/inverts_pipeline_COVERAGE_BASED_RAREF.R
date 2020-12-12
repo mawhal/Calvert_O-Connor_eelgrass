@@ -41,7 +41,11 @@ invert.otus_t_matrix <- data.matrix(invert.otus_t)
 invert.meta.ID <- data.frame(invert.meta[,-1], row.names=invert.meta[,1])
 
 # Here you can create a taxonomy table if you want (could do in excel?) in the matrix format
-# tax.mat <- matrix(taxa.data)
+# taxa_update <- read_csv( "R_Code_and_Analysis/output_data/O'Connor_hakai_seagrass_taxa_edit.csv" )
+taxonomy_finest <- read.csv( "Data/macro_eukaryotes/taxonomy_table_inverts.csv", header=TRUE)
+taxonomy_finest_f <- taxonomy_finest %>% 
+  column_to_rownames(var = "finest")
+tax.mat <- as.matrix(taxonomy_finest_f)
 
 ##       Domain Phylum Class Order Family Genus Species
 ## OTU1  "x"    "d"    "q"   "v"   "l"    "k"   "i"    
@@ -52,11 +56,11 @@ invert.meta.ID <- data.frame(invert.meta[,-1], row.names=invert.meta[,1])
 
 #### Save each object in "phyloseq" format to be combined in a phyloseq object ####
 OTU <- otu_table(invert.otus_t_matrix, taxa_are_rows = T)
-#TAX <- tax_table(tax.mat)
+TAX <- tax_table(tax.mat)
 META <- sample_data(invert.meta.ID)
 
 # invert.phyloseq <- phyloseq(OTU, TAX, META)
-invert.phyloseq <- phyloseq(OTU, META)
+invert.phyloseq <- phyloseq(OTU, TAX,META)
 sample_names(OTU)
 sample_names(META)
 
