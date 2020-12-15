@@ -378,3 +378,17 @@ body_size_simi_km <- body_size_simi_km + ggtitle("") +
 
 ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2016.tiff", plot = body_size_simi_km, width=310, height=250, units="mm",dpi=300, compression = "lzw", type = "cairo")
 
+ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2016.png", plot = body_size_simi_km, width=270, height=220, units="mm",dpi=300)
+
+
+### COMPARE SLOPES 2016 ### 
+
+# Fit the model, the covariate goes first
+model_2016 <- lm(similarity ~ spatial_distance_km * host, data = all_ggplot_km)
+anova(model_2016)
+summary(model_2016)
+
+# Pairwise comparisons of coefficients *** first one was supposed to compare intercepts (space = 0) but it gives the same result
+pair_2016_interc <- emmeans(model_2016, pairwise ~ "host", at = list(spatial_distance_km = 0))
+pair_2016_slope <- emmeans(model_2016, pairwise ~ "host")
+pair_2016_slope 

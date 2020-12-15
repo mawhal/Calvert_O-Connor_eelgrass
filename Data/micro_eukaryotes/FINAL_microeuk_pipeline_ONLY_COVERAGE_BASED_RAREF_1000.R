@@ -4,7 +4,6 @@
 ### Date last modified: July 07, 2020 ###
 ### Date last modified: October 21st, 2020 ###
 
-### Data from 2015, 2016, 2017 and 2018 is rarefied to 1,000 reads/sample
 ### Latest update refers to changes in the pipeline in taxa filtering steps to avoid removal of other taxa in that rank (i.e. | is.na(Rank5)) and change in the ordering of filtering
 ### Added coverage-based rarefaction and saved tables to be used in all analyses
 ### Organized, cleaned and reviewed annotation in the script to upload to git ###
@@ -403,6 +402,14 @@ master_genus_level_18S <- left_join(metadata_genus_level_18S, otu_genus_level_18
 
 master_genus_level_18S <- master_genus_level_18S %>% 
   dplyr::rename("SampleID" = "Sample")
+
+master_genus_level_18S[118, "year"] <- "2018"
+
+View(as.data.frame(master_genus_level_18S))
+
+check_sample_sums <- as.data.frame(master_genus_level_18S %>% 
+  dplyr::select(-(1:9)) %>% 
+  rowSums())
 
 write.csv(master_genus_level_18S, "Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_genus_level_1000_COVERAGE_RAREF.csv", row.names=F)
 

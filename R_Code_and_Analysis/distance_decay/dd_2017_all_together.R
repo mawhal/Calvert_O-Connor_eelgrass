@@ -376,3 +376,6 @@ body_size_simi_km <- body_size_simi_km + ggtitle("") +
 
 ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2017.tiff", plot = body_size_simi_km, width=310, height=250, units="mm",dpi=300, compression = "lzw", type = "cairo")
 
+ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2017.png", plot = body_size_simi_km, width=270, height=220, units="mm",dpi=300)
+
+
