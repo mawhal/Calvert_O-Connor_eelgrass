@@ -26,15 +26,14 @@ library(adespatial)
 
 ### read data
 # read data
-zostera_16S <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level.csv")
+zostera_16S <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level_1000_COVERAGE_RAREF.csv")
 zostera_16S[1:5,1:20]
 
 # grab relevant columns, summarize means across samples within sites
 # zostera_16S <- 
 wide_16S <- zostera_16S %>% 
-  select( -SampleID, -swab_id, -barcode_plate, -barcode_well, -region_year,
-          -host_species, -host_type, -sample_type , -survey_type, -quadrat_id,
-          -meso_shoot_id ) %>% 
+  select( -SampleID, -region_year, -host_species, -host_type, 
+          -sample_type , -survey_type, -quadrat_id, -meso_shoot_id ) %>% 
   gather( "ASV", "read.count", -year, -region, -site_quadrat_id, -site ) %>% 
   group_by( year, region, site, ASV ) %>% 
   summarize( read.count=mean(read.count) ) %>% 
@@ -84,15 +83,14 @@ LCBD_16S
 
 ### read data
 # read data
-zostera_18S <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_ASV_level.csv")
+zostera_18S <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_genus_level_1000_COVERAGE_RAREF.csv")
 zostera_18S[1:5,1:20]
 
 # grab relevant columns, summarize means across samples within sites
 # zostera_18S <- 
 wide_18S <- zostera_18S %>% 
-  select( -SampleID, -host_type, -sample_type , -survey_type, 
-          -meso_quadrat_id ) %>% 
-  gather( "ASV", "read.count", -year, -region, -site_quadrat_id, -site ) %>% 
+  select( -SampleID, -host_type, -sample_type , -survey_type ) %>% 
+  gather( "ASV", "read.count", -year, -region, -site_quadrat_id, -site, -meso_quadrat_id ) %>% 
   group_by( year, region, site, ASV ) %>% 
   summarize( read.count=mean(read.count) ) %>% 
   spread( ASV, read.count )
@@ -145,45 +143,55 @@ LCBD_18S
 # steps - split data into years, make a list of community matrices, perform calculation
 
 ### read data
-m <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_grazers.csv")
-# replace spaces with periods for consistency and merging names
-m$taxon <- gsub( " ", ".", m$taxon )
-# bring in the updated data 
-mtaxa_update <- read_csv( "R_Code_and_Analysis/output_data/O'Connor_hakai_seagrass_taxa_edit.csv" )
-# merge
-m <- left_join( m,  mtaxa_update )
-# replace periods with spaces for making simple names in vegan
-# define regions as first word of site
-m$region <- unlist(lapply( strsplit(m$site,split = "_"), function(z) z[1]))
-# unique sample ID to differential samples from different sites
-m$ID <- with(m, paste(site,sample,sep = "_"))
-# change year to character
-m$group <- paste0( "year",m$year )
+m <- read_csv( "Data/R_Code_for_Data_Prep/master_data/MASTER_inverts_finest_1000_COVERAGE_RAREF.csv")
+# # replace spaces with periods for consistency and merging names
+# m$taxon <- gsub( " ", ".", m$taxon )
+# # bring in the updated data 
+# mtaxa_update <- read_csv( "R_Code_and_Analysis/output_data/O'Connor_hakai_seagrass_taxa_edit.csv" )
+# # merge
+# m <- left_join( m,  mtaxa_update )
+# # replace periods with spaces for making simple names in vegan
+# # define regions as first word of site
+# m$region <- unlist(lapply( strsplit(m$site,split = "_"), function(z) z[1]))
+# # unique sample ID to differential samples from different sites
+# m$ID <- with(m, paste(site,sample,sep = "_"))
+# # change year to character
+# m$group <- paste0( "year",m$year )
+# 
+# # filter taxa and sites
+# mfilt <- m %>%
+#   select( year, group, region, site, sample, ID, taxon = taxon4, remove, size ) %>% 
+#   filter( is.na(remove), !is.na(taxon), site != "goose_north" )
+# 
+# # summarize taxon counts per sample
+# m.sum <- mfilt %>% 
+#   # unite( "ID", year,site,sample, remove=FALSE ) %>% 
+#   group_by( year, group, region, site, sample, ID, taxon ) %>% 
+#   summarize( abundance=length(size) )
+# 
+# # summarinze mean abundance per site
+# m.mean <- m.sum %>%
+#   # unite( "ID", year,site,sample, remove=FALSE ) %>%
+#   group_by( year, region, site, taxon ) %>%
+#   summarize( abundance=mean(abundance))
+# # make a community dataset
+# m.meta <- m.mean %>%
+#   spread( taxon, abundance, fill=0 )
 
-# filter taxa and sites
-mfilt <- m %>%
-  select( year, group, region, site, sample, ID, taxon = taxon4, remove, size ) %>% 
-  filter( is.na(remove), !is.na(taxon), site != "goose_north" )
-
-# summarize taxon counts per sample
-m.sum <- mfilt %>% 
-  # unite( "ID", year,site,sample, remove=FALSE ) %>% 
-  group_by( year, group, region, site, sample, ID, taxon ) %>% 
-  summarize( abundance=length(size) )
-
-# summarinze mean abundance per site
-m.mean <- m.sum %>% 
-  # unite( "ID", year,site,sample, remove=FALSE ) %>% 
-  group_by( year, region, site, taxon ) %>% 
-  summarize( abundance=mean(abundance))
+# grab relevant columns, summarize means across samples within sites
+# zostera_18S <- 
+wide_invert <- m %>% 
+  select( -ID_year, -ID, -sample, -group ) %>% 
+  gather( "ASV", "read.count", -year, -region, -site ) %>% 
+  group_by( year, region, site, ASV ) %>% 
+  summarize( read.count=mean(read.count) ) %>% 
+  spread( ASV, read.count )
 
 
-# make a community dataset
-m.meta <- m.mean %>% 
-  spread( taxon, abundance, fill=0 ) 
+
 
 # split by year
-comm.years <- split( m.meta, m.meta$year )
+comm.years <- split( wide_invert, wide_invert$year )
 lapply(comm.years, dim)
 
 # remove taxa that did not appear in a given year
@@ -210,7 +218,7 @@ nonsignif = lapply( betas, function(z) which(z$p.LCBD > 0.05) ) # Which are the 
 LCBDin <- lapply( betas, function(z) cbind(z$LCBD,z$p.adj) )
 LCBDin <- data.frame( do.call( rbind, LCBDin ), group="macroeukaryote" )
 names(LCBDin) <- c("LCBD","p.adj","group")
-LCBDin <- data.frame( m.meta[,1:3], LCBDin )
+LCBDin <- data.frame( wide_invert[,1:3], LCBDin )
 
 # windows(3.5,4)
 LCBD_inverts <- ggplot( data=LCBDin, aes( x=factor(year), y=factor(site), size=LCBD, fill=p.adj )) +
@@ -227,11 +235,15 @@ LCBDall$site[ LCBDall$site == "mcmullin_north" ] <- "mcmullins_north"
 LCBDall$site[ LCBDall$site == "mcmullin_south" ] <- "mcmullins_south"
 LCBDall$site <- factor( LCBDall$site )
 LCBDall$group <- factor( LCBDall$group, levels = c("prokaryote","microeukaryote","macroeukaryote"))
+LCBDall <- LCBDall %>% filter( year != 2014, site != "goose_north" ) %>% 
+  mutate( p.adj = factor(ifelse(p.adj<0.5,1,2),labels=c("< 0.05",">= 0.05")))
+
 LCBD_all <- ggplot( data=LCBDall, aes( x=factor(year), y=site, 
                                        size=LCBD, fill=p.adj )) +
   facet_wrap( ~group) +
   geom_point(shape=21,alpha=1) + #,position=position_jitter(width=0.1,height = 0.1)) +
   ylab( "Site" ) + xlab( "Year" ) + 
+  scale_fill_manual( values = c("slateblue","whitesmoke")) +
   theme_bw( ) + theme(legend.position="top")
 LCBD_all
 ggsave("R_Code_and_Analysis/betadiversity/LCBD_all.png", 

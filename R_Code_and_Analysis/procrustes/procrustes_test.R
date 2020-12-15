@@ -7,7 +7,7 @@ library(vegan)
 #library(usedist)
 
 # pick a year
-year <- 2017
+year <- 2018
 
 #load grazers metadata
 metadata_macro <- read_csv(paste0("R_Code_and_Analysis/mantel/",year,"_macroeuk_metadata.csv") )
@@ -21,14 +21,18 @@ df_macro <- read_csv(paste0("R_Code_and_Analysis/mantel/",year,"_macroeuk_braycu
 df_macro$sample <- colnames(df_macro)
 
 #load 16S microbial distance matrix GENUS
+df_16S_meta  <- read_csv(paste0("R_Code_and_Analysis/mantel/genus_16S_",year,"_metadata.csv") )
 df_16S_genus <- read_csv(paste0("R_Code_and_Analysis/mantel/genus_16S_",year,"_braycurtis.csv") )
 df_16S_genus <- df_16S_genus %>% 
-  dplyr::rename("sample" = "X1")
+  # dplyr::rename("sample" = "X1")
+  mutate( sample = df_16S_meta$labels )
 
 #load 18S microbial distance matrix GENUS
+df_18S_meta  <- read_csv(paste0("R_Code_and_Analysis/mantel/genus_18S_",year,"_metadata.csv") )
 df_18S_genus <- read_csv(paste0("R_Code_and_Analysis/mantel/genus_18S_",year,"_braycurtis.csv") )
 df_18S_genus <- df_18S_genus %>% 
-  dplyr::rename("sample" = "X1")
+  # dplyr::rename("sample" = "X1")
+  mutate( sample = df_18S_meta$labels )
 
 
 ##############################################

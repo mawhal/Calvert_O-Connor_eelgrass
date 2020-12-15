@@ -10,7 +10,7 @@ library(tidyverse)
 library(vegan)
 
 
-allsamples <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level.csv")
+allsamples <- read_csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level_1000_COVERAGE_RAREF.csv")
 
 allsamples <- allsamples[order(allsamples$year, allsamples$site),]
 
@@ -43,7 +43,7 @@ microbes_16S_2015 <- microbes_16S_2015 %>%
 names(microbes_16S_2015)
 #abundance only
 microbes_16S_2015_abund <- microbes_16S_2015 %>%
-  dplyr::select(c(17:ncol(microbes_16S_2015)))
+  dplyr::select(c(14:ncol(microbes_16S_2015)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2015 <- vegdist(microbes_16S_2015_abund, method = "bray")
@@ -99,10 +99,10 @@ microbes_16S_2016$labels <- vegan::make.cepnames(microbes_16S_2016$site_quadrat_
 microbes_16S_2016 <- microbes_16S_2016 %>%
   dplyr::select(labels, everything())
 
-names(microbes_16S_2016)
+names(microbes_16S_2016)[1:20]
 #abundance only
 microbes_16S_2016_abund <- microbes_16S_2016 %>%
-  dplyr::select(c(17:ncol(microbes_16S_2016)))
+  dplyr::select(c(14:ncol(microbes_16S_2016)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2016 <- vegdist(microbes_16S_2016_abund, method = "bray")
@@ -145,10 +145,10 @@ microbes_16S_2017$labels <- vegan::make.cepnames(microbes_16S_2017$site_quadrat_
 microbes_16S_2017 <- microbes_16S_2017 %>%
   dplyr::select(labels, everything())
 
-names(microbes_16S_2017)
+names(microbes_16S_2017)[1:20]
 #abundance only
 microbes_16S_2017_abund <- microbes_16S_2017 %>%
-  dplyr::select(c(17:ncol(microbes_16S_2017)))
+  dplyr::select(c(14:ncol(microbes_16S_2017)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2017 <- vegdist(microbes_16S_2017_abund, method = "bray")
@@ -194,10 +194,10 @@ microbes_16S_2018$labels <- vegan::make.cepnames(microbes_16S_2018$site_quadrat_
 microbes_16S_2018 <- microbes_16S_2018 %>%
   dplyr::select(labels, everything())
 
-names(microbes_16S_2018)
+names(microbes_16S_2018)[1:20]
 #abundance only
 microbes_16S_2018_abund <- microbes_16S_2018 %>%
-  dplyr::select(c(17:ncol(microbes_16S_2018)))
+  dplyr::select(c(14:ncol(microbes_16S_2018)))
 
 #abundance data frame - bray curtis dissimilarity
 dist_microbes_16S_2018 <- vegdist(microbes_16S_2018_abund, method = "bray")
