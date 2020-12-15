@@ -1,4 +1,4 @@
-### Distance Decay of Similarity  ###
+### Distance Decay of Similarity 2016 ###
 ### Author: Bianca Trevizan Segovia ###
 ### Date created: December 10th, 2020 ###
 
@@ -15,7 +15,7 @@ library(broom)
 library(emmeans)
 
 #########################################
-############ 16S prokaryotes GENUS ############
+############ 16S prokaryotes GENUS ######
 #########################################
 ### Read table metadata and abundances
 microbes_16S_genus <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level_1000_COVERAGE_RAREF.csv", header=T)
@@ -28,18 +28,7 @@ prokary_2016_samples <- as.data.frame(microbes_16S_genus_2016$SampleID)
 write.csv(prokary_2016_samples, "Data/prokaryotes/distance_decay_prokary_samples_2016.csv", row.names = F)
 
 ### CREATE DISTANCE MATRIX FOR METERS CALCULATED IN GOOGLE EARTH
-prokary_dist<-read.csv("Data/prokaryotes/prokary_geogr_dist_matrix.csv", header=TRUE) 
-
-samples_2016 <- c( "ZosCFIoldB16","ZosCFIoldF16","ZosCSSoldC16","ZosCSSoldF16","ZosCSSoldE16", "ZosCSSoldB16", "ZosCSSoldA16","ZosCSSoldH16", "ZosCSSoldG16",  "ZosGSEoldD16", "ZosGSEoldF16",  "ZosGSEoldC16","ZosGSEoldB16","ZosGSEoldH16","ZosGSWoldF16", "ZosGSWoldD16","ZosGSWoldA16","ZosGSWoldB16","ZosGSWoldG16","ZosGSWoldC16","ZosGSWoldH16","ZosPBSoldA16", "ZosPBSoldB16", "ZosPBSoldC16", "ZosPBSoldD16", "ZosPBSoldG16", "ZosPBSoldF16",  "ZosPBSoldH16",  "ZosPBSoldE16",  "ZosPBPoldH16", "ZosPBPoldB16", "ZosPBPoldA16", "ZosPBPoldE16",  "ZosPBPoldF16",  "ZosPBPoldC16",  "ZosPBPoldD16",  "ZosTQNoldG16",  "ZosTQNoldH16",  "ZosTQNoldF16",  "ZosTQNoldD16",  "ZosTQNoldB16",   "ZosTQNoldE16",  "ZosTQNoldC16",  "ZosTQNoldA16",  "ZosTQSoldG16",  "ZosTQSoldA16", "ZosTQSoldH16",  "ZosTQSoldB16", "ZosTQSoldE16", "ZosTQSoldF16", "ZosTQSoldC16", "ZosTQSoldD16")
-
-
-prokary_dist_2016 <- prokary_dist %>% 
-  dplyr::select(c("SampleID", "ZosCFIoldB16","ZosCFIoldF16","ZosCSSoldC16","ZosCSSoldF16","ZosCSSoldE16", "ZosCSSoldB16", "ZosCSSoldA16","ZosCSSoldH16", "ZosCSSoldG16", "ZosGSEoldD16", "ZosGSEoldF16",  "ZosGSEoldC16","ZosGSEoldB16","ZosGSEoldH16","ZosGSWoldF16", "ZosGSWoldD16","ZosGSWoldA16","ZosGSWoldB16","ZosGSWoldG16","ZosGSWoldC16","ZosGSWoldH16","ZosPBSoldA16", "ZosPBSoldB16", "ZosPBSoldC16", "ZosPBSoldD16", "ZosPBSoldG16", "ZosPBSoldF16",  "ZosPBSoldH16","ZosPBSoldE16",  "ZosPBPoldH16", "ZosPBPoldB16", "ZosPBPoldA16", "ZosPBPoldE16",  "ZosPBPoldF16",  "ZosPBPoldC16",  "ZosPBPoldD16",  "ZosTQNoldG16",  "ZosTQNoldH16",  "ZosTQNoldF16",  "ZosTQNoldD16",  "ZosTQNoldB16",   "ZosTQNoldE16",  "ZosTQNoldC16",  "ZosTQNoldA16",  "ZosTQSoldG16",  "ZosTQSoldA16", "ZosTQSoldH16",  "ZosTQSoldB16", "ZosTQSoldE16", "ZosTQSoldF16", "ZosTQSoldC16",
-"ZosTQSoldD16"))
-
-prokary_dist_2016 <- prokary_dist_2016 %>% 
-  dplyr::filter(SampleID %in% samples_2016 )
-nrow(prokary_dist_2016)
+prokary_dist_2016<-read.csv("Data/prokaryotes/prokary_geogr_dist_matrix_2016.csv", header=TRUE) 
 
 labels <- as.data.frame(prokary_dist_2016$SampleID)
 names(labels)[1] <- "SampleID"
@@ -111,30 +100,21 @@ microbes_18S_genus_2016_abund <- as.data.frame(microbes_18S_genus_2016 %>%
   dplyr::select(-(1:9)) %>% 
   rowSums())
 # samples ZosPBPoldH16 and ZosPBPoldG16 have zero sum abundances, need to remove them
+remove_zero_sum_samples <- c("ZosPBPoldH16", "ZosPBPoldG16")
+microbes_18S_genus_2016 <- microbes_18S_genus_2016 %>% 
+  filter(!SampleID %in% remove_zero_sum_samples)
+
+microeuk_2016_samples <- as.data.frame(microbes_18S_genus_2016$SampleID)
+write.csv(microeuk_2016_samples, "Data/micro_eukaryotes/distance_decay_microeuk_samples_2016.csv", row.names = F)
 
 ### CREATE DISTANCE MATRIX FOR METERS CALCULATED IN GOOGLE EARTH
-microeuk_dist<-read.csv("Data/micro_eukaryotes/microeuk_geogr_dist_matrix.csv", header=TRUE) 
-names(microeuk_dist)
-### order according to microeuk_dist
-samples_2016 <- c("ZosCFIoldB16","ZosCFIoldG16","ZosCSSoldG16","ZosCSSoldA16","ZosCSSoldC16","ZosCSSoldE16","ZosCSSoldF16","ZosCSSoldH16","ZosGSEoldD16","ZosGSEoldE16","ZosGSEoldG16","ZosGSEoldC16","ZosGSEoldA16","ZosGSEoldH16","ZosGSEoldB16","ZosGSEoldF16","ZosGSWoldH16","ZosGSWoldC16","ZosGSWoldA16","ZosGSWoldF16","ZosGSWoldG16","ZosGSWoldD16","ZosGSWoldB16","ZosGSWoldE16","ZosPBSoldA16","ZosPBSoldH16","ZosPBSoldE16","ZosPBSoldD16","ZosPBSoldG16","ZosPBSoldB16","ZosPBSoldF16","ZosPBSoldC16","ZosPBPoldC16","ZosPBPoldB16","ZosPBPoldE16","ZosPBPoldD16","ZosTQNoldC16","ZosTQNoldF16","ZosTQNoldG16","ZosTQNoldB16","ZosTQNoldA16","ZosTQNoldE16","ZosTQNoldD16","ZosTQNoldH16","ZosTQSoldG16","ZosTQSoldA16","ZosTQSoldH16",
-"ZosTQSoldB16", "ZosTQSoldE16","ZosTQSoldF16","ZosTQSoldC16","ZosTQSoldD16")
-
-microeuk_dist_2016 <- microeuk_dist %>% 
-  dplyr::select(c("SampleID","ZosCFIoldB16","ZosCFIoldG16","ZosCSSoldG16","ZosCSSoldA16","ZosCSSoldC16","ZosCSSoldE16","ZosCSSoldF16","ZosCSSoldH16","ZosGSEoldD16","ZosGSEoldE16","ZosGSEoldG16","ZosGSEoldC16","ZosGSEoldA16","ZosGSEoldH16","ZosGSEoldB16","ZosGSEoldF16","ZosGSWoldH16","ZosGSWoldC16","ZosGSWoldA16","ZosGSWoldF16","ZosGSWoldG16","ZosGSWoldD16","ZosGSWoldB16","ZosGSWoldE16","ZosPBSoldA16","ZosPBSoldH16","ZosPBSoldE16","ZosPBSoldD16","ZosPBSoldG16","ZosPBSoldB16","ZosPBSoldF16","ZosPBSoldC16","ZosPBPoldC16","ZosPBPoldB16","ZosPBPoldE16","ZosPBPoldD16","ZosTQNoldC16","ZosTQNoldF16","ZosTQNoldG16","ZosTQNoldB16","ZosTQNoldA16","ZosTQNoldE16","ZosTQNoldD16","ZosTQNoldH16","ZosTQSoldG16","ZosTQSoldA16","ZosTQSoldH16","ZosTQSoldB16", "ZosTQSoldE16","ZosTQSoldF16","ZosTQSoldC16","ZosTQSoldD16"))
-
-microeuk_dist_2016 <- microeuk_dist_2016 %>% 
-  dplyr::filter(SampleID %in% samples_2016 )
-nrow(microeuk_dist_2016)
-
+microeuk_dist_2016 <-read.csv("Data/micro_eukaryotes/microeuk_geogr_dist_matrix_2016.csv", header=TRUE) 
 nrow(microeuk_dist_2016)
 ncol(microeuk_dist_2016)
 labels <- as.data.frame(microeuk_dist_2016$SampleID)
 names(labels)[1] <- "SampleID"
 
-microeuk_dist2_2016 <- microeuk_dist_2016 %>% 
-  dplyr::select("ZosCFIoldB16","ZosCFIoldG16","ZosCSSoldG16","ZosCSSoldA16","ZosCSSoldC16","ZosCSSoldE16","ZosCSSoldF16","ZosCSSoldH16","ZosGSEoldD16","ZosGSEoldE16","ZosGSEoldG16","ZosGSEoldC16","ZosGSEoldA16","ZosGSEoldH16","ZosGSEoldB16","ZosGSEoldF16","ZosGSWoldH16","ZosGSWoldC16","ZosGSWoldA16","ZosGSWoldF16","ZosGSWoldG16","ZosGSWoldD16","ZosGSWoldB16","ZosGSWoldE16","ZosPBSoldA16","ZosPBSoldH16","ZosPBSoldE16","ZosPBSoldD16","ZosPBSoldG16","ZosPBSoldB16","ZosPBSoldF16","ZosPBSoldC16","ZosPBPoldC16","ZosPBPoldB16","ZosPBPoldE16","ZosPBPoldD16","ZosTQNoldC16","ZosTQNoldF16","ZosTQNoldG16","ZosTQNoldB16","ZosTQNoldA16","ZosTQNoldE16","ZosTQNoldD16","ZosTQNoldH16","ZosTQSoldG16","ZosTQSoldA16","ZosTQSoldH16","ZosTQSoldB16", "ZosTQSoldE16","ZosTQSoldF16","ZosTQSoldC16","ZosTQSoldD16")
-
-names(microeuk_dist2_2016)
+microeuk_dist2_2016 <- dplyr::select(microeuk_dist_2016, c(-(SampleID)))
 nrow(microeuk_dist2_2016)
 ncol(microeuk_dist2_2016)
 microeuk_matrix_2016 <- as.dist(microeuk_dist2_2016, diag = TRUE)
@@ -149,7 +129,9 @@ check <- cbind(label_table, labels)
 # ### NOW CAN CREATE DIST MATRIX FOR ZOS
 ###get only abundance
 names(final_microeuk_right_order)[1:20]
-microeuk_abund_2016 <- final_microeuk_right_order %>% dplyr::select(-(1:9)) 
+microeuk_abund_2016 <- final_microeuk_right_order %>% 
+  dplyr::select(-(1:9)) 
+names(microeuk_abund_2016)
 nrow(microeuk_abund_2016)
 
 ### CREATE DISTANCE MATRIX FOR SPECIES
@@ -196,37 +178,19 @@ inverts_finest_2016 <- filter(inverts_finest, year == "2016") %>%
 
 inverts_finest_2016 <- inverts_finest_2016 %>% 
   dplyr::rename("SampleID" = "ID_year")
-
-remove_no_env_inverts <- c("triquet_south_5_2016")
-inverts_finest_2016 <- inverts_finest_2016 %>% 
-  dplyr::filter(!SampleID %in% remove_no_env_inverts )
   
-
-Sample_ID_inverts <- as.data.frame(inverts_finest_2016$ID_year)
+Sample_ID_inverts <- as.data.frame(inverts_finest_2016$SampleID)
 write.csv(Sample_ID_inverts, "Data/macro_eukaryotes/distance_decay_macroeuk_samples_2016.csv", row.names = F)
 
 ### CREATE DISTANCE MATRIX FOR METERS CALCULATED IN GOOGLE EARTH
-inverts_dist <-read.csv("Data/macro_eukaryotes/macroeuk_geogr_dist_matrix.csv", header=TRUE) # had to put NA in all blank values
-names(inverts_dist)
-### order according to inverts_dist
-samples_2016 <- c( "choked_inner_1_2016", "choked_inner_2_2016", "choked_inner_4_2016", "choked_inner_5_2016", "choked_inner_6_2016", "choked_inner_9_2016", "choked_sandspit_1_2016", "choked_sandspit_2_2016", "choked_sandspit_3_2016", "choked_sandspit_4_2016", "choked_sandspit_5_2016", "choked_sandspit_9_2016", "goose_south_west_2_2016", "goose_south_west_3_2016","goose_south_west_4_2016", "goose_south_west_7_2016", "goose_south_west_8_2016", "goose_south_west_9_2016", "pruth_pocket_1_2016", "pruth_pocket_2_2016", "pruth_pocket_5_2016", "pruth_pocket_6_2016", "pruth_pocket_9_2016", "triquet_north_1_2016", "triquet_north_2_2016", "triquet_north_3_2016", "triquet_north_5_2016", "triquet_north_7_2016","triquet_north_8_2016", "triquet_south_2_2016", "triquet_south_3_2016", "triquet_south_4_2016", "triquet_south_6_2016", "triquet_south_8_2016")
-  
-inverts_dist_2016 <- inverts_dist %>% 
-  dplyr::select(c("SampleID","choked_inner_1_2016", "choked_inner_2_2016", "choked_inner_4_2016", "choked_inner_5_2016", "choked_inner_6_2016", "choked_inner_9_2016", "choked_sandspit_1_2016", "choked_sandspit_2_2016", "choked_sandspit_3_2016", "choked_sandspit_4_2016", "choked_sandspit_5_2016", "choked_sandspit_9_2016", "goose_south_west_2_2016", "goose_south_west_3_2016","goose_south_west_4_2016", "goose_south_west_7_2016", "goose_south_west_8_2016", "goose_south_west_9_2016", "pruth_pocket_1_2016", "pruth_pocket_2_2016", "pruth_pocket_5_2016", "pruth_pocket_6_2016", "pruth_pocket_9_2016", "triquet_north_1_2016", "triquet_north_2_2016", "triquet_north_3_2016", "triquet_north_5_2016", "triquet_north_7_2016","triquet_north_8_2016", "triquet_south_2_2016", "triquet_south_3_2016", "triquet_south_4_2016", "triquet_south_6_2016", "triquet_south_8_2016"))
-
-inverts_dist_2016 <- inverts_dist_2016 %>% 
-  dplyr::filter(SampleID %in% samples_2016 )
-nrow(inverts_dist_2016)
+inverts_dist_2016 <-read.csv("Data/macro_eukaryotes/macroeuk_geogr_dist_matrix_2016.csv", header=TRUE) # had to put NA in all blank values
 
 nrow(inverts_dist_2016)
 ncol(inverts_dist_2016)
 labels <- as.data.frame(inverts_dist_2016$SampleID)
 names(labels)[1] <- "SampleID"
 
-inverts_dist2_2016 <- inverts_dist_2016 %>% 
-  dplyr::select("choked_inner_1_2016", "choked_inner_2_2016", "choked_inner_4_2016", "choked_inner_5_2016", "choked_inner_6_2016", "choked_inner_9_2016", "choked_sandspit_1_2016", "choked_sandspit_2_2016", "choked_sandspit_3_2016", "choked_sandspit_4_2016", "choked_sandspit_5_2016", "choked_sandspit_9_2016", "goose_south_west_2_2016", "goose_south_west_3_2016","goose_south_west_4_2016", "goose_south_west_7_2016", "goose_south_west_8_2016", "goose_south_west_9_2016", "pruth_pocket_1_2016", "pruth_pocket_2_2016", "pruth_pocket_5_2016", "pruth_pocket_6_2016", "pruth_pocket_9_2016", "triquet_north_1_2016", "triquet_north_2_2016", "triquet_north_3_2016", "triquet_north_5_2016", "triquet_north_7_2016","triquet_north_8_2016", "triquet_south_2_2016", "triquet_south_3_2016", "triquet_south_4_2016", "triquet_south_6_2016", "triquet_south_8_2016")
-
-names(inverts_dist2_2016)
+inverts_dist2_2016 <- dplyr::select(inverts_dist_2016, c(-(SampleID)))
 nrow(inverts_dist2_2016)
 ncol(inverts_dist2_2016)
 inverts_matrix_2016 <- as.dist(inverts_dist2_2016, diag = TRUE)
@@ -252,7 +216,7 @@ spe.dist.matrix_test_df <- as.data.frame(spe.dist.inverts_2016.matrix)
 
 df.spe.inverts_2016 <- data.frame(dissimilarity=spe.dist.inverts_2016[upper.tri(spe.dist.inverts_2016, diag = FALSE)])
 df.spe.inverts_2016 #get row number that contain values to remove NAs
-df.spe.inverts.vector_2016 <- df.spe.inverts_2016[1:325,]
+df.spe.inverts.vector_2016 <- df.spe.inverts_2016[1:136,]
 
 ###ggplot only work with data frames, so we need to convert this data into data frame
 library(reshape2)
@@ -330,8 +294,7 @@ head(all_ggplot)
 nrow(all_ggplot)
 attach(all_ggplot)
 class(host)
-as.factor(all_ggplot$host)
-
+all_ggplot <- all_ggplot %>% mutate(host = factor(host, levels = c("prokary_2016", "microeuk_2016", "inverts_2016")))
 
 ### PLOT SIMILARITY X SPATIAL DISTANCE
 all_ggplot$similarity <- 1 - all_ggplot$dissimilarity
@@ -369,8 +332,8 @@ reg_zos_2016 <-lm(similarity.microeuk ~ spatial_distance.microeuk_km, data = all
 reg_zos_2016 #
 coeff_zos_2016 <- coefficients(reg_zos_2016) 
 summary(reg_zos_2016)
-# intercept: 0.3935623 +/- SE: 0.0083274
-# slope: -0.0067629  +/- SE:0.0003211
+# intercept: 0.3970425 +/- SE: 0.0080927
+# slope: -0.0068710  +/- SE:0.0003158
 
 # Fit regression line for similarity of inverts dist in km
 all_data_inverts_2016_km <- all_data_inverts_2016 %>% mutate(spatial_distance.inverts_km = ifelse(spatial_distance.inverts > 0, spatial_distance.inverts/1000, spatial_distance.inverts))
@@ -379,8 +342,8 @@ reg_zos_2016 <-lm(similarity.inverts ~ spatial_distance.inverts_km, data = all_d
 reg_zos_2016 #
 coeff_zos_2016 <- coefficients(reg_zos_2016) 
 summary(reg_zos_2016)
-# intercept: 0.5212341 +/- SE: 0.0088073
-# slope: -0.0076879  +/- SE:0.0003908
+# intercept: 0.5258604 +/- SE: 0.0083948
+# slope: -0.0078279  +/- SE:0.0003807
 
 
 body_size_simi_km <- ggplot(all_ggplot_km, aes(x=spatial_distance_km, y=similarity)) +
@@ -397,21 +360,21 @@ body_size_simi_km <- ggplot(all_ggplot_km, aes(x=spatial_distance_km, y=similari
          legend.title = element_blank(), #remove title from legend
          legend.text = element_text(size=16), # size of legend text
          legend.text.align = 0,
-         legend.position = c(0.87, 0.95), # set position to top right
+         legend.position = c(0.82, 0.95), # set position to top right
          #legend.position = "right",
          legend.key.size = unit(0.8, "cm"), # increase distance between legend items
          legend.spacing = unit(5.0, 'cm')) # add spacing between legend text
 
-body_size_simi_km <- body_size_simi_km + scale_colour_manual(values=c("plum","blue", "tan1"))
+body_size_simi_km <- body_size_simi_km + scale_colour_manual(values=c("#CA3542","#27647B", "#AEC0C9"))
 
 body_size_simi_km <- body_size_simi_km + ggtitle("") +
   xlab("Spatial distance (km)") + ylab("Species composition similarity") +    
   # prokary
-  geom_abline(intercept =  0.4559522, slope =  -0.0040934 , color="tan1",linetype="dashed", size = 1 ) +
-  # prokary
-  geom_abline(intercept = 0.3935623, slope = -0.0067629, color="blue",linetype="dashed", size = 1 ) +
-  # SEAWATER 2015
-  geom_abline(intercept =  0.5212341, slope =   -0.0076879, color="plum",linetype="dashed", size = 1) 
+  geom_abline(intercept =  0.4559522, slope =  -0.0040934 , color="#CA3542",linetype="dashed", size = 1 ) +
+  # microeuk
+  geom_abline(intercept = 0.3970425, slope = -0.0068710, color="#27647B",linetype="dashed", size = 1 ) +
+  # inverts
+  geom_abline(intercept =  0.5258604, slope =   -0.0078279, color="#AEC0C9",linetype="dashed", size = 1) 
 
 ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2016.tiff", plot = body_size_simi_km, width=310, height=250, units="mm",dpi=300, compression = "lzw", type = "cairo")
 
