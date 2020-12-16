@@ -233,7 +233,7 @@ LCBD_inverts
 LCBDall <- bind_rows( LCBD16, LCBD18, LCBDin )
 LCBDall$site[ LCBDall$site == "mcmullin_north" ] <- "mcmullins_north"
 LCBDall$site[ LCBDall$site == "mcmullin_south" ] <- "mcmullins_south"
-LCBDall$site <- factor( LCBDall$site )
+LCBDall$site <- factor( LCBDall$site, levels = c("pruth_pocket", "pruth_bay", "choked_inner", "choked_sandspit", "triquet_south", "triquet_north", "goose_south_west", "goose_south_east", "goose_north", "mcmullins_south", "mcmullins_north") )
 LCBDall$group <- factor( LCBDall$group, levels = c("prokaryote","microeukaryote","macroeukaryote"))
 LCBDall <- LCBDall %>% filter( year != 2014, site != "goose_north" ) %>% 
   mutate( p.adj = factor(ifelse(p.adj<0.5,1,2),labels=c("< 0.05",">= 0.05")))
