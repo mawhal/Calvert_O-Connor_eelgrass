@@ -299,17 +299,14 @@ all_ggplot <- all_ggplot %>% mutate(host = factor(host, levels = c("prokary_2016
 ### PLOT SIMILARITY X SPATIAL DISTANCE
 all_ggplot$similarity <- 1 - all_ggplot$dissimilarity
 
-# mantel.zostera_2015 <-mantel(spe.dist.zostera_2015, zos_matrix_2015,permutations=9999, method = "pearson") 
-# mantel.zostera_2015 # Mantel statistic r: 0.4897  
-# 
-# mantel.zostera_2016 <-mantel(spe.dist.zostera_2016, zos_matrix_2016,permutations=9999, method = "pearson") 
-# mantel.zostera_2016 # Mantel statistic r: 0.4728 
-# 
-# mantel.seawater_2015 <-mantel(spe.dist.seawater_2015, seawater_matrix_2015,permutations=9999, method = "pearson") 
-# mantel.seawater_2015 # Mantel statistic r: 0.2914 
-# 
-# mantel.seawater_2016 <-mantel(spe.dist.seawater_2016, seawater_matrix_2016,permutations=9999, method = "pearson") 
-# mantel.seawater_2016 # Mantel statistic r: 0.5645 
+mantel.prokary <-mantel(spe.dist.prokary_2016, prokary_matrix_2016,permutations=9999, method = "pearson")
+mantel.prokary # Mantel statistic r: 0.3889 p<0.001
+
+mantel.microeuk <-mantel(spe.dist.microeuk_2016, microeuk_matrix_2016,permutations=9999, method = "pearson")
+mantel.microeuk # Mantel statistic r: 0.348 p<0.001
+
+mantel.inverts <-mantel(spe.dist.inverts_2016, inverts_matrix_2016,permutations=9999, method = "pearson")
+mantel.inverts # Mantel statistic r: 0.4718 p<0.001
 
 ### DISTANCE IN KM 
 # use mutate to create new column (spatial_distance_km) dividing spatial_distance by 1000 only if >0, else spatial_distance is kept
@@ -387,8 +384,3 @@ ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2016.png", plot = body
 model_2016 <- lm(similarity ~ spatial_distance_km * host, data = all_ggplot_km)
 anova(model_2016)
 summary(model_2016)
-
-# Pairwise comparisons of coefficients *** first one was supposed to compare intercepts (space = 0) but it gives the same result
-pair_2016_interc <- emmeans(model_2016, pairwise ~ "host", at = list(spatial_distance_km = 0))
-pair_2016_slope <- emmeans(model_2016, pairwise ~ "host")
-pair_2016_slope 
