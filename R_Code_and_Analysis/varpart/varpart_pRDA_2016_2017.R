@@ -862,9 +862,26 @@ varpart_results <- read.csv("R_Code_and_Analysis/varpart/varpart_results_stacked
 
 varpart_results$host <- factor(varpart_results$host, levels = c("prokaryotes", "microeukaryotes", "macroeukaryotes"))
 
-varpart_results$component <- factor(varpart_results$component, levels = c("pure_spa", "pure_env", "shared_env_spa", "pure_year", "shared_env_year", "shared_spa_year" ,"shared_env_spa_year", "residuals"))
+varpart_results$component <- factor(varpart_results$component, 
+                                    levels = c("pure_spa", "pure_env", "shared_env_spa", "pure_year", "shared_env_year", "shared_spa_year" ,"shared_env_spa_year", "residuals"),
+                                    labels = c("space","environment","space × env","year","year × env","space × year", "space × env × year","residuals"))
+# reorder, remove residuals
+vp_filt <- varpart_results %>% 
+  filter( component != "residuals" ) %>% 
+  mutate( component = fct_drop(component) ) %>% 
+  mutate( component = factor(component,levels = 
+                               c("space × env × year",
+                                 "space × year",
+                                 "year",
+                                 "year × env",
+                                 "environment","space × env",
+                                 "space")) )
+varpart_results <- vp_filt
 
 colour_portion <- c("darkorange1", "green3", "brown3", "darkorchid3",  "blue3", "gold1", "maroon1", "grey36")
+colour_portion <- c("brown", "orange", "yellow", "green",  "blue", "purple", "red")
+colour_portion <- paste0( colour_portion,"3" )
+colour_portion <- c("brown","orange","gold1","springgreen2","royalblue1","darkorchid1","firebrick1")
 
 varpart_histo <- ggplot(varpart_results,aes(host,proportion_explained,fill=component))+
   geom_bar(stat="identity", width=1, color="black", position = "stack") + #height of the column equal the value, stacked
@@ -873,6 +890,7 @@ varpart_histo <- ggplot(varpart_results,aes(host,proportion_explained,fill=compo
 varpart_histo <- varpart_histo + ggtitle("Variation Partitioning")
 
 varpart_histo <- varpart_histo + scale_fill_manual(values=colour_portion)
+varpart_histo <- varpart_histo + scale_fill_viridis_d(direction = 1, option = "C")
 
 varpart_histo <- varpart_histo + scale_y_continuous(expand = c(0,0))+theme(strip.background = element_rect(fill="snow2"))+theme(panel.spacing = unit(0.2, "lines"))
 
