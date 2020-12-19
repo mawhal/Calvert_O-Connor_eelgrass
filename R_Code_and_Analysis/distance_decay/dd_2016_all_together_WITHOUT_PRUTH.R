@@ -28,7 +28,7 @@ prokary_2016_samples <- as.data.frame(microbes_16S_genus_2016$SampleID)
 write.csv(prokary_2016_samples, "Data/prokaryotes/distance_decay_prokary_samples_2016.csv", row.names = F)
 
 ### CREATE DISTANCE MATRIX FOR METERS CALCULATED IN GOOGLE EARTH
-prokary_dist_2016<-read.csv("Data/prokaryotes/prokary_geogr_dist_matrix_2016.csv", header=TRUE) 
+prokary_dist_2016<-read.csv("Data/prokaryotes/prokary_geogr_dist_matrix_2016_WITHOUT_PRUTH.csv", header=TRUE) 
 
 labels <- as.data.frame(prokary_dist_2016$SampleID)
 names(labels)[1] <- "SampleID"
@@ -97,8 +97,8 @@ microbes_18S_genus_2016 <- filter(microbes_18S_genus, year == "2016") %>%
   arrange(site)
 
 microbes_18S_genus_2016_abund <- as.data.frame(microbes_18S_genus_2016 %>%
-  dplyr::select(-(1:9)) %>% 
-  rowSums())
+                                                 dplyr::select(-(1:9)) %>% 
+                                                 rowSums())
 # samples ZosPBPoldH16 and ZosPBPoldG16 have zero sum abundances, need to remove them
 remove_zero_sum_samples <- c("ZosPBPoldH16", "ZosPBPoldG16")
 microbes_18S_genus_2016 <- microbes_18S_genus_2016 %>% 
@@ -108,7 +108,7 @@ microeuk_2016_samples <- as.data.frame(microbes_18S_genus_2016$SampleID)
 write.csv(microeuk_2016_samples, "Data/micro_eukaryotes/distance_decay_microeuk_samples_2016.csv", row.names = F)
 
 ### CREATE DISTANCE MATRIX FOR METERS CALCULATED IN GOOGLE EARTH
-microeuk_dist_2016 <-read.csv("Data/micro_eukaryotes/microeuk_geogr_dist_matrix_2016.csv", header=TRUE) 
+microeuk_dist_2016 <-read.csv("Data/micro_eukaryotes/microeuk_geogr_dist_matrix_2016_WITHOUT_PRUTH.csv", header=TRUE) 
 nrow(microeuk_dist_2016)
 ncol(microeuk_dist_2016)
 labels <- as.data.frame(microeuk_dist_2016$SampleID)
@@ -178,12 +178,12 @@ inverts_finest_2016 <- filter(inverts_finest, year == "2016") %>%
 
 inverts_finest_2016 <- inverts_finest_2016 %>% 
   dplyr::rename("SampleID" = "ID_year")
-  
+
 Sample_ID_inverts <- as.data.frame(inverts_finest_2016$SampleID)
 write.csv(Sample_ID_inverts, "Data/macro_eukaryotes/distance_decay_macroeuk_samples_2016.csv", row.names = F)
 
 ### CREATE DISTANCE MATRIX FOR METERS CALCULATED IN GOOGLE EARTH
-inverts_dist_2016 <-read.csv("Data/macro_eukaryotes/macroeuk_geogr_dist_matrix_2016.csv", header=TRUE) # had to put NA in all blank values
+inverts_dist_2016 <-read.csv("Data/macro_eukaryotes/macroeuk_geogr_dist_matrix_2016_WITHOUT_PRUTH.csv", header=TRUE) # had to put NA in all blank values
 
 nrow(inverts_dist_2016)
 ncol(inverts_dist_2016)
@@ -319,8 +319,8 @@ reg_prokary_2016 <-lm(similarity.prokary ~ spatial_distance.prokary_km, data = a
 reg_prokary_2016 #
 coeff_prokary_2016 <- coefficients(reg_prokary_2016) 
 summary(reg_prokary_2016)
-# intercept: 0.4559522 +/- SE: 0.0042863
-# slope: -0.0040934  +/- SE:0.0001718
+# intercept: 0.5305804 +/- SE: 0.0056554
+# slope: -0.0062286  +/- SE:0.0002684
 
 # Fit regression line for similarity of microeuk dist in km
 all_data_microeuk_2016_km <- all_data_microeuk_2016 %>% mutate(spatial_distance.microeuk_km = ifelse(spatial_distance.microeuk > 0, spatial_distance.microeuk/1000, spatial_distance.microeuk))
@@ -329,8 +329,8 @@ reg_microeuk_2016 <-lm(similarity.microeuk ~ spatial_distance.microeuk_km, data 
 reg_microeuk_2016 #
 coeff_microeuk_2016 <- coefficients(reg_microeuk_2016) 
 summary(reg_microeuk_2016)
-# intercept: 0.3970425 +/- SE: 0.0080927
-# slope: -0.0068710  +/- SE:0.0003158
+# intercept: 0.5213528 +/- SE: 0.0103125
+# slope: -0.0119045  +/- SE:0.0004875
 
 # Fit regression line for similarity of inverts dist in km
 all_data_inverts_2016_km <- all_data_inverts_2016 %>% mutate(spatial_distance.inverts_km = ifelse(spatial_distance.inverts > 0, spatial_distance.inverts/1000, spatial_distance.inverts))
@@ -339,9 +339,8 @@ reg_inverts_2016 <-lm(similarity.inverts ~ spatial_distance.inverts_km, data = a
 reg_inverts_2016 #
 coeff_inverts_2016 <- coefficients(reg_inverts_2016) 
 summary(reg_inverts_2016)
-# intercept: 0.5258604 +/- SE: 0.0083948
-# slope: -0.0078279  +/- SE:0.0003807
-
+# intercept: 0.5444945 +/- SE: 0.0098279
+# slope: -0.0074960  +/- SE:0.0004754
 
 body_size_simi_km <- ggplot(all_ggplot_km, aes(x=spatial_distance_km, y=similarity)) +
   geom_point(size = 3,aes(color = host, alpha = host)) +
@@ -367,15 +366,13 @@ body_size_simi_km <- body_size_simi_km + scale_colour_manual(values=c("#CA3542",
 body_size_simi_km <- body_size_simi_km + ggtitle("") +
   xlab("Spatial distance (km)") + ylab("Species composition similarity") +    
   # prokary
-  geom_abline(intercept =  0.4559522, slope =  -0.0040934 , color="#CA3542",linetype="dashed", size = 1 ) +
+  geom_abline(intercept =  0.5305804, slope =  -0.0062286 , color="#CA3542",linetype="dashed", size = 1 ) +
   # microeuk
-  geom_abline(intercept = 0.3970425, slope = -0.0068710, color="#27647B",linetype="dashed", size = 1 ) +
+  geom_abline(intercept = 0.5213528, slope = -0.0119045, color="#27647B",linetype="dashed", size = 1 ) +
   # inverts
-  geom_abline(intercept =  0.5258604, slope =   -0.0078279, color="#AEC0C9",linetype="dashed", size = 1) 
+  geom_abline(intercept =  0.5444945, slope =   -0.0074960, color="#AEC0C9",linetype="dashed", size = 1) 
 
-ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2016.tiff", plot = body_size_simi_km, width=310, height=250, units="mm",dpi=300, compression = "lzw", type = "cairo")
-
-ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2016.png", plot = body_size_simi_km, width=270, height=220, units="mm",dpi=300)
+ggsave("R_Code_and_Analysis/distance_decay/distance_decay_2016_WITHOUT_PRUTH.png", plot = body_size_simi_km, width=270, height=220, units="mm",dpi=300)
 
 
 ### COMPARE SLOPES 2016 ### 
