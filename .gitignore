@@ -21,3 +21,12 @@ vignettes/*.pdf
 *.ppt
 *.pptx
 
+# Dl additions:
+
+Sweave/.Rhistory
+*.log
+*.gz
+*.aux
+*.Rhistory
+*.DS_Store
+*.Rapp.history
