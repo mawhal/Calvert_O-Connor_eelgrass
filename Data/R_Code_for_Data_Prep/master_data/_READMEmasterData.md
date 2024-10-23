@@ -1,7 +1,3 @@
----
-title: "_READMEmasterData"
-output: html_document
----
 
 ## Data files in the Data/R_Code_for_Data_Prep/master_data/ folder
 
