@@ -17,9 +17,10 @@
 
 #### MASTER_grazers.csv
 * Combination of data from Data/macro_eukaryotes/: hakai_grazers_2014.csv, hakai_grazers_2015.csv (NA's converted to zeros), hakai_grazers_2016.csv (sieves no longer used, start of body size), hakai_grazers_2017.csv 
-* There was an issue with the quadrat numbers not lining up, these were fixed based on the data in 2015_quadrat_sample_match_old_names.csv
+* There was an issue with the quadrat numbers not lineing up, these were fixed based on the data in 2015_quadrat_sample_match_old_names.csv
+* Not a matrix--long format of indiv sizes
 * Data from 2014-2017
-* Data of sample (quadrat), sieve size (sieve size, mm), taxon for different sites across years, size = body size
+* Data of sample (quadrat), taxon for different sites across years, size = sieve size (sieve size, mm) or body size
 * Size values appear to be highly duplicated. Are these true values or an artifact of the data cleaning process?
 
 #### MASTER_inverts_finest_1000_COVERAGE_RAREF.csv
@@ -32,7 +33,8 @@
 * Created from macro_18S/18S_allyears_unfiltered.RDS
 * Data from 2015-2018
 * Rows are unique samples, all from old leaves
-* What do the column names mean? ASV?
+* Amplicon Sequence Variants (ASV)--like OTU's but not grouped---each unique sequence kept separate
+* What do the number mean? 
 
 #### MASTER_microeuk_ASV_level_1000_COVERAGE_RAREF.csv
 * Data from 2015-2018
