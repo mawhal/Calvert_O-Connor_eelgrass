@@ -44,6 +44,11 @@
 * Data from 2015-2018
 * Rows are unique samples, all from old leaves
 
+#### MASTER_prokary_genus_level_1000_COVERAGE_RAREF.csv
+* Data from 2015-2018
+* Rows are unique samples, all from old leaves
+* File used to calculate alpha div
+
 #### MASTER_seagrass_metrics_20200214.csv
 * Seems to be summary stats of seagrass metrics at the quadrat level
 * How were these values generated?
@@ -77,6 +82,13 @@
 * Creates macro_18S_average_otu_tables_1000.csv
 * Creates macro_18S_average_otu_tables_3.csv
 * Code outlines all the assumptions made, the removal of plants etc
+
+#### alphadiversity/alpha_chao1_shannon_pielou.R
+* The older of the two alpha R code files
+* Uses data from: MASTER_prokary_genus_level_1000_COVERAGE_RAREF.csv, MASTER_microeuk_genus_level_1000_COVERAGE_RAREF.csv
+* calculates chao1, shannon, pielou diversity for each sample
+
+#### alphadiversity/alpha_coverage_based_raref.R
 
 ### Cleaned names
 "choked south pigu" <- "choked_inner"

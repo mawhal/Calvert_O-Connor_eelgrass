@@ -112,4 +112,11 @@ mtaxa_update <- read.csv( "R_Code_and_Analysis/output_data/O'Connor_hakai_seagra
 microbes_18S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_microeuk_ASV_level.csv", header=T)
 microbes_16S_ASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level_ALL_RAREFIED.csv", header=T)
 
+# Questions to look into:
+# do we know what species the ASV are?
+# Are the macro and the grazers the same?
+prokASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_level_1000_COVERAGE_RAREF.csv", header=T)
+
+prokGenus <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level_1000_COVERAGE_RAREF.csv", header=T)
+
 
