@@ -21,6 +21,9 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 library(ggplot2) 
+library(ggrepel)
+library(rnaturalearth)
+library(rnaturalearthdata)
 
 #setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 if(length(grep("deirdre", getwd())>0)) {setwd("~/Documents/github/Calvert_O-Connor_eelgrass")
@@ -31,24 +34,20 @@ if(length(grep("deirdre", getwd())>0)) {setwd("~/Documents/github/Calvert_O-Conn
 abiotic <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_abiotic_20200214.csv")
 siteCoord <- unique(abiotic[, c("site","lat", "long")])
 siteCoord <- subset(siteCoord, !is.na(lat))
-library("rnaturalearth")
-library("rnaturalearthdata")
-world <- ne_countries(scale = "medium", returnclass = "sf")
-class(world)
+siteCoord <- siteCoord[siteCoord$site %in% datSites, ]
 
-(west <- data.frame(Longitude = c(-127.1686, -120.7816,-122.1417, - 119.8891), Latitude = c(54.7824, 49.0646,52.1417,50.8837)))
-(east <- data.frame(Longitude = c(-72.1900,-74.0248,-71.09543597, -71.37388296), Latitude = c(42.5315, 45.9310,44.92466697,43.99837498)))
+state_prov <- rnaturalearth::ne_states(c("united states of america", "canada"))
 
-# (72.1900,74.0248) (42.5315, 45.9310)
-pdf("figures/phenoTraitMap.pdf", height = 6, width = 6)
-ggplot(data = world) +
+pdf("m2m/figures/siteMapLabeled.pdf", height = 6, width = 6)
+ggplot(data = state_prov) +
   geom_sf(fill = "beige", col = "black") +
   #geom_sf(data = sites, size = 4, shape = 23, fill = "darkred")+
-  geom_point(data = west, aes(x = Longitude, y = Latitude), size = 4, 
+  geom_point(data = siteCoord, aes(x = long, y = lat), size = 4, 
              shape = 23, fill = "chartreuse4") +
-  geom_point(data = east, aes(x = Longitude, y = Latitude), size = 4, 
-             shape = 23, fill = "chartreuse4") +
-  coord_sf(xlim = c(-140.15, -54.12), ylim = c(38, 71), expand = T)+ 
+  # geom_label_repel(data = siteCoord, 
+  #                  aes(x = long, y = lat, label = site),hjust=1,vjust=0) + 
+  ylab("Latitude") + xlab("Longitude") +
+  coord_sf(xlim = c(-129, -127), ylim = c(51.4,52.5), expand = T)+ 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black")) 
 dev.off()

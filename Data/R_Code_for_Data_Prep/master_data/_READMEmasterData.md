@@ -91,14 +91,14 @@
 #### alphadiversity/alpha_coverage_based_raref.R
 
 ### Cleaned names
-"choked south pigu" <- "choked_inner"
-"triquet bay south" <- "triquet_south"
-"flat island" <- "choked_inner"
-"sandspit" <- "choked_sandspit"
-"triquet bay" <- "triquet_south"
-"choked interior i5" <- "choked_inner"
-"sand spit" <- "choked_sandspit"
-"choked I5" <- "choked_inner"
-"sandspit" <- "choked_sandspit"
-"Lower" <- "Lower Choked"
+* "choked south pigu" <- "choked_inner"
+* "triquet bay south" <- "triquet_south"
+* "flat island" <- "choked_inner"
+* "sandspit" <- "choked_sandspit"
+* "triquet bay" <- "triquet_south"
+* "choked interior i5" <- "choked_inner"
+* "sand spit" <- "choked_sandspit"
+* "choked I5" <- "choked_inner"
+* "sandspit" <- "choked_sandspit"
+* "Lower" <- "Lower Choked"
 
