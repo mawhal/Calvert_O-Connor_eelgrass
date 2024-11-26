@@ -12,8 +12,7 @@ library(ggplot2)
 
 #setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 if(length(grep("deirdre", getwd())>0)) {  setwd("~/Documents/github/Calvert_O-Connor_eelgrass")
-} else if
-(length(grep("temp", getwd())>0)) {   setwd("~/Documents/git/temp")
+} else {   setwd("~/Documents/git/temp")
 }
 
 # grazers
@@ -119,4 +118,25 @@ prokASV <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_ASV_le
 
 prokGenus <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_prokary_genus_level_1000_COVERAGE_RAREF.csv", header=T)
 
+invertSite <- invert[, c("ID", "year", "region", "site")]
+colnames(invertSite)[colnames(invertSite) == "ID"] <- "SampleID"
+invertSite$data <- "invert"
+
+macroEukSite <- macroEuk[, c("SampleID", "year", "region", "site")]
+macroEukSite$data <- "macroEuk"
+
+microEukSite <- microEuk[, c("SampleID", "year", "region", "site")]
+microEukSite$data <- "microEuk"
+
+prokaySite <- prokay[, c("SampleID", "year", "region", "site")]
+prokaySite$data <- "prokay"
+
+full <- rbind(invertSite, macroEukSite, microEukSite, prokaySite)
+full <- unique(full)
+
+species.study <- aggregate(dat.nodups ["doy"],
+                           dat.nodups[c("studyid", "species")],
+                           FUN = length)species.study <- aggregate(dat.nodups ["doy"],
+                                                                   dat.nodups[c("studyid", "species")],
+                                                                   FUN = length)
 
