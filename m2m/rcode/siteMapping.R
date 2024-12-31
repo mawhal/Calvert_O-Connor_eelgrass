@@ -32,7 +32,8 @@ datSites <- c("choked_sandspit",
               "pruth_bay")
 
 #abiotic <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_abiotic_20200214.csv")
-abiotic <- read.csv("metadata/coordinates.csv")
+#abiotic <- read.csv("metadata/coordinates.csv")
+abiotic <- read.csv("Data/R_Code_for_Data_Prep/master_data/(MASTER_merged_explanatory_20200)(214.csv")
 siteCoord <- unique(abiotic[, c("site","lat", "long")])
 siteCoord <- subset(siteCoord, !is.na(lat))
 siteCoord <- siteCoord[siteCoord$site %in% datSites, ]
