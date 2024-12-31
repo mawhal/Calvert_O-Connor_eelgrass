@@ -189,7 +189,7 @@
 * Creates MASTER_macroeuk18S_ASV_level_1000_COR_SING_COVERAGE_RAREF.csv
 * Creates macro_18S_average_otu_tables_1000.csv
 * Creates macro_18S_average_otu_tables_3.csv
-* Code outlines all the assumptions made, the removal of plants etc
+* Code outlines all the assumptions made, the removal of plants etc.
 
 #### alphadiversity/alpha_chao1_shannon_pielou.R
 * The older of the two alpha R code files
