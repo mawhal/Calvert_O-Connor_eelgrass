@@ -21,49 +21,40 @@ if(length(grep("deirdre", getwd())>0)) {  setwd("~/Documents/github/Calvert_O-Co
 (length(grep("temp", getwd())>0)) {   setwd("~/Documents/git/temp")
 }
 
+# read in an merge the different site data files
+# 1. Data
+filesData <- list.files(path = "m2m/input/ctdData", pattern =".csv" )
+filesData
+
+ctdDat <- vector()
+
+for(i in 1: length(filesData)){
+temp <- read.csv(paste("m2m/input/ctdData/", filesData[i], sep = ""))
+temp$site <- filesData[i]
+temp$site <- gsub(".csv","", temp$site)
+
+ctdDat <- rbind(ctdDat, temp)
+}
+
+# 2. Drops
+filesDrops <- list.files(path = "m2m/input/ctdDrops", pattern =".csv" )
+filesDrops
+
+ctdDrop <- vector()
+
+for(i in 1: length(filesDrops)){
+  temp <- read.csv(paste("m2m/input/ctdDrops/", filesDrops[i], sep = ""))
+  temp$site <- filesDrops[i]
+  temp$site <- gsub(".csv","", temp$site)
+  
+  ctdDrop <- rbind(ctdDrop, temp)
+}
+
 chokedDrops <- read.csv("m2m/input/chokedDrops.csv")
 chokedData <- read.csv("m2m/input/chokedData.csv")
 
 # shared columns: "Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude" 
-choked <- merge(chokedDrops, chokedData, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
-choked$site <- "choked"
-
-gooseSEDrops <- read.csv("m2m/input/gooseSEDrops.csv")
-gooseSEData <- read.csv("m2m/input/gooseSEData.csv")
-
-# shared columns: "Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude" 
-gooseSE <- merge(gooseSEDrops, gooseSEData, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
-gooseSE$site <- "gooseSE"
-
-gooseSWDrops <- read.csv("m2m/input/gooseSWDrops.csv")
-gooseSWData <- read.csv("m2m/input/gooseSWData.csv")
-
-# shared columns: "Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude" 
-gooseSW <- merge(gooseSWDrops, gooseSWData, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
-gooseSW$site <- "gooseSW"
-
-mcMullinNDrops <- read.csv("m2m/input/mcMullinNDrops.csv")
-mcMullinNData <- read.csv("m2m/input/mcMullinNData.csv")
-
-# shared columns: "Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude" 
-mcMullinN <- merge(mcMullinNDrops, mcMullinNData, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
-mcMullinN$site <- "McMullinN"
-
-pruthDrops <- read.csv("m2m/input/pruthDrops.csv")
-pruthData <- read.csv("m2m/input/pruthData.csv")
-
-# shared columns: "Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude" 
-pruth <- merge(pruthDrops, pruthData, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
-pruth$site <- "pruth"
-
-triquetDrops <- read.csv("m2m/input/triquetDrops.csv")
-triquetData <- read.csv("m2m/input/triquetData.csv")
-
-# shared columns: "Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude" 
-triquet <- merge(triquetDrops, triquetData, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
-triquet$site <- "triquet"
-
-ctd <- rbind(choked, gooseSE, gooseSW, mcMullinN, pruth, triquet)
+ctd<- merge(ctdDrop, ctdDat, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
 
 temp <- str_split_fixed(ctd$Measurement.time, " ", 2)
 ctd$date <- as.character(temp[,1])
@@ -119,105 +110,6 @@ siteCoord <- siteCoord[siteCoord$site %in% datSites, ]
 
 state_prov <- rnaturalearth::ne_states(c("united states of america", "canada"))
 
-# zoomed in maps:
-#pdf("m2m/figures/siteMap2.pdf", height = 6, width = 6)
-#choked
-ggplot(data = state_prov) +
-  geom_sf(fill = "beige", col = "black") +
-  #geom_sf(data = sites, size = 4, shape = 23, fill = "darkred")+
-  geom_point(data = siteCoord, aes(x = long, y = lat), size = 4, 
-             shape = 23, fill = "chartreuse4") +
-  geom_point(data = ctdCoord, aes(x = Station.Longitude, y = Station.Latitude), size = 4, 
-             shape = 23, fill = "purple4") +
-   geom_label_repel(data = siteCoord,
-                    aes(x = long, y = lat, label = site),hjust=1,vjust=0) +
-  geom_label_repel(data = ctdCoord,
-                    aes(x = Station.Longitude, y = Station.Latitude, label = Station),hjust=1,vjust=0) +
-  ylab("Latitude") + xlab("Longitude") +
-  coord_sf(xlim = c(-128.11, -128.13), ylim = c(51.67,51.69), expand = T)+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
-
-#Goose SE
-ggplot(data = state_prov) +
-  geom_sf(fill = "beige", col = "black") +
-  #geom_sf(data = sites, size = 4, shape = 23, fill = "darkred")+
-  geom_point(data = siteCoord, aes(x = long, y = lat), size = 4, 
-             shape = 23, fill = "chartreuse4") +
-  geom_point(data = ctdCoord, aes(x = Station.Longitude, y = Station.Latitude), size = 4, 
-             shape = 23, fill = "purple4") +
-  # geom_label_repel(data = siteCoord,
-  #                  aes(x = long, y = lat, label = site),hjust=1,vjust=0) +
-  # geom_label_repel(data = ctdCoord,
-  #                  aes(x = Station.Longitude, y = Station.Latitude, label = Station),hjust=1,vjust=0) +
-  ylab("Latitude") + xlab("Longitude") +
-  coord_sf(xlim = c(-128.44, -128.48), ylim = c(51.91,51.93), expand = T)+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
-
-#McMullins
-ggplot(data = state_prov) +
-  geom_sf(fill = "beige", col = "black") +
-  #geom_sf(data = sites, size = 4, shape = 23, fill = "darkred")+
-  geom_point(data = siteCoord, aes(x = long, y = lat), size = 4, 
-             shape = 23, fill = "chartreuse4") +
-  geom_point(data = ctdCoord, aes(x = Station.Longitude, y = Station.Latitude), size = 4, 
-             shape = 23, fill = "purple4") +
-  geom_label_repel(data = siteCoord,
-                   aes(x = long, y = lat, label = site),hjust=1,vjust=0) +
-  geom_label_repel(data = ctdCoord,
-                   aes(x = Station.Longitude, y = Station.Latitude, label = Station),hjust=1,vjust=0) +
-  ylab("Latitude") + xlab("Longitude") +
-  coord_sf(xlim = c(-128.11, -128.13), ylim = c(51.67,51.69), expand = T)+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
-
-#Triquet
-ggplot(data = state_prov) +
-  geom_sf(fill = "beige", col = "black") +
-  #geom_sf(data = sites, size = 4, shape = 23, fill = "darkred")+
-  geom_point(data = siteCoord, aes(x = long, y = lat), size = 4, 
-             shape = 23, fill = "chartreuse4") +
-  geom_point(data = ctdCoord, aes(x = Station.Longitude, y = Station.Latitude), size = 4, 
-             shape = 23, fill = "purple4") +
-  geom_label_repel(data = siteCoord,
-                   aes(x = long, y = lat, label = site),hjust=1,vjust=0) +
-  geom_label_repel(data = ctdCoord,
-                   aes(x = Station.Longitude, y = Station.Latitude, label = Station),hjust=1,vjust=0) +
-  ylab("Latitude") + xlab("Longitude") +
-  coord_sf(xlim = c(-128.11, -128.13), ylim = c(51.67,51.69), expand = T)+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
-
-#Pruth
-ggplot(data = state_prov) +
-  geom_sf(fill = "beige", col = "black") +
-  #geom_sf(data = sites, size = 4, shape = 23, fill = "darkred")+
-  geom_point(data = siteCoord, aes(x = long, y = lat), size = 4, 
-             shape = 23, fill = "chartreuse4") +
-  geom_point(data = ctdCoord, aes(x = Station.Longitude, y = Station.Latitude), size = 4, 
-             shape = 23, fill = "purple4") +
-  geom_label_repel(data = siteCoord,
-                   aes(x = long, y = lat, label = site),hjust=1,vjust=0) +
-  geom_label_repel(data = ctdCoord,
-                   aes(x = Station.Longitude, y = Station.Latitude, label = Station),hjust=1,vjust=0) +
-  ylab("Latitude") + xlab("Longitude") +
-  coord_sf(xlim = c(-128.11, -128.13), ylim = c(51.67,51.69), expand = T)+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
-
-ggplot(data = state_prov) +
-  geom_sf(fill = "beige", col = "black") +
-  #geom_sf(data = sites, size = 4, shape = 23, fill = "darkred")+
-  geom_point(data = siteCoord, aes(x = long, y = lat), size = 4, 
-             shape = 23, fill = "chartreuse4") +
-  geom_point(data = ctdCoord, aes(x = Station.Longitude, y = Station.Latitude), size = 4, 
-             shape = 23, fill = "purple4") +
-  geom_label_repel(data = siteCoord,
-                   aes(x = long, y = lat, label = site),hjust=1,vjust=0) +
-  geom_label_repel(data = ctdCoord,
-                   aes(x = Station.Longitude, y = Station.Latitude, label = Station),hjust=1,vjust=0) +
-  ylab("Latitude") + xlab("Longitude") +
-  coord_sf(xlim = c(-128.11, -128.13), ylim = c(51.67,51.69), expand = T)+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
+# What does the data look like? 
+# Are any of the environmental factors higly correlated?
+# Run a PCA?
