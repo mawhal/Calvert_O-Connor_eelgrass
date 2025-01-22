@@ -31,7 +31,7 @@ ctdDat <- vector()
 for(i in 1: length(filesData)){
 temp <- read.csv(paste("m2m/input/ctdData/", filesData[i], sep = ""))
 temp$site <- filesData[i]
-temp$site <- gsub(".csv","", temp$site)
+temp$site <- gsub("Data.csv","", temp$site)
 
 ctdDat <- rbind(ctdDat, temp)
 }
@@ -45,16 +45,14 @@ ctdDrop <- vector()
 for(i in 1: length(filesDrops)){
   temp <- read.csv(paste("m2m/input/ctdDrops/", filesDrops[i], sep = ""))
   temp$site <- filesDrops[i]
-  temp$site <- gsub(".csv","", temp$site)
+  temp$site <- gsub("Drops.csv","", temp$site)
   
   ctdDrop <- rbind(ctdDrop, temp)
 }
 
-chokedDrops <- read.csv("m2m/input/chokedDrops.csv")
-chokedData <- read.csv("m2m/input/chokedData.csv")
 
 # shared columns: "Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude" 
-ctd<- merge(ctdDrop, ctdDat, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude"))
+ctd<- merge(ctdDrop, ctdDat, by = c("Cast.PK", "Cruise", "Station", "Station.Longitude", "Station.Latitude", "site"))
 
 temp <- str_split_fixed(ctd$Measurement.time, " ", 2)
 ctd$date <- as.character(temp[,1])
@@ -72,23 +70,46 @@ ctd$Station[which(ctd$Station == "SEA8" )] <- "SEA08"
 
 ctd$yrMonth <- paste(ctd$year, ctd$month, sep = "_")
 
-# ctdChoked <- subset(ctd, site == "choked")
-# 
-# ggplot(ctdChoked, aes(x = yrMonth, y = Salinity..PSU.)) +
-#   geom_point(aes(col = Station)) 
-# 
-# 
-# ctdCoord <- unique(ctd[, c("Station", "Station.Longitude", "Station.Latitude")])
-
-ctdSub <- ctd[,c("site","Station", "year", "month", "day", "yrMonth", "date","Station.Longitude", "Station.Latitude", 
+names(ctd)
+ctdSub <- ctd[,c("site","Station", "year", "month", "day", "yrMonth", "date","Station.Longitude", "Station.Latitude", "Drop.depth..m.", "Water.Depth..m.","Depth..m.",  
                    "Dissolved.O2..mL.L.", "Salinity..PSU.", "Temperature..deg.C.")]
 
-ctdCoord <- unique(ctdSub[, c("Station", "Station.Longitude", "Station.Latitude")])
 
+ggplot(ctdSub) +
+  geom_point(aes(x = year, y = Dissolved.O2..mL.L., col = Station)) +
+  facet_wrap(vars(site))
 
-trt.dataset <- ctdSub%>%
-  group_by(site, Station, year) %>%
-  summarise(no_rows = length(unique(date)), .groups = 'drop')
+sites <- unique(ctdSub$site)
+
+for(i in 1:length(sites)){
+  temp <- subset(ctdSub, site == sites[i])
+  climPlot <- ggplot(temp) +
+    geom_point(aes(x = year, y = Temperature..deg.C., col = Station)) +
+    xlab("Year") + labs(title = sites[i]) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black")) 
+  pdf(file = paste("m2m/figures/climVarTemp/", sites[i], ".pdf", sep = ""), height = 3, width = 3)
+  climPlot
+  dev.off()
+  
+}
+
+subby <- unique(ctdSub[,c("Station", "site", "year")])
+aggregate(subby["year"], subby[c("Station","site")], FUN = length)
+
+#   Station      site year
+# 1   KFPS04    choked    4 2015-2018 <<- 
+# 2   KFPS08    choked    4 2015-2018 # less data
+# 3    SEA06   gooseSE    3 2015, 2016, 2018 <<-
+# 4   MACRO9   gooseSW    2 
+# 5    SEA07   gooseSW    4 2015-2018 <<-
+# 6    SEA08 mcMullinN    3 2015-2017 <<-
+# 7      KC1     pruth    4 2015-2018 # most data <<-
+# 8     KC13     pruth    4 2015-2018 # least data
+# 9      KC4     pruth    4 2015-2018 : 
+# 10  KFPC06   triquet    3
+# 11  MACRO1   triquet    4 2015-2018 <<-
+# 12   SEA11   triquet    3 2015-2017
 
 datSites <- c("choked_sandspit", 
               "choked_inner", 
@@ -103,13 +124,72 @@ datSites <- c("choked_sandspit",
               "pruth_bay")
 
 # seagrass <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_merged_explanatory_20200214.csv")
-seagrass <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_abiotic_20200214.csv")
-siteCoord <- unique(seagrass[, c("site","lat", "long")])
-siteCoord <- subset(siteCoord, !is.na(lat))
-siteCoord <- siteCoord[siteCoord$site %in% datSites, ]
+seagrass <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_seagrass_metrics_20200214.csv")
+#mcMullins---2015 only, goose 2015 and 2016
 
-state_prov <- rnaturalearth::ne_states(c("united states of america", "canada"))
+ggplot(seagrass) +
+  geom_point(aes(x = year, y = quadrat_shoot_density, col = site)) +
+  labs(y = "Shoot density per quadrat") +
+  geom_smooth(method = lm, aes(x = year, y = quadrat_shoot_density, col = site)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ggplot(seagrass) +
+  geom_point(aes(x = year, y = quadrat_macroalgae_g, col = site)) +
+  labs(y = "Macroalgae per quadrat") +
+  geom_smooth(method = lm, aes(x = year, y = quadrat_macroalgae_g, col = site)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ggplot(seagrass) +
+  geom_point(aes(x = year, y = quadrat_lai, col = site)) +
+  labs(y = "LAI per quadrat") +
+  geom_smooth(method = lm, aes(x = year, y = quadrat_lai, col = site)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ggplot(seagrass) +
+  geom_point(aes(x = year, y = quadrat_biomass_g, col = site)) +
+  labs(y = "Biomass per quadrat") +
+  geom_smooth(method = lm, aes(x = year, y = quadrat_biomass_g, col = site)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ggplot(seagrass) +
+  geom_point(aes(x = year, y = quadrat_microepiphyte_mg, col = site)) +
+  labs(y = "Microphiphyte per quadrat") +
+ # geom_smooth(method = lm, aes(x = year, y = quadrat_microepiphyte_mg, col = site)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+abiotic <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_abiotic_20200214.csv")
+sitesRM <- c("goose kelp", "maye kelp", "triquet kelp", "west beach kelp", "wolf")
+
+abiotic <- abiotic[!abiotic$site %in% sitesRM, ]
+
+ggplot(abiotic) +
+  geom_point(aes(x = lat, y = salinity, col = site)) +
+  labs(y = "Salinity") +
+   geom_smooth(method = lm, aes(x = lat, y = salinity)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ggplot(abiotic) +
+  geom_point(aes(x = site, y = depth, col = site)) +
+  labs(y = "Depth") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pdf("m2m/figures/siteDepth.pdf", width =5, height = 4)
+ggplot(abiotic) +
+  geom_point(aes(x = site, y = site.depth, col = site)) +
+  labs(y = "Site Depth") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+dev.off()
+# site depth ranges from 2.2-9.5 depth from 0 to 7
 
 # What does the data look like? 
-# Are any of the environmental factors higly correlated?
+# Are any of the environmental factors highly correlated?
 # Run a PCA?
