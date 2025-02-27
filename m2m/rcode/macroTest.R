@@ -8,222 +8,121 @@ setwd("~/Documents/github/Calvert_O-Connor_eelgrass")
 require(rstan)
 #require(truncnorm)
 
-Nrep <- 10# rep per trait
-Npop <- 8
-Ntran <- 2
-Nspp <- 80# number of species with traits (making this 20 just for speed for now)
+Nquad <- 5# N quad
+Nyear <- 10 # N year
+Nsite <- 50# N sites
 
-# First making a data frame for the test trait data
-Ntrt <- Nspp * Npop * Nrep# total number of traits observations
-Ntrt
+Nmacro <- Nquad*Nyear*Nsite 
 
-#make a dataframe for height
-trt.dat <- data.frame(matrix(NA, Ntrt, 1))
-names(trt.dat) <- c("rep")
-trt.dat$rep <- c(1:Nrep)
-trt.dat$species <- rep(1:Nspp, each = Nrep)
-trt.dat$pop <- rep(1:Npop, each = Nspp*Nrep)
-trt.dat$tran <- rep(1:Ntran, each = 4*Nrep*Nspp)
+macro.dat <- data.frame(matrix(NA, Nmacro, 2))
+names(macro.dat) <- c("rep","sites")
+macro.dat$quad <- c(1:Nquad)
+macro.dat$sites <- rep(c(1:Nsite), each = Nquad)
+macro.dat$year <- rep(1:Nyear, each = Nsite*Nquad)
 
-lati <- rnorm(8, 50, 5)
-trt.dat$lat <- rep(lati, each = Nrep*Nspp)
-trt.dat$lat <- as.numeric(trt.dat$lat)
-trt.dat$latZ <- (trt.dat$lat-mean(trt.dat$lat,na.rm=TRUE))/(sd(trt.dat$lat,na.rm=TRUE))
+yeari <- rnorm(Nsite*Nyear, 10, 1)
+macro.dat$yeari <- (rep(yeari, each = Nquad))
+#macro.dat$yeari <- rnorm(Nmacro, 10, 1)
 
-mu.tranE <- 5
-trt.dat$dumE <- as.numeric(ifelse(trt.dat$tran == "1","0","1"))
-trt.dat$mutranE <- mu.tranE*trt.dat$dumE
+tempi <- rnorm(Nsite*Nyear, 5, 2)
+macro.dat$tempi <- rep(tempi, each = Nquad)
+#macro.dat$tempi <- rnorm(Nmacro, 5,2)
 
-mu.tranlat  <- 2
-trt.dat$alpha.tranlat <- mu.tranlat*(trt.dat$dumE*trt.dat$latZ)
+salini <- rnorm(Nsite*Nyear, 8, 3)
+macro.dat$salini <- rep(salini, each = Nquad)
+#macro.dat$salini <- rnorm(Nmacro, 8,2)
 
-sigma.species <- 10 # we want to keep the variation across spp. high
+biomassi <- rnorm(Nsite*Nyear, 6, 4)
+macro.dat$biomassi <- rep(rep(biomassi, each = Nquad))
+#macro.dat$biomassi <- rnorm(Nmacro, 6,4)
 
-mu.trtsp <- rnorm(Nspp, 50, sigma.species)
-trt.dat$mu.trtsp <- rep(mu.trtsp, each = Nrep) #adding ht data for ea. sp
-#hist(mu.trtsp)
-# general variance
-trt.var <- 5 #sigma_traity in the stan code
-trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
+macroAi <- rnorm(Nsite*Nyear, 15, 5)
+macro.dat$macroAi <- rep(rep(macroAi, each = Nquad))
+#macro.dat$macroAi <- rnorm(Nmacro, 15,5)
 
-# generate yhat - heights -  for this first trt model
-for (i in 1:Ntrt){
-  trt.dat$yTraiti[i] <- 
-    trt.dat$mu.trtsp[i] + trt.dat$trt.er[i] + trt.dat$mutranE[i] + mu.tranlat * (trt.dat$dumE[i]*trt.dat$latZ[i])  
-}
+bedAreai <- rnorm(Nsite*Nyear, 10, 1)
+macro.dat$bedAreai <- rep(rep(bedAreai, each = Nquad))
+#macro.dat$bedAreai <- rnorm(Nmacro, 10,1)
 
-all.data <- list(yTraiti = trt.dat$yTraiti,
-                 N = Ntrt,
-                 n_spec = Nspp,
-                 trait_species = as.numeric(as.factor(trt.dat$species)),
-                 lati = trt.dat$latZ,
-                 tranE = as.numeric(trt.dat$dumE)
-)
+depthi <- rnorm(Nsite*Nyear, 10, 1)
+macro.dat$depthi <- rep(rep(depthi, each = Nquad))
+#macro.dat$depthi <- rnorm(Nmacro, 5,2)
 
+distEi <- rnorm(Nsite*Nyear, 10, 1)
+macro.dat$distEi <- rep(rep(distEi, each = Nquad))
+#macro.dat$distEi <- rnorm(Nmacro, 3,4)
 
-# mdl <- stan("stan/modelDevelopment/justDummyIntTrait.stan",
-#   data = all.data,
-#   iter = 4000, warmup = 3000, chains=4,
-#   include = FALSE, pars = c("y_hat")
-# )
+mu.year = -4
+sigma.year = 1
+alpha.year.site <- rnorm(Nsite, mu.year, sigma.year)
+macro.dat$alphayearSite <- rep(alpha.year.site, each = Nquad)
 
-# sumer <- summary(mdl)$summary
-# 
-# bTranE <- sumer[grep("b_tranE", rownames(sumer)), c("mean","2.5%","25%","50%", "75%","97.5%")]
-# bTranLat <- sumer[grep("b_tranlat", rownames(sumer)), c("mean","2.5%","25%","50%", "75%","97.5%")]
-# 
-# sigma_sp <- sumer[grep("sigma_sp", rownames(sumer)), c("mean","2.5%","25%","50%", "75%","97.5%")]
-# sigma_traity <- sumer[grep("sigma_traity", rownames(sumer)), c("mean","2.5%","25%","50%", "75%","97.5%")]
-# 
-# 
-# mdl.out <- data.frame( "Parameter" = c("bTranE","bTranLat","sigma_sp","sigma_traity"),
-#   "Test.data.values" = c( mu.tranE, mu.tranlat, sigma.species, trt.var) ,
-#   "Estiamte"= c(bTranE[1], bTranLat[1],  sigma_sp[1], sigma_traity[1]),
-#   "2.5"= c(bTranE[2], bTranLat[2],  sigma_sp[2], sigma_traity[2]),
-#   "25"= c( bTranE[3], bTranLat[3],  sigma_sp[3], sigma_traity[3]),
-#   "50"= c( bTranE[4], bTranLat[4],  sigma_sp[4], sigma_traity[4]),
-#   "75"= c( bTranE[5], bTranLat[5],  sigma_sp[5], sigma_traity[5]),
-#   "97.5"= c(bTranE[6], bTranLat[6],  sigma_sp[6], sigma_traity[6]))
-# 
-# mdl.out
+mu.temp = -1
+sigma.temp = 1
+alpha.temp.site <- rnorm(Nsite, mu.temp, sigma.temp)
+macro.dat$alphatempSite <- rep(alpha.temp.site, each = Nquad)
 
-# 20 reps, 40 spp
-# Parameter Test.data.values   Estiamte       X2.5        X25        X50        X75     X97.5
-# 1       bTranE              5.0 4.99576221 4.97106368 4.98668986 4.99569333 5.00464410 5.0206824
-# 2     bTranLat              2.0 1.99877138 1.98263847 1.99282010 1.99871669 2.00444280 2.0157245
-# 3     sigma_sp              0.1 0.09051132 0.06862914 0.08174978 0.08946797 0.09844331 0.1175569
-# 4 sigma_traity              0.5 0.50371058 0.49502363 0.50045952 0.50361544 0.50684106 0.5126634
-
-##### Phenology test data ###########################
-Nrep <- 5# rep per trait
-Npop <- 8
-Ntran <- 2
-Nspp <- 30# number of species with traits (making this 20 just for speed for now)
-
-Nchill <- 8 # sm high low, mp high low
-Nphoto <- 2 # high low
-Nforce <- 2 # high amd low
-
-# Nrep <- 20
-# Nspp <- 15
-
-Nph <- Nrep*Npop*Nspp*Nchill #bc N force and N chill are completely confounded
-
-pheno.dat <- data.frame(matrix(NA, Nph, 2))
-names(pheno.dat) <- c("rep","species")
-pheno.dat$rep <- c(1:Nrep)
-pheno.dat$species <- rep(c(1:Nspp), each = Nrep)
-pheno.dat$pop <- rep(1:Npop, each = Nspp*Nrep)
-
-# chilli <- rnorm(Nspp*Npop, 10, 1)
-# pheno.dat$chilli <- rep(rep(chilli, each = Nrep*Npop))
-pheno.dat$chilli <- rnorm(Nph, 10, 1)
-
-# forcei <- rnorm(Nchill, 5, 2)
-# pheno.dat$forcei <- rep(rep(forcei, each = Nspp*Nrep))
-pheno.dat$forcei <- rnorm(Nph, 5,2)
-
-# salini <- rnorm(Nchill, 8, 3)
-# pheno.dat$salini <- rep(rep(salini, each = Nspp*Nrep))
-pheno.dat$salini <- rnorm(Nph, 8,2)
-
-# biomassi <- rnorm(Nchill, 6, 4)
-# pheno.dat$biomassi <- rep(rep(biomassi, each = Nspp*Nrep))
-pheno.dat$biomassi <- rnorm(Nph, 6,4)
-
-# macroAi <- rnorm(Nchill, 15, 5)
-# pheno.dat$macroAi <- rep(rep(macroAi, each = Nspp*Nrep))
-pheno.dat$macroAi <- rnorm(Nph, 15,5)
-
-# bedAreai <- rnorm(Nchill, 10, 1)
-# pheno.dat$bedAreai <- rep(rep(bedAreai, each = Nspp*Nrep))
-pheno.dat$bedAreai <- rnorm(Nph, 10,1)
-
-# depthi <- rnorm(Nchill, 10, 1)
-# pheno.dat$depthi <- rep(rep(depthi, each = Nspp*Nrep))
-pheno.dat$depthi <- rnorm(Nph, 5,2)
-
-# distEi <- rnorm(Nchill, 10, 1)
-# pheno.dat$distEi <- rep(rep(distEi, each = Nspp*Nrep))
-pheno.dat$distEi <- rnorm(Nph, 3,4)
-
-mu.chill = -4
-sigma.chill = 1
-alpha.chill.sp <- rnorm(Nspp, mu.chill, sigma.chill)
-pheno.dat$alphaChillSp <- rep(alpha.chill.sp, each = Nrep)
-
-mu.force = -1
-sigma.force = 1
-alpha.force.sp <- rnorm(Nspp, mu.force, sigma.force)
-pheno.dat$alphaForceSp <- rep(alpha.force.sp, each = Nrep)
-
-########
 mu.salin = 2
 sigma.salin = 2
-alpha.salin.sp <- rnorm(Nspp, mu.salin, sigma.salin)
-pheno.dat$alphasalinSp <- rep(alpha.salin.sp, each = Nrep)
+alpha.salin.site <- rnorm(Nsite, mu.salin, sigma.salin)
+macro.dat$alphasalinSite <- rep(alpha.salin.site, each = Nquad)
 
 mu.biomass = 4
 sigma.biomass = 3
-alpha.biomass.sp <- rnorm(Nspp, mu.biomass, sigma.biomass)
-pheno.dat$alphabiomassSp <- rep(alpha.biomass.sp, each = Nrep)
+alpha.biomass.site <- rnorm(Nsite, mu.biomass, sigma.biomass)
+macro.dat$alphabiomassSite <- rep(alpha.biomass.site, each = Nquad)
 
-# 5
 mu.macroA = 6
 sigma.macroA = 4
-alpha.macroA.sp <- rnorm(Nspp, mu.macroA, sigma.macroA)
-pheno.dat$alphamacroASp <- rep(alpha.macroA.sp, each = Nrep)
+alpha.macroA.site <- rnorm(Nsite, mu.macroA, sigma.macroA)
+macro.dat$alphamacroASite <- rep(alpha.macroA.site, each = Nquad)
 
 mu.bedArea = 8
 sigma.bedArea = 5
-alpha.bedArea.sp <- rnorm(Nspp, mu.bedArea, sigma.bedArea)
-pheno.dat$alphabedAreaSp <- rep(alpha.bedArea.sp, each = Nrep)
+alpha.bedArea.site <- rnorm(Nsite, mu.bedArea, sigma.bedArea)
+macro.dat$alphabedAreaSite <- rep(alpha.bedArea.site, each = Nquad)
 
 mu.depth = 10
 sigma.depth = 6
-alpha.depth.sp <- rnorm(Nspp, mu.depth, sigma.depth)
-pheno.dat$alphadepthSp <- rep(alpha.depth.sp, each = Nrep)
+alpha.depth.site <- rnorm(Nsite, mu.depth, sigma.depth)
+macro.dat$alphadepthSite <- rep(alpha.depth.site, each = Nquad)
 
 mu.distE = 12
 sigma.distE = 7
-alpha.distE.sp <- rnorm(Nspp, mu.distE, sigma.distE)
-pheno.dat$alphadistESp <- rep(alpha.distE.sp, each = Nrep)
+alpha.distE.site <- rnorm(Nsite, mu.distE, sigma.distE)
+macro.dat$alphadistESite <- rep(alpha.distE.site, each = Nquad)
 
 ########
-mu.pheno.sp = 80
-sigma.pheno.sp = 10
-alphaPhenoSp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp)
-pheno.dat$alphaPhenoSp <- rep(alphaPhenoSp, each = Nrep)
+mu.macro.site = 80
+sigma.macro.site = 10
+alphamacroSite <- rnorm(Nsite, mu.macro.site, sigma.macro.site)
+macro.dat$alphamacroSite <- rep(alphamacroSite, each = Nquad)
 
-sigma.pheno.y = 3
-pheno.dat$ePhen <- rnorm(Nph, 0, sigma.pheno.y)
+sigma.macro.y = 3
+macro.dat$eMacro <- rnorm(Nmacro, 0, sigma.macro.y)
 
-
-#pheno.datTrait <- merge(pheno.dat, unique(trt.dat[,c("species","mu.trtsp")]), by = "species")
-#head(pheno.datTrait,50)
-
-for (i in 1:Nph){
-  pheno.dat$yMu[i] <-  pheno.dat$alphaPhenoSp[i] + pheno.dat$alphaForceSp[i] * pheno.dat$forcei[i]  +   pheno.dat$alphaChillSp[i] * pheno.dat$chilli[i]  +  pheno.dat$alphasalinSp[i] * pheno.dat$salini[i]   + pheno.dat$alphabiomassSp[i] * pheno.dat$biomassi[i] + pheno.dat$alphamacroASp[i] * pheno.dat$macroAi[i] +   pheno.dat$alphabedAreaSp[i] * pheno.dat$bedAreai[i] + pheno.dat$alphadepthSp[i] * pheno.dat$depthi[i] +  pheno.dat$alphadistESp[i] * pheno.dat$distEi[i]
+for (i in 1:Nmacro){
+  macro.dat$yMu[i] <-  macro.dat$alphamacroSite[i] + macro.dat$alphatempSite[i] * macro.dat$tempi[i]  +   macro.dat$alphayearSite[i] * macro.dat$yeari[i]  +  macro.dat$alphasalinSite[i] * macro.dat$salini[i]   + macro.dat$alphabiomassSite[i] * macro.dat$biomassi[i] + macro.dat$alphamacroASite[i] * macro.dat$macroAi[i] +   macro.dat$alphabedAreaSite[i] * macro.dat$bedAreai[i] + macro.dat$alphadepthSite[i] * macro.dat$depthi[i] +  macro.dat$alphadistESite[i] * macro.dat$distEi[i]
 }
 
-pheno.dat$yPhenoi <- pheno.dat$yMu + pheno.dat$ePhen
+macro.dat$ymacroi <- macro.dat$yMu + macro.dat$eMacro
 
 all.data <- list(
-  n_spec = Nspp,
-  Nph = nrow(pheno.dat),
-  phenology_species = as.numeric(as.factor(pheno.dat$species)),
-  species2 = as.numeric(as.factor(pheno.dat$species)),
-  yPhenoi = pheno.dat$yPhenoi,
-  Var1i = pheno.dat$chilli,
-  Var2i = pheno.dat$forcei,
-  Var3i = pheno.dat$salini,
-  Var4i = pheno.dat$biomassi,
-  Var5i = pheno.dat$macroAi,
-  Var6i = pheno.dat$bedAreai,
-  Var7i = pheno.dat$depthi,
-  Var8i = pheno.dat$distEi)
-# started running at 1:58 50 s transition time
-mdl <- stan("m2m/stan/justDummyInt_2.stan",
+  n_sites = Nsite,
+  Nmacro = nrow(macro.dat),
+  macro_sites = as.numeric(as.factor(macro.dat$sites)),
+  sites = as.numeric(as.factor(macro.dat$sites)),
+  yMacroi = macro.dat$ymacroi,
+  Var1i = macro.dat$yeari,
+  Var2i = macro.dat$tempi,
+  Var3i = macro.dat$salini,
+  Var4i = macro.dat$biomassi,
+  Var5i = macro.dat$macroAi,
+  Var6i = macro.dat$bedAreai,
+  Var7i = macro.dat$depthi,
+  Var8i = macro.dat$distEi)
+
+mdl <- stan("m2m/stan/macroMdl.stan",
             data = all.data,
             iter = 4000, warmup = 3000, chains=4,
             include = FALSE, pars = c("y_hat")
@@ -235,7 +134,7 @@ sumer <- data.frame(summary(mdl)$summary[c("muVar1Sp","muVar2Sp",
                                            "muVar5Sp",
                                            "muVar6Sp",
                                            "muVar7Sp", "muVar8Sp",
-                                           "muPhenoSp",
+                                           "muMacroSites",
                                            "sigmaVar1Sp", "sigmaVar2Sp", 
                                            "sigmaVar3Sp",  
                                            "sigmaVar4Sp", 
@@ -243,24 +142,28 @@ sumer <- data.frame(summary(mdl)$summary[c("muVar1Sp","muVar2Sp",
                                            "sigmaVar6Sp",
                                            "sigmaVar7Sp",
                                            "sigmaVar8Sp",
-                                           "sigmaPhenoSp",
-                                           "sigmapheno_y"),])
+                                           "sigmaMacroSites",
+                                           "sigmaMacro_y"),])
 
-mdlparam <- data.frame(var = c("muVar1Sp","muVar2Sp",
-                               "muVar3Sp", "muVar4Sp",
+mdlparam <- data.frame(var = c("muVar1Sp",
+                               "muVar2Sp",
+                               "muVar3Sp", 
+                               "muVar4Sp",
                                "muVar5Sp",
                                "muVar6Sp",
                                "muVar7Sp",
                                "muVar8Sp",
-                               "muPhenoSp",
-                               "sigmaVar1Sp",  "sigmaVar2Sp", 
-                               "sigmaVar3Sp",  "sigmaVar4Sp", 
-                               "sigmaVar5Sp", 
-                               "sigmaVar6Sp", 
-                               "sigmaVar7Sp", 
-                               "sigmaVar8Sp", 
-                               "sigmaPhenoSp",
-                               "sigmapheno_y"), 
+                               "muMacroSites",
+                               "sigmaVar1Sp",
+                               "sigmaVar2Sp", 
+                               "sigmaVar3Sp",  
+                               "sigmaVar4Sp", 
+                               "sigmaVar5Sp",
+                               "sigmaVar6Sp",
+                               "sigmaVar7Sp",
+                               "sigmaVar8Sp",
+                               "sigmaMacroSites",
+                               "sigmaMacro_y"), 
                        param = c(-4, -1, 2, 4,
                                  6, 
                                  8, 10, 12, 
@@ -270,34 +173,27 @@ mdlparam <- data.frame(var = c("muVar1Sp","muVar2Sp",
                                  10,3))
 output <- cbind(mdlparam, sumer); output
 
-# Parameter Test.data.values    Estiamte        X2.5         X55         X50         X75      X97.5
-# 1         mutran                5   4.7180702   4.1419345   4.5146800   4.7135841   4.9221097   5.296150
-# 2      mutranLat                2   2.2290689   1.5452195   1.9988924   2.2325799   2.4692511   2.892048
-# 3     mu_forcesp              -10 -10.0168913 -12.1073613 -10.7438022 -10.0506820  -9.2684616  -7.945515
-# 4     mu_chillsp              -14 -14.5300854 -16.9042080 -15.3608747 -14.5675223 -13.6647878 -12.109585
-# 5     mu_photosp               -5  -5.4247022  -6.8634576  -5.9516105  -5.4564071  -4.8874566  -3.895768
-# 6     mu_phenosp               80  80.3587164  77.9590554  79.5359570  80.3723926  81.1714601  82.732046
-# 7   sigma_traity                5   4.9130902   4.8270385   4.8829401   4.9132615   4.9420710   5.002455
-# 8       sigma_sp               10  10.7699891   9.2335413  10.1295446  10.7084796  11.3305787  12.674339
-# 9  sigma_forcesp                1   1.0349833   0.7823935   0.9384598   1.0308520   1.1249996   1.309711
-# 10 sigma_chillsp                1   0.8102007   0.3266061   0.6802449   0.8198023   0.9574059   1.204739
-# 11 sigma_photosp                1   0.8482172   0.6871503   0.7842336   0.8428351   0.9076939   1.038829
-# 12  sigma_phenoy                3   3.0212577   2.9838130   3.0084186   3.0208992   3.0343502   3.058598
-# 13         betaF                3   3.0042213   2.9635365   2.9907854   3.0046815   3.0178851   3.044582
-# 14         betaC               -4  -3.9976865  -4.0426522  -4.0135536  -3.9975950  -3.9818976  -3.950773
-# 15         betaP               -2  -1.9979220  -2.0258830  -2.0081868  -1.9974009  -1.9876068  -1.971152
+# increasing the number of sites makes the esti better
+# var param       mean      se_mean         sd      X2.5.       X25.       X50.       X75.     X97.5.    n_eff      Rhat
+# muVar1Sp               muVar1Sp    -4 -4.0023767 0.0026930889 0.18352711 -4.3525220 -4.1249375 -4.0028314 -3.8834188 -3.6377232 4644.073 1.0000532
+# muVar2Sp               muVar2Sp    -1 -0.9746716 0.0015744385 0.11790327 -1.2086029 -1.0519996 -0.9743727 -0.8989400 -0.7393154 5607.900 0.9997644
+# muVar3Sp               muVar3Sp     2  1.9786049 0.0035468970 0.28718328  1.4171466  1.7847336  1.9806937  2.1665156  2.5436466 6555.731 0.9995232
+# muVar4Sp               muVar4Sp     4  3.5684797 0.0053478998 0.41340302  2.7341751  3.2931297  3.5704062  3.8467887  4.3746121 5975.590 0.9994095
+# muVar5Sp               muVar5Sp     6  5.9891053 0.0063330463 0.50646236  5.0226872  5.6457619  5.9795336  6.3338018  7.0002092 6395.419 0.9995152
+# muVar6Sp               muVar6Sp     8  8.4527672 0.0093955559 0.73008927  6.9994691  7.9684444  8.4599630  8.9377680  9.8643685 6038.193 0.9995373
+# muVar7Sp               muVar7Sp    10 10.0948914 0.0126654286 1.00445504  8.1113880  9.4376902 10.1054960 10.7468964 12.0879546 6289.574 0.9996285
+# muVar8Sp               muVar8Sp    12 12.1628155 0.0140729451 1.11253018 10.0061238 11.4310504 12.1661783 12.9004764 14.3576516 6249.620 0.9996243
+# muMacroSites       muMacroSites    80 79.3694290 0.0300546466 1.73862010 75.8155804 78.2513147 79.3520895 80.5249583 82.7871960 3346.464 1.0004537
+# sigmaVar1Sp         sigmaVar1Sp     1  1.2165160 0.0023767128 0.14567101  0.9654889  1.1179757  1.2042189  1.3064342  1.5337094 3756.582 1.0006642
+# sigmaVar2Sp         sigmaVar2Sp     1  0.7831381 0.0013099170 0.09048269  0.6269771  0.7200242  0.7763018  0.8394386  0.9845740 4771.375 0.9996443
+# sigmaVar3Sp         sigmaVar3Sp     2  2.0330000 0.0027808546 0.21596387  1.6531419  1.8782239  2.0180772  2.1699707  2.5003745 6031.226 0.9997777
+# sigmaVar4Sp         sigmaVar4Sp     3  2.9307296 0.0043135089 0.31411872  2.4009310  2.7092071  2.8961929  3.1317208  3.6077536 5303.057 0.9993331
+# sigmaVar5Sp         sigmaVar5Sp     4  3.5751086 0.0051938612 0.36114772  2.9667593  3.3199337  3.5431074  3.8033633  4.3706331 4834.918 0.9995633
+# sigmaVar6Sp         sigmaVar6Sp     5  5.2418839 0.0074112311 0.54352239  4.3221037  4.8522943  5.1968504  5.5848382  6.4380993 5378.413 0.9993760
+# sigmaVar7Sp         sigmaVar7Sp     6  7.0911610 0.0101562992 0.74431202  5.7517493  6.5749577  7.0356736  7.5331018  8.6916908 5370.801 0.9992330
+# sigmaVar8Sp         sigmaVar8Sp     7  7.8151316 0.0105000783 0.82492498  6.3891709  7.2380248  7.7449791  8.3342669  9.6423316 6172.255 0.9995617
+# sigmaMacroSites sigmaMacroSites    10 10.2687278 0.0391630075 1.58804943  7.4189378  9.1506947 10.1817408 11.3074740 13.5644587 1644.281 1.0007174
+# sigmaMacro_y       sigmaMacro_y     3  3.0482497 0.0007204463 0.04797135  2.9545088  3.0150757  3.0473229  3.0807222  3.1431339 4433.642 1.0002165# 
 
-# postLMA<- data.frame(rstan::extract(mdl))
-# 
-# pdf("betaTraitChillPostPrior.pdf")
-# hist(postLMA$betaTraitxForce, main ="betaTraitxChill", col=rgb(0,0,1,1/4),  xlim = c(-5,5))
-# hist(rnorm(1000, 0,1), col=rgb(1,0,1,1/4), add = T)
-# abline(v =0, col="red", lwd=3, lty=2)
-# dev.off()
-# 
-# muTraitSp <- sumer[grep("muSp", rownames(sumer))]
-# pdf("latitudeMdlEstivsSimNoGrand.pdf")
-# plot(muTraitSp ~ mu.trtsp, xlab = "simulated muTraitSp", ylab = "mdl estimated muTraitSp")
-# abline(0,1)
-# dev.off()
-# 
+
+
