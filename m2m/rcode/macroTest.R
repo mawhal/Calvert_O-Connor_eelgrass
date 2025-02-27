@@ -9,7 +9,7 @@ require(rstan)
 #require(truncnorm)
 
 Nquad <- 5# N quad
-Nyear <- 10 # N year
+Nyear <- 10# N year
 Nsite <- 50# N sites
 
 Nmacro <- Nquad*Nyear*Nsite 
