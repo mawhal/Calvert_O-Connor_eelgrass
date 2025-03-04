@@ -74,10 +74,9 @@ names(ctd)
 ctdSub <- ctd[,c("site","Station", "year", "month", "day", "yrMonth", "date","Station.Longitude", "Station.Latitude", "Drop.depth..m.", "Water.Depth..m.","Depth..m.",  
                    "Dissolved.O2..mL.L.", "Salinity..PSU.", "Temperature..deg.C.")]
 
-
-ggplot(ctdSub) +
-  geom_point(aes(x = year, y = Dissolved.O2..mL.L., col = Station)) +
-  facet_wrap(vars(site))
+# ggplot(ctdSub) +
+#   geom_point(aes(x = year, y = Dissolved.O2..mL.L., col = Station)) +
+#   facet_wrap(vars(site))
 
 sites <- unique(ctdSub$site)
 
@@ -94,7 +93,46 @@ for(i in 1:length(sites)){
   
 }
 
-subby <- unique(ctdSub[,c("Station", "site", "year")])
+### Cleaning data to maximize the data available:
+#1. subset depths to be ~ 2m; all stations have min Depth..m. less than but ~ 1m and greater than 2m
+#aggregate(ctdSub["Depth..m."], ctdSub[c("Station","site")], FUN = min)
+
+ctdSub$approxDepth <- round(ctdSub$Drop.depth..m., 0)
+#ctd2 <- subset(ctdSub, Drop.depth..m.> 1.5 & Drop.depth..m.< 2.5 & Depth..m.> 1.9 & Depth..m.< 2.1)
+ctd2 <- subset(ctdSub, Depth..m.> 1.9 & Depth..m.< 2.1 )
+ctd2$dateType <- as.Date(ctd2$date)
+
+# Temperature vs sites
+ggplot(ctd2) +
+  geom_point(aes(x = dateType, y = Dissolved.O2..mL.L., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(vars(site))
+
+ggplot(ctd2) +
+  geom_point(aes(x = dateType, y = Temperature..deg.C., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(vars(site))
+
+ggplot(ctd2) +
+  geom_point(aes(x = dateType, y = Salinity..PSU., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(vars(site))
+  
+temp <- subset(ctd2, site == "mcMullinN")
+
+ggplot(temp) +
+  geom_point(aes(x = dateType, y = Temperature..deg.C., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+        
+subby <- ctd2[,c("Station", "site", "year")]
 aggregate(subby["year"], subby[c("Station","site")], FUN = length)
 
 #   Station      site year
@@ -110,6 +148,41 @@ aggregate(subby["year"], subby[c("Station","site")], FUN = length)
 # 10  KFPC06   triquet    3
 # 11  MACRO1   triquet    4 2015-2018 <<-
 # 12   SEA11   triquet    3 2015-2017
+
+stations <- c("KFPS04","SEA06","SEA07","SEA08", "KC1", "KC4", "KFPC06","SEA11")
+
+ctdStn <- ctdSub[ctdSub$Station %in% stations, ]
+
+## What does the time series data look like per station?
+ctdStn$dateType <- as.Date(ctdStn$date)
+
+for(i in 1:length(sites)){
+  temp <- subset(ctdStn, Station == stations[i])
+  pdf(file = paste("m2m/figures/tempLogger/", sites[i], ".pdf", sep = ""), height = 3, width = 10)
+  ggplot(temp) +
+    geom_point(aes(x = dateType, y = WaterTemp)) + labs( x = "Time", y = "Temperature") +
+    labs (title = sites[i]) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black"),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+  dev.off()
+  
+}
+
+## Comparing relationships between parameters
+
+pdf("m2m/figures/ctdClim_Latitue.pdf", width = 12, height = 4)
+par(mfrow = c(1,3))
+plot(ctdStn$Dissolved.O2..mL.L ~ ctdStn$Station.Latitude, xlab = "Latitude", ylab = "Dissolved O2")
+plot(ctdStn$Salinity..PSU.~ ctdStn$Station.Latitude, xlab = "Latitude", ylab = "Salinity")
+plot(ctdStn$Temperature..deg.C.~ ctdStn$Station.Latitude, xlab = "Latitude", ylab = "Temperature")
+dev.off()
+
+pdf("m2m/figures/ctdClim_Correlations.pdf", width = 12, height = 4)
+par(mfrow = c(1,2))
+plot(ctdStn$Dissolved.O2..mL.L~ ctdStn$Salinity..PSU., xlab = "Salinity", ylab = "Dissolved O2"); abline(a= 0, b =1)
+plot(ctdStn$Salinity..PSU., ctdStn$Temperature..deg.C., xlab = "Salinity", ylab = "Temperature"); abline(a= 0, b =1)
+dev.off()
 
 datSites <- c("choked_sandspit", 
               "choked_inner", 
@@ -161,6 +234,19 @@ ggplot(seagrass) +
  # geom_smooth(method = lm, aes(x = year, y = quadrat_microepiphyte_mg, col = site)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+## correlations between parameters:
+# relationship between LAI and biomass
+plot(seagrass$quadrat_biomass_g ~ seagrass$quadrat_lai, col = as.factor(seagrass$site), pch = 19); abline(0,1)
+plot(seagrass$quadrat_biomass_g ~ seagrass$quadrat_shoot_density, col = as.factor(seagrass$site), pch = 19); abline(0,1)
+plot(seagrass$quadrat_biomass_g ~ seagrass$quadrat_macroalgae_g, col = as.factor(seagrass$site), pch = 19); abline(0,1)
+plot(seagrass$quadrat_biomass_g ~ seagrass$quadrat_microepiphyte_mg, col = as.factor(seagrass$site), pch = 19); abline(0,1)
+
+plot(seagrass$quadrat_microepiphyte_mg ~ seagrass$quadrat_macroalgae_g, col = as.factor(seagrass$site), pch = 19); abline(0,1)
+plot(seagrass$quadrat_microepiphyte_mg ~ seagrass$quadrat_lai, col = as.factor(seagrass$site), pch = 19); abline(0,1)
+plot(seagrass$quadrat_macroalgae_g ~ seagrass$quadrat_lai, col = as.factor(seagrass$site), pch = 19); abline(0,1)
+
 
 abiotic <- read.csv("Data/R_Code_for_Data_Prep/master_data/MASTER_abiotic_20200214.csv")
 sitesRM <- c("goose kelp", "maye kelp", "triquet kelp", "west beach kelp", "wolf")
