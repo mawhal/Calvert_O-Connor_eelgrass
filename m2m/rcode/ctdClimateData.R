@@ -102,6 +102,395 @@ ctdSub$approxDepth <- round(ctdSub$Drop.depth..m., 0)
 ctd2 <- subset(ctdSub, Depth..m.> 1.9 & Depth..m.< 2.1 )
 ctd2$dateType <- as.Date(ctd2$date)
 
+# Pruth:
+pruth <- subset(ctd2, site == "pruth")
+sort(unique(pruth$year)) #"2015" "2016" "2017" "2018"
+sort(unique(pruth$month))
+# KC1 sampled all year for several years---great data
+
+aggregate(pruth["date"], pruth[c("Station","year", "month")], FUN = length)
+aggregate(pruth[c("date", "Temperature..deg.C.", "Dissolved.O2..mL.L.", "Salinity..PSU.")], 
+          pruth[c("Station")], FUN = length)
+
+#   Station  date      Temperature..deg.C. Dissolved.O2..mL.L. Salinity..PSU.
+# 1     KC1  711                 711                 711            711
+# 2    KC13   58                  58                  58             58
+# 3     KC4   47                  47                  47             47
+
+pdf("m2m/figures/pruthClimate/pruthClim.pdf", width = 12, height = 4)
+ggplot(pruth) +
+  geom_point(aes(x = dateType, y = Temperature..deg.C., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(vars(Station))
+
+ggplot(pruth) +
+  geom_point(aes(x = dateType, y = Dissolved.O2..mL.L., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(vars(Station))
+
+ggplot(pruth) +
+  geom_point(aes(x = dateType, y = Salinity..PSU., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(vars(Station))
+dev.off()
+
+# Choked:
+choked <- subset(ctd2, site == "choked")
+
+choked <- subset(ctd2, site == "choked")
+sort(unique(choked$year)) #"2015" "2016" "2017" "2018"
+sort(unique(choked$month)) # "03" "04" "05" "06" "07" "08" "09" "10"
+# sampling: 1-4 times a month per year from March to October---seems pretty comparable in terms of sampling frequency
+# KFPS04 has the most data, but by 7 points
+
+# Station date Temperature..deg.C. Dissolved.O2..mL.L. Salinity..PSU.
+# 1  KFPS04   47                  47                  47             47
+# 2  KFPS08   40                  40                  40             40
+
+aggregate(choked["date"], choked[c("Station","year", "month")], FUN = length)
+aggregate(choked[c("date", "Temperature..deg.C.", "Dissolved.O2..mL.L.", "Salinity..PSU.")], 
+          choked[c("Station")], FUN = length)
+
+pdf("m2m/figures/chokedClimate/chokedClim.pdf", width = 12, height = 4)
+par(mfrow = c(1,3))
+ggplot(choked) +
+  geom_point(aes(x = dateType, y = Temperature..deg.C., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(choked) +
+  geom_point(aes(x = dateType, y = Dissolved.O2..mL.L., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(choked) +
+  geom_point(aes(x = dateType, y = Salinity..PSU., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+dev.off()
+
+# Triquet:
+triquet <- subset(ctd2, site == "triquet")
+sort(unique(triquet$year)) #"2015" "2016" "2017" "2018"
+sort(unique(triquet$month))
+# "03" "04" "05" "06" "07" "08" "09"
+# sampling done 1-4 times a month
+# KFPC06 has the most data 
+
+aggregate(triquet["date"], triquet[c("Station","year", "month")], FUN = length)
+aggregate(triquet[c("date", "Temperature..deg.C.", "Dissolved.O2..mL.L.", "Salinity..PSU.")], 
+          triquet[c("Station")], FUN = length)
+
+# Station date Temperature..deg.C. Dissolved.O2..mL.L. Salinity..PSU.
+# 1  KFPC06   33                  33                  33             33
+# 2  MACRO1   30                  30                  30             30
+# 3   SEA11    2                   2                   2              2
+
+pdf("m2m/figures/triquetClimate/triquetClim.pdf", width = 12, height = 4)
+ggplot(triquet) +
+  geom_point(aes(x = dateType, y = Temperature..deg.C., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(triquet) +
+  geom_point(aes(x = dateType, y = Dissolved.O2..mL.L., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(triquet) +
+  geom_point(aes(x = dateType, y = Salinity..PSU., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+
+# Goose:
+rmSite <- c("pruth", "choked", "triquet", "mcMullinN")
+goose <- ctd2[!ctd2$site %in% rmSite,]
+
+sort(unique(goose$year)) #"2015" "2016" "2017" "2018"
+sort(unique(goose$month))
+# "03" "04" "06" "07" "08" 
+# sampling done once a month
+# KFPC06 has the most data 
+
+aggregate(goose["date"], goose[c("Station","year", "month")], FUN = length)
+aggregate(goose[c("date", "Temperature..deg.C.", "Dissolved.O2..mL.L.", "Salinity..PSU.")], 
+          goose[c("Station", "year")], FUN = length)
+
+# Station date Temperature..deg.C. Dissolved.O2..mL.L. Salinity..PSU.
+# 1  MACRO9    6                   6                   6              6
+# 2   SEA06    3                   3                   3              3
+# 3   SEA07    5                   5                   5              5
+# I think we would want to combine data from all of them---Macro09 = early data
+
+pdf("m2m/figures/gooseClimate/gooseClim.pdf", width = 12, height = 4)
+ggplot(goose) +
+  geom_point(aes(x = dateType, y = Temperature..deg.C., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(goose) +
+  geom_point(aes(x = dateType, y = Dissolved.O2..mL.L., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(goose) +
+  geom_point(aes(x = dateType, y = Salinity..PSU., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+# McMullin:
+mcmullin <- subset(ctd2, site == "mcMullinN")
+sort(unique(mcmullin$year)) #"2016" "2017"
+sort(unique(mcmullin$month))
+#yikes, just two data points
+
+aggregate(mcmullin["date"], mcmullin[c("Station","year", "month")], FUN = length)
+aggregate(mcmullin[c("date", "Temperature..deg.C.", "Dissolved.O2..mL.L.", "Salinity..PSU.")], 
+          mcmullin[c("Station")], FUN = length)
+
+
+pdf("m2m/figures/mcMullinClimate/mcmullinNClim.pdf", width = 12, height = 4)
+ggplot(mcmullin) +
+  geom_point(aes(x = dateType, y = Temperature..deg.C., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(mcmullin) +
+  geom_point(aes(x = dateType, y = Dissolved.O2..mL.L., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(mcmullin) +
+  geom_point(aes(x = dateType, y = Salinity..PSU., col = Station)) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+#############################################################################
+# 2014 ERDDAP data:
+
+erddapFiles <- list.files(path = "m2m/input/erddap", pattern =".csv" )
+erddapFiles
+
+erddapDat <- vector()
+
+for(i in 1: length(erddapFiles)){
+  temp <- read.csv(paste("m2m/input/erddap/", erddapFiles[i], sep = ""))
+  temp$site <- erddapFiles[i]
+  temp$site <- gsub(".csv","", temp$site)
+  
+  erddapDat <- rbind(erddapDat, temp)
+}
+
+head(erddapDat)
+unique(erddapDat$site)
+erddapDat$time <- gsub("T","-", erddapDat$time)
+
+
+temp <- str_split_fixed(erddapDat$time, "-", 4)
+erddapDat$year <- as.character(temp[,1])
+erddapDat$month <- as.character(temp[,2])
+erddapDat$day <- as.character(temp[,3])
+erddapDat$dateType <- as.Date(paste(erddapDat$year, erddapDat$month, erddapDat$day, sep = "-"))
+
+choked <- subset(erddapDat, site == "choked")
+sort(unique(choked$year)) #"2014" "2015" "2016" "2017" "2018" "2019"
+sort(unique(choked$month))
+# "03" "04" "05" "06" "07" "08" "09"
+# sampling done 1-4 times a month
+# KFPC06 has the most data 
+
+aggregate(choked["dateType"], choked[c("station","year", "month")], FUN = length)
+aggregate(choked[c("dateType", "temperature", "dissolved_oxygen_ml_l", "salinity")], 
+          choked[c("station")], FUN = length)
+
+# station dateType temperature dissolved_oxygen_ml_l salinity
+#1    KC12       91          91                    91       91
+
+pdf("m2m/figures/chokedClimate/chokedClimERDDAP.pdf", width = 5, height = 4)
+ggplot(choked, aes(x = dateType, y = temperature, col = station)) +
+  geom_point() + 
+  geom_smooth(method='lm') +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(choked, aes(x = dateType, y = dissolved_oxygen_ml_l, col = station)) +
+  geom_point() +   
+  geom_smooth(method='lm') + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(choked, aes(x = dateType, y = salinity, col = station)) +
+  geom_point() +   
+  geom_smooth(method='lm') +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+
+pruth <- subset(erddapDat, site == "pruth")
+sort(unique(pruth$year)) #"2014" "2015" "2016" "2017" "2018" "2019"
+sort(unique(pruth$month))
+# "03" "04" "05" "06" "07" "08" "09"
+# sampling done 1-4 times a month
+# KFPC06 has the most data 
+
+aggregate(pruth["dateType"], pruth[c("station","year", "month")], FUN = length)
+aggregate(pruth[c("dateType", "temperature", "dissolved_oxygen_ml_l", "salinity")], 
+          pruth[c("station")], FUN = length)
+
+# station dateType temperature dissolved_oxygen_ml_l salinity
+#1    KC12       91          91                    91       91
+
+pdf("m2m/figures/pruthClimate/pruthClimERDDAP.pdf", width = 5, height = 4)
+ggplot(pruth, aes(x = dateType, y = temperature, col = station)) +
+  geom_point() + 
+  geom_smooth(method='lm') +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(pruth, aes(x = dateType, y = dissolved_oxygen_ml_l, col = station)) +
+  geom_point() +   
+  geom_smooth(method='lm') + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(pruth, aes(x = dateType, y = salinity, col = station)) +
+  geom_point() +   
+  geom_smooth(method='lm') +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+triquet <- subset(erddapDat, site == "triquet")
+sort(unique(triquet$year)) #"2014" "2015" "2016" "2017" "2018" 
+sort(unique(triquet$month))
+# "03" "04" "05" "06" "07" "08" "09"
+# sampling done 1-4 times a month
+# KFPC06 has the most data 
+
+aggregate(triquet["dateType"], triquet[c("station","year", "month")], FUN = length)
+aggregate(triquet[c("dateType", "temperature", "dissolved_oxygen_ml_l", "salinity")], 
+          triquet[c("station")], FUN = length)
+
+#   station dateType temperature dissolved_oxygen_ml_l salinity
+# 1   FZH04       12          12                    12       12
+# 2  KFPC04        7           7                     7        7
+# 3  KFPC06       37          37                    37       37
+
+pdf("m2m/figures/triquetClimate/triquetClimERDDAP.pdf", width = 5, height = 4)
+ggplot(triquet, aes(x = dateType, y = temperature, col = station)) +
+  geom_point() + 
+  geom_smooth(method='lm') +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(triquet, aes(x = dateType, y = dissolved_oxygen_ml_l, col = station)) +
+  geom_point() +   
+  geom_smooth(method='lm') + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(triquet, aes(x = dateType, y = salinity, col = station)) +
+  geom_point() +   
+  geom_smooth(method='lm') +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+mcmullins_goose <- subset(erddapDat, site == "mcmullins_goose")
+sort(unique(mcmullins_goose$year)) #"2014" "2016" "2017" 
+sort(unique(mcmullins_goose$month))
+#  "05" "06" "07" "08" 
+# sampling done 1-4 times a month
+# KFPC06 has the most data 
+
+aggregate(mcmullins_goose["dateType"], mcmullins_goose[c("station","year", "month")], FUN = length)
+aggregate(mcmullins_goose[c("dateType", "temperature", "dissolved_oxygen_ml_l", "salinity")], 
+          mcmullins_goose[c("station")], FUN = length)
+
+#    station dateType temperature dissolved_oxygen_ml_l salinity
+# 1   FZH10        2           2                     2        2
+# 2  KFPC01        7           7                     7        7
+
+pdf("m2m/figures/gooseClimate/mcmullins_gooseClimERDDAP.pdf", width = 5, height = 4)
+ggplot(mcmullins_goose, aes(x = dateType, y = temperature, col = station)) +
+  geom_point() + 
+  geom_smooth(method='lm') +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(mcmullins_goose, aes(x = dateType, y = dissolved_oxygen_ml_l, col = station)) +
+  geom_point() +   
+  #  geom_smooth(method='lm') + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+ggplot(mcmullins_goose, aes(x = dateType, y = salinity, col = station)) +
+  geom_point() +   
+  #  geom_smooth(method='lm') +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+####################################################################################
+# But how close are the stations that actually have data?
+ctdLL <- ctd2[,c("site", "Station", "Station.Longitude","Station.Latitude")]
+ctdLL$data <- "ctd"
+names(ctdLL) <- c("site", "station", "longitude","latitude", "data")
+
+erddapLL <- erddapDat[,c("site", "station", "longitude","latitude")]
+erddapLL$data <- "erddap"
+erddapLL$site[erddapLL$site == "mcmullins_goose"] <- "gooseSW"
+
+coord <- read.csv("Data/abiotic/hakai_abiotic_2015.csv")
+coord <- unique(coord[,c("region", "latitude", "longitude")])
+names(coord) <- c("site",  "latitudeSite","longitudeSite")
+
+coord$site[coord$site == "goose"] <- "gooseSW"
+coord$site[coord$site == "mcmullins"] <- "mcMullinN"
+
+compLL <- unique(rbind(ctdLL, erddapLL))
+compLL <- unique(merge(compLL, coord, by = "site"))
+
+compLL$distLat <- abs(compLL$latitude - compLL$latitudeSite) # 0.000220 0.026303
+compLL$distLong <- abs(compLL$longitude - compLL$longitudeSite) # ranges from 0.00003 0.52953
+
+####################################################################################
+
 # Temperature vs sites
 ggplot(ctd2) +
   geom_point(aes(x = dateType, y = Dissolved.O2..mL.L., col = Station)) +   
