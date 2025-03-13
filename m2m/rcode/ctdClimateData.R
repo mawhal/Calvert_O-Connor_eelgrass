@@ -305,15 +305,15 @@ for(i in 1: length(erddapFiles)){
 
 head(erddapDat)
 unique(erddapDat$site)
+
 erddapDat$time <- gsub("T","-", erddapDat$time)
-
-
 temp <- str_split_fixed(erddapDat$time, "-", 4)
 erddapDat$year <- as.character(temp[,1])
 erddapDat$month <- as.character(temp[,2])
 erddapDat$day <- as.character(temp[,3])
 erddapDat$dateType <- as.Date(paste(erddapDat$year, erddapDat$month, erddapDat$day, sep = "-"))
 
+#1. choked
 choked <- subset(erddapDat, site == "choked")
 sort(unique(choked$year)) #"2014" "2015" "2016" "2017" "2018" "2019"
 sort(unique(choked$month))
@@ -351,7 +351,36 @@ ggplot(choked, aes(x = dateType, y = salinity, col = station)) +
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 dev.off()
 
+# looking at ERDDAP data but using different depth thresholds:
 
+range(choked$depth)
+
+temp <- aggregate(choked[c("depth")], 
+          choked[c("dateType","station")], FUN = min); range()
+
+# depths interested in: 2, 3,4,5,6
+minDepth <- c(1.8, 2.8, 3.8, 4.8, 5.8)
+maxDepth <- c(2.2, 3.2, 4.2, 5.2, 6.2)
+
+
+pdf("m2m/figures/stationSelection/chokedClimate/chokedClimERDDAPDepths.pdf", width = 12, height = 10)
+
+for(i in 1:length(minDepth)){
+  temp <- subset(choked, depth> minDepth[i] & depth < maxDepth[i] )
+  
+  t <- ggplot(temp, aes(x = dateType, y = temperature, col = station)) +
+  geom_point() + 
+  geom_smooth(method='lm') +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  annotate("text", x= temp$dateType[50], y=20, label= paste(minDepth[i], maxDepth[i], nrow(subset(temp, !is.na(temperature))), sep ="_")) + 
+  facet_wrap(vars(station))
+  plot(t)
+}
+dev.off()
+
+# 2. Pruth
 pruth <- subset(erddapDat, site == "pruth")
 sort(unique(pruth$year)) #"2014" "2015" "2016" "2017" "2018" "2019"
 sort(unique(pruth$month))
@@ -387,6 +416,26 @@ ggplot(pruth, aes(x = dateType, y = salinity, col = station)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+## look at depth 
+range(pruth$depth)
+
+pdf("m2m/figures/stationSelection/pruthClimate/pruthClimERDDAPDepths.pdf", width = 12, height = 10)
+
+for(i in 1:length(minDepth)){
+  temp <- subset(pruth, depth> minDepth[i] & depth < maxDepth[i] )
+  
+  t <- ggplot(temp, aes(x = dateType, y = temperature, col = station)) +
+    geom_point() + 
+    geom_smooth(method='lm') +   
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black"),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+    annotate("text", x= temp$dateType[50], y=20, label= paste(minDepth[i], maxDepth[i], nrow(subset(temp, !is.na(temperature))), sep ="_")) + 
+    facet_wrap(vars(station))
+  plot(t)
+}
 dev.off()
 
 triquet <- subset(erddapDat, site == "triquet")
@@ -428,7 +477,27 @@ ggplot(triquet, aes(x = dateType, y = salinity, col = station)) +
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 dev.off()
 
-mcmullins_goose <- subset(erddapDat, site == "mcmullins_goose")
+## Look into different depths
+range(triquet$depth)
+
+pdf("m2m/figures/stationSelection/triquetClimate/triquetClimERDDAPDepths.pdf", width = 4, height = 5)
+
+for(i in 1:length(minDepth)){
+  temp <- subset(triquet, depth> minDepth[i] & depth < maxDepth[i] )
+  
+  t <- ggplot(temp, aes(x = dateType, y = temperature, col = station)) +
+    geom_point() + 
+    geom_smooth(method='lm') +   
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black"),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+    annotate("text", x= temp$dateType[5], y=18, label= paste(minDepth[i], maxDepth[i], nrow(subset(temp, !is.na(temperature))), sep ="_"))
+  plot(t)
+}
+dev.off()
+#######################################################
+# Goose & mcmullins (same data)
+mcmullins_goose <- subset(erddapDat, site == "goose"); unique(mcmullins_goose$station)
 sort(unique(mcmullins_goose$year)) #"2014" "2016" "2017" 
 sort(unique(mcmullins_goose$month))
 #  "05" "06" "07" "08" 
@@ -464,6 +533,24 @@ ggplot(mcmullins_goose, aes(x = dateType, y = salinity, col = station)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+dev.off()
+
+range(goose$depth)
+
+pdf("m2m/figures/stationSelection/gooseClimate/gooseClimERDDAPDepths.pdf", width = 4, height = 5)
+
+for(i in 1:length(minDepth)){
+  temp <- subset(mcmullins_goose, depth> minDepth[i] & depth < maxDepth[i] )
+  
+  t <- ggplot(temp, aes(x = dateType, y = temperature, col = station)) +
+    geom_point() + 
+    geom_smooth(method='lm') +   
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black"),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+    annotate("text", x= temp$dateType[5], y=18, label= paste(minDepth[i], maxDepth[i], nrow(subset(temp, !is.na(temperature))), sep ="_"))
+  plot(t)
+}
 dev.off()
 
 ####################################################################################
